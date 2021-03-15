@@ -1,0 +1,28 @@
+site_name: Akshay Kulkarni blog
+theme:
+  name: material
+  palette:
+    primary: white
+    accent: indigo
+  font: false
+  logo: assets/code.svg
+  favicon: assets/neural.png
+  features:
+    - navigation.top
+    - tabs
+    - instant
+    # - toc.integrate
+repo_url: https://github.com/Akshay-A-Kulkarni
+
+markdown_extensions:
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.highlight
+  - pymdownx.superfences
+extra_javascript:
+  - javascripts/config.js
+  - https://polyfill.io/v3/polyfill.min.js?features=es6
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js
+extra_css:
+  - https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css
