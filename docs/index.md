@@ -1184,8 +1184,8 @@ np.mean(([all_res[i]["test_ndcg"] for i in all_res]))
 # this number might be different due to using the sklearn's NDCG calculation rather that LightGBMs
 ```
 
-    Test Avg. NDCG@1 for LabmbdaMART
-    0.5564959933006134
+>    Test Avg. NDCG@1 for LabmbdaMART
+>   0.5564959933006134
 
 
 ```python

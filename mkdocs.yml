@@ -6,7 +6,6 @@ theme:
     accent: indigo
   font: false
   logo: assets/code.svg
-  favicon: assets/neural.png
   features:
     - navigation.top
     - tabs
@@ -18,7 +17,6 @@ markdown_extensions:
   - pymdownx.arithmatex:
       generic: true
   - pymdownx.highlight
-  - pymdownx.superfences
 extra_javascript:
   - javascripts/config.js
   - https://polyfill.io/v3/polyfill.min.js?features=es6
