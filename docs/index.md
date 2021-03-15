@@ -1201,9 +1201,9 @@ I would have also liked to leverage additional useful feature transformation and
 
 And finally, LTR systems are quite have been central to search and recommendation systems for a while now, so I wanted to spend some time to asssess the performance and technical aspects of neural LTR systems deployed in low-latency production scenarios, I did reading and come across some quite interesting techniques such as Model Distillation and Model Quantization to compress and slim down models in faster operation requirements for both LambdaMART and the DNN but I could not find time to implement them in my notebook.
 
-## 7) Leveraging aditional features and thinking about role of context in LTR 
+## 7) Leveraging extra features & thinking about role of query context in LTR
 
-**In the following scenarios we'll discuss how you would use additional features:**
+**In the following scenarios we'll discuss how you would use additional features**
 
 1. If you had an additional feature for each row of the dataset that was unique identifier for the user performing the query e.g. `user_id`, how could you use it to improve the performance of the model?
 2. If you had the additional features of: `query_text` or the actual textual query itself, as well as document text features like `title_text`, `body_text`, `anchor_text`, `url` for the document, how would you include them in your model (or any model) to improve its performance?
