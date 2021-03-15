@@ -994,7 +994,6 @@ experiments to tune the standard hyperparameters of the network such as `hidden 
 
 > The final pipeline consists of an input parser, ranking datatset creater and Neural Network - comprised of three dense layers with BatchNorm and Relu after each layer - which is fitted into a ranking head with the mentioned loss and NDCG@k=1,3,5,10 as metrics.
 
-<br>
 
 ***
 
@@ -1007,7 +1006,7 @@ experiments to tune the standard hyperparameters of the network such as `hidden 
 
 
 
->  1. nDCG - Normalized Discounted Cumulative Gain is the de-facto choice of metric when dealing with graded measures, which also consider the ranking among relevant items, which is the case in MSLR-WEB10K dataset.
+> 1. nDCG - Normalized Discounted Cumulative Gain is the de-facto choice of metric when dealing with graded measures, which also consider the ranking among relevant items, which is the case in MSLR-WEB10K dataset.
 
 > 2. In addition a lot of time and research has gone into developing approximations, loss functions and frameworks which directly try to optimize and learn ranking functions or models for achieving better NDCG. This means that there is a good ecosystem of tools that are tightly coupled with the metric which makes make it an optimal choice
 
@@ -1023,7 +1022,7 @@ where $l_i$ is the grading of relevance at rank $i$
 
 Normalized DCG is then just:
 
-$$NDCG@k = \frac{DCG@k}{IDCG@k}$$
+$$ NDCG@k = \frac{DCG@k}{IDCG@k} $$
 
 where IDCG is the ideal DCG obtained if a perfect ranking was observed.
 
@@ -1033,11 +1032,7 @@ For quite some time, Neural Ranking Methods while getting focus have not been co
 
 In this section, to get a better understanding of the pros and cons of using a neural method over DT, I trained a LambdaMart model using the LightGBM library, which until recently was regarded as - or arguably still is - state-of-the-art for datasets containing dense numerical features such as MSLR.
 
-
-
- <li>  - LambdaMART LTR Model 
-
-
+- LambdaMART LTR Model 
 
 ```python
 def run_lambdamart(dataset_path, fold):
@@ -1116,11 +1111,11 @@ for i in range(1,6):
 [10]	valid's ndcg@1: 0.460571	valid's ndcg@3: 0.452905	valid's ndcg@5: 0.456894	valid's ndcg@10: 0.476716
 [20]	valid's ndcg@1: 0.473533	valid's ndcg@3: 0.460936	valid's ndcg@5: 0.466069	valid's ndcg@10: 0.484822
 [30]	valid's ndcg@1: 0.475114	valid's ndcg@3: 0.466228	valid's ndcg@5: 0.472492	valid's ndcg@10: 0.490586
-[40]	valid's ndcg@1: 0.487319	valid's ndcg@3: 0.47362	valid's ndcg@5: 0.47813	valid's ndcg@10: 0.496846
+[40]	valid's ndcg@1: 0.487319	valid's ndcg@3: 0.47362	    valid's ndcg@5: 0.47813	    valid's ndcg@10: 0.496846
 [50]	valid's ndcg@1: 0.494519	valid's ndcg@3: 0.476746	valid's ndcg@5: 0.482407	valid's ndcg@10: 0.501203
 [60]	valid's ndcg@1: 0.494605	valid's ndcg@3: 0.478599	valid's ndcg@5: 0.485217	valid's ndcg@10: 0.502415
 [70]	valid's ndcg@1: 0.497724	valid's ndcg@3: 0.482326	valid's ndcg@5: 0.488462	valid's ndcg@10: 0.505793
-[80]	valid's ndcg@1: 0.49701	valid's ndcg@3: 0.483865	valid's ndcg@5: 0.488244	valid's ndcg@10: 0.506631
+[80]	valid's ndcg@1: 0.49701	    valid's ndcg@3: 0.483865	valid's ndcg@5: 0.488244	valid's ndcg@10: 0.506631
 [90]	valid's ndcg@1: 0.500819	valid's ndcg@3: 0.486319	valid's ndcg@5: 0.491567	valid's ndcg@10: 0.508823
 [100]	valid's ndcg@1: 0.500795	valid's ndcg@3: 0.487764	valid's ndcg@5: 0.493362	valid's ndcg@10: 0.509696
 
@@ -1130,7 +1125,7 @@ for i in range(1,6):
 [20]	valid's ndcg@1: 0.461929	valid's ndcg@3: 0.450332	valid's ndcg@5: 0.455395	valid's ndcg@10: 0.475256
 [30]	valid's ndcg@1: 0.457733	valid's ndcg@3: 0.454178	valid's ndcg@5: 0.461606	valid's ndcg@10: 0.482412
 [40]	valid's ndcg@1: 0.465976	valid's ndcg@3: 0.458331	valid's ndcg@5: 0.466217	valid's ndcg@10: 0.487144
-[50]	valid's ndcg@1: 0.476119	valid's ndcg@3: 0.464495	valid's ndcg@5: 0.47199	valid's ndcg@10: 0.493111
+[50]	valid's ndcg@1: 0.476119	valid's ndcg@3: 0.464495	valid's ndcg@5: 0.47199	    valid's ndcg@10: 0.493111
 [60]	valid's ndcg@1: 0.479457	valid's ndcg@3: 0.468421	valid's ndcg@5: 0.474527	valid's ndcg@10: 0.496759
 [70]	valid's ndcg@1: 0.482843	valid's ndcg@3: 0.470047	valid's ndcg@5: 0.476531	valid's ndcg@10: 0.499443
 [80]	valid's ndcg@1: 0.482552	valid's ndcg@3: 0.472077	valid's ndcg@5: 0.478064	valid's ndcg@10: 0.500665
@@ -1142,8 +1137,8 @@ for i in range(1,6):
 [10]	valid's ndcg@1: 0.449814	valid's ndcg@3: 0.445464	valid's ndcg@5: 0.449102	valid's ndcg@10: 0.467304
 [20]	valid's ndcg@1: 0.464652	valid's ndcg@3: 0.458397	valid's ndcg@5: 0.459662	valid's ndcg@10: 0.475314
 [30]	valid's ndcg@1: 0.468752	valid's ndcg@3: 0.464186	valid's ndcg@5: 0.465374	valid's ndcg@10: 0.48312
-[40]	valid's ndcg@1: 0.48	valid's ndcg@3: 0.468496	valid's ndcg@5: 0.470938	valid's ndcg@10: 0.487289
-[50]	valid's ndcg@1: 0.479824	valid's ndcg@3: 0.47086	valid's ndcg@5: 0.47397	valid's ndcg@10: 0.489766
+[40]	valid's ndcg@1: 0.48	    valid's ndcg@3: 0.468496	valid's ndcg@5: 0.470938	valid's ndcg@10: 0.487289
+[50]	valid's ndcg@1: 0.479824	valid's ndcg@3: 0.47086	    valid's ndcg@5: 0.47397	    valid's ndcg@10: 0.489766
 [60]	valid's ndcg@1: 0.489871	valid's ndcg@3: 0.474535	valid's ndcg@5: 0.475584	valid's ndcg@10: 0.493091
 [70]	valid's ndcg@1: 0.496057	valid's ndcg@3: 0.477123	valid's ndcg@5: 0.478852	valid's ndcg@10: 0.496602
 [80]	valid's ndcg@1: 0.496471	valid's ndcg@3: 0.477977	valid's ndcg@5: 0.480044	valid's ndcg@10: 0.498483
@@ -1153,13 +1148,13 @@ for i in range(1,6):
   ---------------------------
   fold4
 [10]	valid's ndcg@1: 0.441176	valid's ndcg@3: 0.430545	valid's ndcg@5: 0.437877	valid's ndcg@10: 0.458964
-[20]	valid's ndcg@1: 0.4477	valid's ndcg@3: 0.438926	valid's ndcg@5: 0.447287	valid's ndcg@10: 0.468017
+[20]	valid's ndcg@1: 0.4477	    valid's ndcg@3: 0.438926	valid's ndcg@5: 0.447287	valid's ndcg@10: 0.468017
 [30]	valid's ndcg@1: 0.457181	valid's ndcg@3: 0.447476	valid's ndcg@5: 0.455578	valid's ndcg@10: 0.474776
 [40]	valid's ndcg@1: 0.461681	valid's ndcg@3: 0.452393	valid's ndcg@5: 0.460615	valid's ndcg@10: 0.480931
-[50]	valid's ndcg@1: 0.462333	valid's ndcg@3: 0.454511	valid's ndcg@5: 0.46456	valid's ndcg@10: 0.484528
+[50]	valid's ndcg@1: 0.462333	valid's ndcg@3: 0.454511	valid's ndcg@5: 0.46456	    valid's ndcg@10: 0.484528
 [60]	valid's ndcg@1: 0.464924	valid's ndcg@3: 0.455151	valid's ndcg@5: 0.465289	valid's ndcg@10: 0.48598
-[70]	valid's ndcg@1: 0.469529	valid's ndcg@3: 0.456763	valid's ndcg@5: 0.4668	valid's ndcg@10: 0.487702
-[80]	valid's ndcg@1: 0.468795	valid's ndcg@3: 0.45828	valid's ndcg@5: 0.46863	valid's ndcg@10: 0.488993
+[70]	valid's ndcg@1: 0.469529	valid's ndcg@3: 0.456763	valid's ndcg@5: 0.4668	    valid's ndcg@10: 0.487702
+[80]	valid's ndcg@1: 0.468795	valid's ndcg@3: 0.45828	    valid's ndcg@5: 0.46863	    valid's ndcg@10: 0.488993
 [90]	valid's ndcg@1: 0.467671	valid's ndcg@3: 0.458832	valid's ndcg@5: 0.469534	valid's ndcg@10: 0.490705
 [100]	valid's ndcg@1: 0.470871	valid's ndcg@3: 0.462535	valid's ndcg@5: 0.471455	valid's ndcg@10: 0.491723
 
@@ -1169,7 +1164,7 @@ for i in range(1,6):
 [20]	valid's ndcg@1: 0.459771	valid's ndcg@3: 0.444896	valid's ndcg@5: 0.454293	valid's ndcg@10: 0.475377
 [30]	valid's ndcg@1: 0.467143	valid's ndcg@3: 0.451111	valid's ndcg@5: 0.461542	valid's ndcg@10: 0.483029
 [40]	valid's ndcg@1: 0.468257	valid's ndcg@3: 0.455491	valid's ndcg@5: 0.464709	valid's ndcg@10: 0.48678
-[50]	valid's ndcg@1: 0.47419	valid's ndcg@3: 0.462122	valid's ndcg@5: 0.46808	valid's ndcg@10: 0.49145
+[50]	valid's ndcg@1: 0.47419	    valid's ndcg@3: 0.462122	valid's ndcg@5: 0.46808	    valid's ndcg@10: 0.49145
 [60]	valid's ndcg@1: 0.479248	valid's ndcg@3: 0.463948	valid's ndcg@5: 0.472182	valid's ndcg@10: 0.494274
 [70]	valid's ndcg@1: 0.483124	valid's ndcg@3: 0.467825	valid's ndcg@5: 0.475012	valid's ndcg@10: 0.497521
 [80]	valid's ndcg@1: 0.481543	valid's ndcg@3: 0.469155	valid's ndcg@5: 0.477871	valid's ndcg@10: 0.499032
@@ -1184,20 +1179,12 @@ np.mean(([all_res[i]["test_ndcg"] for i in all_res]))
 # this number might be different due to using the sklearn's NDCG calculation rather that LightGBMs
 ```
 
->    Test Avg. NDCG@1 for LabmbdaMART
->   0.5564959933006134
-
-
-```python
-# {print(" LambdaMART Training Plot")
-# ndcg_plt = pd.DataFrame(results["valid"]).plot.line(figsize=(15, 8))
-# feat_imp_plot = lgbm.plot_importance(bts_lte,max_num_features=10,figsize=(20,10))
-```
+> Test Avg. NDCG@1 for LabmbdaMART
+> 0.5564959933006134
 
 As it can be seen LambdaMART still maintains an upper hand over a standard DNN. There have been many proposed methods leveraging more advanced methods like Attention to overcome this obstacle and recent advancements finally show competitive results.
 
-But Neural networks have other advantages and modalities that make them an attractive option when dealing with large scale or non-numerical types of data.
-And if current methods such as DASALC and attn-DIN can match LambdaMart's  performance in datasets like MSLR-WEB10K while keeping other benefits then it makes them the obvious path ahead for LTR.
+But Neural networks have other advantages and modalities that make them an attractive option when dealing with large scale or non-numerical types of data. And if current methods such as DASALC and attn-DIN can match LambdaMart's  performance in datasets like MSLR-WEB10K while keeping other benefits then it makes them the obvious path ahead for LTR.
 
 *For model specific improvements and performance  please refer to 5.3*
 
