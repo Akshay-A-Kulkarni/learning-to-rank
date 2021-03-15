@@ -1,171 +1,1932 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="None">
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="assets/neural.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.6">
+    
+    
+      
+        <title>Akshay Kulkarni blog</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.2c0c5eaf.min.css">
+      
         
+        <link rel="stylesheet" href="assets/stylesheets/palette.7fa14f5b.min.css">
         
-        <link rel="shortcut icon" href="img/favicon.ico">
-        <title>My Docs</title>
-        <link href="css/bootstrap.min.css" rel="stylesheet">
-        <link href="css/font-awesome.min.css" rel="stylesheet">
-        <link href="css/base.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
-
-        <script src="js/jquery-1.10.2.min.js" defer></script>
-        <script src="js/bootstrap.min.js" defer></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-        <script>hljs.initHighlightingOnLoad();</script> 
-    </head>
-
-    <body class="homepage">
-        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
-            <div class="container">
-                <a class="navbar-brand" href=".">My Docs</a>
-
-                <!-- Expanded navigation -->
-                <div id="navbar-collapse" class="navbar-collapse collapse">
-
-                    <ul class="nav navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <a href="#" class="nav-link" data-toggle="modal" data-target="#mkdocs_search_modal">
-                                <i class="fa fa-search"></i> Search
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <div class="container">
-            <div class="row">
-                    <div class="col-md-3"><div class="navbar-light navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggler collapsed" data-toggle="collapse" data-target="#toc-collapse" title="Table of Contents">
-            <span class="fa fa-angle-down"></span>
-        </button>
+          
+          
+          <meta name="theme-color" content="#ffffff">
+        
+      
+    
+    
+    
+      
+    
+    
+    
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/default.min.css">
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="white" data-md-color-accent="indigo">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#learning-to-rank" class="md-skip">
+          Skip to content
+        </a>
+      
     </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="." title="Akshay Kulkarni blog" class="md-header__button md-logo" aria-label="Akshay Kulkarni blog" data-md-component="logo">
+      
+  <img src="assets/code.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Akshay Kulkarni blog
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Learning To Rank
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="md-header__options">
+      
+    </div>
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        
+<a href="https://github.com/Akshay-A-Kulkarni/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="." title="Akshay Kulkarni blog" class="md-nav__button md-logo" aria-label="Akshay Kulkarni blog" data-md-component="logo">
+      
+  <img src="assets/code.svg" alt="logo">
+
+    </a>
+    Akshay Kulkarni blog
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/Akshay-A-Kulkarni/" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M439.55 236.05L244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Learning To Rank
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="." class="md-nav__link md-nav__link--active">
+        Learning To Rank
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-ranking-models-for-the-microsoft-web-10k-dataset" class="md-nav__link">
+    Exploring Ranking Models for the Microsoft Web-10K Dataset
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-imports" class="md-nav__link">
+    1) Imports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-downloading-dataset" class="md-nav__link">
+    2) Downloading Dataset
+  </a>
+  
+    <nav class="md-nav" aria-label="2) Downloading Dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-downloading-unzipping" class="md-nav__link">
+      2.1) Downloading &amp; Unzipping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-preprocess-evaluate-the-dataset" class="md-nav__link">
+    3) Preprocess &amp; evaluate the dataset
+  </a>
+  
+    <nav class="md-nav" aria-label="3) Preprocess &amp; evaluate the dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-parsing-from-raw-files" class="md-nav__link">
+      3.1)  Parsing from raw files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-dataset-statistics-properties" class="md-nav__link">
+      3.2) Dataset Statistics &amp; Properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-preprocessing-feature-transformation" class="md-nav__link">
+     3.3) Preprocessing &amp; Feature Transformation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-building-ranking-model" class="md-nav__link">
+    4) Building ranking model
+  </a>
+  
+    <nav class="md-nav" aria-label="4) Building ranking model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-protobufs-tfrecords-dataset-preprocessing" class="md-nav__link">
+     4.1) Protobufs, TFRecords &amp; DataSet Preprocessing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-neural-ltr-model" class="md-nav__link">
+      4.2) Neural LTR model
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-evaluate-model-performance" class="md-nav__link">
+    5) Evaluate model performance
+  </a>
+  
+    <nav class="md-nav" aria-label="5) Evaluate model performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-tensorboard-for-train-eval-tracking" class="md-nav__link">
+     5.1) TensorBoard for Train &amp; Eval tracking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-test-partition-perf" class="md-nav__link">
+      5.2) Test Partition Perf
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-findings-model-tuning" class="md-nav__link">
+     5.3) Findings &amp; Model Tuning
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-discussion" class="md-nav__link">
+    6) Discussion:
+  </a>
+  
+    <nav class="md-nav" aria-label="6) Discussion:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-choice-of-metric" class="md-nav__link">
+     6.1) Choice of Metric
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-model-performance-analysiscomparison" class="md-nav__link">
+     6.2) Model Performance Analysis/comparison
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-further-improvements-and-ideas" class="md-nav__link">
+     6.3) Further Improvements and Ideas
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-leveraging-aditional-features-and-thinking-about-role-of-context-in-ltr" class="md-nav__link">
+    7) Leveraging aditional features and thinking about role of context in LTR
+  </a>
+  
+    <nav class="md-nav" aria-label="7) Leveraging aditional features and thinking about role of context in LTR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-the-following-scenarios-well-discuss-how-you-would-use-additional-features" class="md-nav__link">
+    In the following scenarios we'll discuss how you would use additional features:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#71-improving-model-with-unique-user-data" class="md-nav__link">
+     7.1) Improving model with unique user data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-using-additional-textual-features" class="md-nav__link">
+     7.2) Using Additional textual features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notebook-link" class="md-nav__link">
+    Notebook Link
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
 
     
-    <div id="toc-collapse" class="navbar-collapse collapse card bg-secondary">
-        <ul class="nav flex-column">
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index1/" class="md-nav__link">
+        Welcome to MkDocs
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
             
-            <li class="nav-item" data-level="1"><a href="#welcome-to-mkdocs" class="nav-link">Welcome to MkDocs</a>
-              <ul class="nav flex-column">
-            <li class="nav-item" data-level="2"><a href="#commands" class="nav-link">Commands</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-level="2"><a href="#project-layout" class="nav-link">Project layout</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-              </ul>
-            </li>
-        </ul>
-    </div>
-</div></div>
-                    <div class="col-md-9" role="main">
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#exploring-ranking-models-for-the-microsoft-web-10k-dataset" class="md-nav__link">
+    Exploring Ranking Models for the Microsoft Web-10K Dataset
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#1-imports" class="md-nav__link">
+    1) Imports
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-downloading-dataset" class="md-nav__link">
+    2) Downloading Dataset
+  </a>
+  
+    <nav class="md-nav" aria-label="2) Downloading Dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-downloading-unzipping" class="md-nav__link">
+      2.1) Downloading &amp; Unzipping
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-preprocess-evaluate-the-dataset" class="md-nav__link">
+    3) Preprocess &amp; evaluate the dataset
+  </a>
+  
+    <nav class="md-nav" aria-label="3) Preprocess &amp; evaluate the dataset">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-parsing-from-raw-files" class="md-nav__link">
+      3.1)  Parsing from raw files
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32-dataset-statistics-properties" class="md-nav__link">
+      3.2) Dataset Statistics &amp; Properties
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-preprocessing-feature-transformation" class="md-nav__link">
+     3.3) Preprocessing &amp; Feature Transformation
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-building-ranking-model" class="md-nav__link">
+    4) Building ranking model
+  </a>
+  
+    <nav class="md-nav" aria-label="4) Building ranking model">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-protobufs-tfrecords-dataset-preprocessing" class="md-nav__link">
+     4.1) Protobufs, TFRecords &amp; DataSet Preprocessing
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-neural-ltr-model" class="md-nav__link">
+      4.2) Neural LTR model
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-evaluate-model-performance" class="md-nav__link">
+    5) Evaluate model performance
+  </a>
+  
+    <nav class="md-nav" aria-label="5) Evaluate model performance">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-tensorboard-for-train-eval-tracking" class="md-nav__link">
+     5.1) TensorBoard for Train &amp; Eval tracking
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52-test-partition-perf" class="md-nav__link">
+      5.2) Test Partition Perf
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53-findings-model-tuning" class="md-nav__link">
+     5.3) Findings &amp; Model Tuning
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-discussion" class="md-nav__link">
+    6) Discussion:
+  </a>
+  
+    <nav class="md-nav" aria-label="6) Discussion:">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-choice-of-metric" class="md-nav__link">
+     6.1) Choice of Metric
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62-model-performance-analysiscomparison" class="md-nav__link">
+     6.2) Model Performance Analysis/comparison
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-further-improvements-and-ideas" class="md-nav__link">
+     6.3) Further Improvements and Ideas
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-leveraging-aditional-features-and-thinking-about-role-of-context-in-ltr" class="md-nav__link">
+    7) Leveraging aditional features and thinking about role of context in LTR
+  </a>
+  
+    <nav class="md-nav" aria-label="7) Leveraging aditional features and thinking about role of context in LTR">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#in-the-following-scenarios-well-discuss-how-you-would-use-additional-features" class="md-nav__link">
+    In the following scenarios we'll discuss how you would use additional features:
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#71-improving-model-with-unique-user-data" class="md-nav__link">
+     7.1) Improving model with unique user data
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72-using-additional-textual-features" class="md-nav__link">
+     7.2) Using Additional textual features
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#notebook-link" class="md-nav__link">
+    Notebook Link
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                  <a href="https://github.com/Akshay-A-Kulkarni/edit/master/docs/index.md" title="Edit this page" class="md-content__button md-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25z"/></svg>
+                  </a>
+                
+                
+                <h1 id="learning-to-rank">Learning To Rank</h1>
+<h2 id="exploring-ranking-models-for-the-microsoft-web-10k-dataset">Exploring Ranking Models for the Microsoft Web-10K Dataset</h2>
+<p><br>
+The following code was written in the process for a Machine Learning Engineer position I was interviewing for at the time. I received quite a good feedback given this was my first crack at working on learning to rank problems. So I decided to refine and expand it into a notebook for showcasing my experience with Classical and Neural Ranking methods and related frameworks.</p>
+<p>This notebook will evaluate a search academic dataset built using common learn-to-rank features, build a ranking model using the dataset, and discuss how additional features could be used and how they would impact the performance of the model.</p>
+<p>Steps:</p>
+<ol>
+<li>Imports </li>
+<li>Download the dataset to the notebook</li>
+<li>Preprocess and evaluate the dataset</li>
+<li>Build <strong>ranking</strong> models</li>
+<li>Evaluate your ranking models</li>
+<li>Discuss the performance and why/when to choose a model.</li>
+<li>Discussion questions</li>
+</ol>
+<h2 id="1-imports">1) Imports</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Import dependencies here</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">zipfile</span> <span class="kn">import</span> <span class="n">ZipFile</span>
 
-<h1 id="welcome-to-mkdocs">Welcome to MkDocs</h1>
-<p>For full documentation visit <a href="https://www.mkdocs.org">mkdocs.org</a>.</p>
-<h2 id="commands">Commands</h2>
-<ul>
-<li><code>mkdocs new [dir-name]</code> - Create a new project.</li>
-<li><code>mkdocs serve</code> - Start the live-reloading docs server.</li>
-<li><code>mkdocs build</code> - Build the documentation site.</li>
-<li><code>mkdocs -h</code> - Print help message and exit.</li>
-</ul>
-<h2 id="project-layout">Project layout</h2>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+
+<span class="kn">import</span> <span class="nn">lightgbm</span> <span class="kn">as</span> <span class="nn">lgbm</span>
+
+
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">RequestException</span><span class="p">,</span> <span class="n">Timeout</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_svmlight_file</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
 </code></pre></div>
-            </div>
-        </div>
 
-        <footer class="col-md-12">
-            <hr>
-            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
-        </footer>
-        <script>
-            var base_url = ".",
-                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
-        </script>
-        <script src="js/base.js" defer></script>
-        <script src="search/main.js" defer></script>
+<div class="highlight"><pre><span></span><code><span class="c1"># TF related deps (might require notebook runtime restart) </span>
 
-        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="searchModalLabel">Search</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-                <p>
-                    From here you can search these documents. Enter
-                    your search terms below.
-                </p>
-                <form>
-                    <div class="form-group">
-                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
-                    </div>
-                </form>
-                <div id="mkdocs-search-results"></div>
-            </div>
-            <div class="modal-footer">
-            </div>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Installing/updating Dependancies TF &amp; TF Ranking</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">tensorflow_ranking</span> <span class="kn">as</span> <span class="nn">tfr</span>
+    <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>   
+    <span class="k">print</span><span class="p">(</span>
+        <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Loaded TensorFlow, version:{tf.__version__}</span>
+<span class="s2">    Loaded TF Ranking, version:{tfr.__version__}</span>
+<span class="s2">          &quot;&quot;&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">tensorflow</span>
+    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">tensorflow_ranking</span> 
+    <span class="kn">import</span> <span class="nn">tensorflow_ranking</span> <span class="kn">as</span> <span class="nn">tfr</span>
+    <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Loaded TensorFlow, version:{tf.__version__}</span>
+<span class="s2">    Loaded TF Ranking, version:{tfr.__version__}</span>
+<span class="s2">          &quot;&quot;&quot;</span><span class="p">)</span>   
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">tensorflow_serving.apis</span> <span class="kn">import</span> <span class="n">input_pb2</span>
+
+<span class="c1"># This is needed for tensorboard compatibility.</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">uninstall</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span><span class="n">y</span> <span class="n">grpcio</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">grpcio</span><span class="o">==</span><span class="mf">1.32</span><span class="o">.</span><span class="mi">0</span>
+</code></pre></div>
+
+<h2 id="2-downloading-dataset">2) Downloading Dataset</h2>
+<h4 id="21-downloading-unzipping"><li>  2.1) Downloading &amp; Unzipping</h4>
+<p><em>if running in colab, run once per session. (re-running will avoid re-download, unless specified)</em></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># The dataset is located at </span>
+<span class="c1">#       https://storage.googleapis.com/personalization-takehome/MSLR-WEB10K.zip</span>
+
+<span class="c1"># You can read about the features included in the dataset here: </span>
+<span class="c1">#       https://www.microsoft.com/en-us/research/project/mslr/</span>
+
+<span class="k">def</span> <span class="nf">fetch_mslr_dataset</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">save_path</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to download dataset.</span>
+<span class="sd">    Reduces time/processing by verifying if the file in url is available in the </span>
+<span class="sd">    current runtime (colab/local) and if not, downloads file to disk</span>
+
+<span class="sd">    @args:</span>
+<span class="sd">        url: str</span>
+<span class="sd">        save_path: str</span>
+<span class="sd">        extract: bool</span>
+<span class="sd">        redownload: bool</span>
+
+<span class="sd">    @returns:</span>
+<span class="sd">        path: str</span>
+<span class="sd">        ( path to the location of downloaded file )</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
+    <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span> <span class="c1"># full path</span>
+
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="c1"># i.e. MSLR-WEB10K.zip</span>
+
+
+    <span class="c1"># checking if folder is valid</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;Given path does not exist. </span>
+<span class="s1">    Make sure path is correct (abs path will be used)&#39;&#39;&#39;</span>
+
+    <span class="n">ret_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{save_path}/{file_name}&quot;</span> <span class="c1"># setting destination</span>
+
+    <span class="c1"># Caching / Reducing redundant downloads</span>
+    <span class="c1"># checking if file has been already downloaded in the given folder before.</span>
+    <span class="k">if</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">redownload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
+
+        <span class="c1"># Extracting MD5 checksum of the existing file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{save_path}/{file_name}&quot;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f_md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+        <span class="c1"># Fetching only the checksum of the remote file on the url </span>
+        <span class="n">remote_file_md5</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">dataset_url</span><span class="p">)</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Etag&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Making sure the MD5 checksum matches the one given in url.</span>
+        <span class="k">if</span> <span class="n">f_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span> <span class="o">==</span> <span class="n">remote_file_md5</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">&quot;{save_path}&#39; already contains the correct download file &quot;</span><span class="p">,</span>
+                <span class="n">f</span><span class="s2">&quot;- ({file_name}). [Verified]&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                The zip file already exists at the location but could not be </span>
+<span class="sd">                verified as the correct file via MD5 check. </span>
+<span class="sd">                Please check if you have the correct file</span>
+<span class="sd">                or pass `redownload=True` to the function</span>
+<span class="sd">                &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;rm&#39;</span><span class="p">,</span><span class="s1">&#39;-rf&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{ret_path}&#39;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="c1"># Try fetching file from url</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TimeoutError</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Something went wrong and the Connection has timed out. Please retry&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">RequestException</span><span class="p">:</span>
+            <span class="ne">SystemExit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># save to specified location.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{ret_path}&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">z</span><span class="p">:</span>
+            <span class="n">z</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Zip Download complete! - the file is stored at {ret_path}&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extract</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Extracting . . .&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Using Unzip from the cmd-line</span>
+            <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;unzip&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;{ret_path}&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;{ret_path[:-4]}&quot;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+            <span class="c1"># Python based decompression</span>
+            <span class="c1"># slower compared to using the linux unzip </span>
+
+            <span class="c1"># with ZipFile(f&quot;{ret_path}&quot;,&#39;r&#39;) as zfile:</span>
+            <span class="c1">#     zfile.extractall(path=f&quot;{ret_path[:-4]}&quot;)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;Finished !</span>
+
+<span class="s2">        Extracted contents are in {ret_path[:-4]}</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ret_path</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Downloading / verifying dataset using the function above</span>
+
+<span class="n">dataset_url</span> <span class="o">=</span> <span class="s2">&quot;https://storage.googleapis.com/personalization-takehome/MSLR-WEB10K.zip&quot;</span>
+
+<span class="c1"># downloading and extracting to this colab notebook&#39;s base dir</span>
+<span class="n">dataset_folder_path</span> <span class="o">=</span> <span class="n">fetch_mslr_dataset</span><span class="p">(</span><span class="n">dataset_url</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1"># dataset_folder_path=&quot;/content/drive/MyDrive/MSLR-WEB10K&quot;</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>        Extracting . . .
+
+        Finished !
+
+        Extracted contents are in /content/drive/MyDrive/MSLR-WEB10K
+</code></pre></div>
+
+<p><em>note: if you already have the dataset and want to bypass the download to run the cells below</em></p>
+<p><em>then replace <code>dataset_folder_path</code> var with the str path to the uncompressed MSLR folder</em></p>
+<h2 id="3-preprocess-evaluate-the-dataset">3) Preprocess &amp; evaluate the dataset</h2>
+<h4 id="31-parsing-from-raw-files"><li>  3.1)  Parsing from raw files</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># Preprocess and evaluate the dataset</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_mslr_dataset_line</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">map_fn_over_feature</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Compact Function to parse a single line from MSLR dataset txt file. </span>
+
+<span class="sd">    @args:</span>
+<span class="sd">        line: str</span>
+<span class="sd">        map_fn_over_features: fucntion to map over the extracted features</span>
+
+<span class="sd">    @returns:</span>
+<span class="sd">        Tuple[rel, qid, List[features]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Clean and split into array</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+    <span class="c1"># Lambda to parse out the val for qid</span>
+    <span class="n">extr_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">map_fn_over_features</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">feat_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">feat_fn</span> <span class="o">=</span> <span class="n">map_fn_over_features</span>
+    <span class="c1"># one-liner to extract and assign relevance, qid and features</span>
+    <span class="n">rel</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="o">*</span><span class="n">features</span> <span class="o">=</span> \
+    <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">extr_fn</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">feat_fn</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tokens</span><span class="p">)]</span>
+
+    <span class="k">return</span> <span class="n">rel</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+
+
+
+<span class="k">def</span> <span class="nf">convert2libsvm</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">map_fn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to convert MSLR txt files in to LibSVM format for LightGBM</span>
+
+<span class="sd">    @args:</span>
+<span class="sd">        input_file: str</span>
+<span class="sd">        save_path: str</span>
+
+<span class="sd">    @returns:</span>
+<span class="sd">        path: str</span>
+<span class="sd">        ( path to the location of downloaded file )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
+
+    <span class="c1">#opening file readers</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+    <span class="n">out_features</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{output_path}/{filename[:-4]}.libsvm&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+    <span class="n">out_query</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{output_path}/{filename[:-4]}.query&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+
+    <span class="n">curr_qid</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">doc_cnt</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="c1"># Defining fns to transform parsed lines</span>
+    <span class="n">split_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">map_fn</span><span class="p">:</span>
+      <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+    <span class="c1"># iterating line-by-line </span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{input_file}&quot;</span> <span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">):</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">parse_mslr_dataset_line</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> 
+                                                   <span class="n">map_fn_over_features</span><span class="o">=</span><span class="n">split_fn</span><span class="p">)</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s2">&quot;{id}:{func(float(val))}&quot;</span> <span class="k">for</span> <span class="nb">id</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="n">features</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">curr_qid</span> <span class="o">!=</span> <span class="n">qid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">doc_cnt</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">out_query</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">doc_cnt</span><span class="p">),</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]))</span>
+            <span class="n">curr_qid</span><span class="p">,</span> <span class="n">doc_cnt</span> <span class="o">=</span> <span class="n">qid</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">doc_cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)]</span> <span class="o">+</span> <span class="n">features</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">out_features</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
+
+    <span class="n">out_query</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">doc_cnt</span><span class="p">),</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]))</span>
+    <span class="n">out_features</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">out_query</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
+
+<blockquote>
+<p>I wrote above functions while I was exploring the original dataset and wanted to ensure that I had complete control and transparency over how each row would be parsed and manipulated. For trial this made more sense than using factory/pre-built functions that would have abstraced away the processing and possibly slowed down my thinking/analysis.</p>
+<p>But for repeated running, the data and its intermediate forms do not need to be saved to disk and one can use functions like <code>sklearn.datasets.load_svmlight_file</code> to load small datasets in memory directly. I refrained from using this until I knew exactly how everything was parsed/used.</p>
+<p>Yet, the reason I decided to include these functions was because they help in 
+understanding the underlying structure of the dataset or tracking the data-flow &amp; were especially helpful for me when I had to tackle issues downstream like translating &amp; saving them into other forms compatible with other libs such as Protobufs for with TFrecords to use with TF-Ranking. </p>
+</blockquote>
+<h4 id="32-dataset-statistics-properties"><li>  3.2) Dataset Statistics &amp; Properties</h4>
+<div class="highlight"><pre><span></span><code><span class="c1"># loading MSLR fold txt files</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/Fold1/train.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/Fold1/vali.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/Fold1/test.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div>
+
+<blockquote>
+<p>Combining Query and Labels across all 3 partitions and Exploring Query &amp; Label related statistics for the whole dataset </p>
+</blockquote>
+<p>(10K queries &amp; 1.2 Mil Docs)</p>
+<div class="highlight"><pre><span></span><code><span class="n">all_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">all_qids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">valid</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Many LTR research papers cite that most relevance labelings in ranking datasets are typically skewed/long-tailed; this also seems to be reflected in the barplot below as well as the metrics calculated afterwards.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># plotting the count of lables as a barplot </span>
+<span class="n">labels_ids</span><span class="p">,</span> <span class="n">l_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="kn">as</span> <span class="nn">go</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">([</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">f</span><span class="s2">&quot;Relevance Label {int(i)}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">labels_ids</span><span class="p">],</span>
+                        <span class="n">y</span><span class="o">=</span><span class="n">l_counts</span><span class="p">,</span>
+                        <span class="n">width</span><span class="o">=</span><span class="p">[</span><span class="mf">0.95</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])],</span>
+                <span class="p">)</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">marker_color</span><span class="o">=</span><span class="s1">&#39;rgb(158,202,225)&#39;</span><span class="p">,</span> <span class="n">marker_line_color</span><span class="o">=</span><span class="s1">&#39;rgb(8,48,107)&#39;</span><span class="p">,</span>
+                  <span class="n">marker_line_width</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s1">&#39;Barplot of Relevance Counts showing the long tail&#39;</span><span class="p">,</span>
+                  <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">,)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+
+<p><img alt="histplot.png" src="assets/histplot.png" /></p>
+<p>The above barplot confirms that most query-document pairs have the lowest relevance rating of 0 and the no. of docs taper off as relevance increases.</p>
+<p>We can also compute the number of queries with no relevant docs i.e. on 0 labeled docs</p>
+<div class="highlight"><pre><span></span><code><span class="n">qids_with_only_zero_relevance</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">all_qids</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">all_labels</span><span class="p">[</span><span class="n">all_qids</span> <span class="o">==</span> <span class="n">q</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;No of Queries with only 0 relevant docs = {len(qids_with_only_zero_relevance)}&quot;</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>No of Queries with only 0 relevant docs = 315
+</code></pre></div>
+
+<p>Following metrics help in understanding the relevancy distribution further</p>
+<hr />
+<blockquote>
+<p>LR % - Ratio of documents with 0-relevancy to total number of documents in the dataset</p>
+</blockquote>
+<div class="arithmatex">\[ LR = \frac{N^{0}_{docs}}{N^{(0-4)}_{docs}} \]</div>
+<div class="highlight"><pre><span></span><code><span class="n">LR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">all_labels</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">all_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<hr />
+<blockquote>
+<p>Max documents per Query - MDQ</p>
+</blockquote>
+<p><em>( may be useful for setting list_size for Listwise LTR methods where examples are truncated or padded according to the given value)</em></p>
+<div class="highlight"><pre><span></span><code><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">all_qids</span><span class="p">))</span>
+</code></pre></div>
+
+<hr />
+<blockquote>
+<p>ALRPQ (%) - average ratio of the number of documents having the lowest rating per query over the no. of documents per query</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">query_ids</span><span class="p">,</span> <span class="n">q_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">all_qids</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">LRPQ</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">all_labels</span><span class="p">[</span><span class="n">all_qids</span><span class="o">==</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">query_ids</span><span class="p">,</span><span class="n">q_counts</span><span class="p">)]</span>
+<span class="n">ALRPQ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">LRPQ</span><span class="p">)</span>
+<span class="n">ALRPQ</span>
+</code></pre></div>
+
+<blockquote>
+<p>0.5599329113587544</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Global Statistics</th>
+<th>MSLR-WEB10K.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No. of Queries</td>
+<td>10,000</td>
+</tr>
+<tr>
+<td>No. of Documents</td>
+<td>1,200,192</td>
+</tr>
+<tr>
+<td>LR (%)</td>
+<td>0.52013</td>
+</tr>
+<tr>
+<td>Max Docs/Query (MDQ %)</td>
+<td>908</td>
+</tr>
+<tr>
+<td>ALRPQ (%)</td>
+<td>0.559932</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p>While inspecting implementations and research papers, I learned that widely-used open-source libraries for all types of state-of-the-art ranking models can have slightly different evaluation settings, especially regarding  documents with 0 ratings, i.e If all the documents in a query have the lowest rating of 0, certain normalised metrics are implemented differently to handle such a case.</p>
+<p><code>e.g. LightGBM implementation of nDCG, which assigns nDCG score equal to 1
+to queries with no relevant documents.</code></p>
+<p>If the number of queries with all 0 labels is large as is in this case, these evaluation choices can create discrepancies in analysis of the models.</p>
+<p>While I wont be removing any such queries, I still think its worthwhile to be cognizant of this detail as it might help in debugging in certain scenarios</p>
+<hr />
+<blockquote>
+<p>Navigational &amp; Informational behavior [User Dynamics information] </p>
+<p><a href="https://www.researchgate.net/publication/336367371_Boosting_Learning_to_Rank_with_User_Dynamics_and_Continuation_Methods">Ferro et. al.</a> in their work propose a simple observation that the user behavior in visiting
+a search engine result page differs depending on the query type as well as the number and position of the relevant results. </p>
+</blockquote>
+<ul>
+<li>
+<p>For example, it is likely that on a page with a single highly relevant result in its first position the user assumes a <strong><em>navigational</em></strong> behavior,</p>
+</li>
+<li>
+<p>While a page with several relevant results may likely correspond to an <strong><em>informational</em></strong> scenario, where a more complex search result page visiting behavior can be observed.</p>
+</li>
+</ul>
+<blockquote>
+<p>The paper classifies queries as navigational or informational based on the following criterion:</p>
+</blockquote>
+<p><code>a query is considered as navigational if it contains only one result with relevance label ≥ 3.</code></p>
+<div class="highlight"><pre><span></span><code><span class="c1"># computing navigations queries </span>
+<span class="k">def</span> <span class="nf">get_nav_and_inf_stats</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">queries</span><span class="p">):</span>
+  <span class="n">unique_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+  <span class="n">navigational</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">queries</span> <span class="o">==</span> <span class="n">q</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> 
+                    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">unique_q</span><span class="p">])</span>
+
+  <span class="n">informational</span> <span class="o">=</span>  <span class="n">unique_q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">navigational</span>
+
+  <span class="k">return</span> <span class="n">navigational</span><span class="p">,</span> <span class="n">informational</span>
+
+<span class="n">get_nav_and_inf_stats</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span><span class="n">all_qids</span><span class="p">)</span>
+</code></pre></div>
+
+<p>(1456, 8544)</p>
+<table>
+<thead>
+<tr>
+<th>MSLR-WEB10K {S1,S2,S3,S4,S5}</th>
+<th>Counts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>No. of Navigational Queries</td>
+<td>1456</td>
+</tr>
+<tr>
+<td>No. of Informationsal Queries</td>
+<td>8544</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>The above statistics show that about ~15% of the queries in the dataset have only one strong relevancy label i.e Navigational. </p>
+<p>My thinking is that this shows that there are certain scenarios where learning to rank models may find this "relevance sparsity" harder to optimize, but this is just an early opinion and I have decided not to invest time in exploring this aspect and therefore will not be leveraging this for anything other than for informative purposes.</p>
+</blockquote>
+<h4 id="33-preprocessing-feature-transformation"><li> 3.3) Preprocessing &amp; Feature Transformation</h4>
+<blockquote>
+<p>As far as I have seen, most research revolving around LTR or all the models that have used MSLR WEB10K or its bigger variant MSLR WEB30K in their performance benchmarks have described minimal to almost no processing w.r.t. feature transformation/scaling - only a few mention elimination of 0 relevancy docs in their respective special cases.
+Most of them focus on controlling queries or the amount of documents per query or for list wise and group wise methods, comparing the effects of those parameters but not changing any features of the dataset itself.</p>
+<p>Therefore although I chose not to apply any preprocessing/feature engineering techinques on the dataset in a generatlistic way, in the following section I explore and employ pre-processing, storage and recently discovered feature transformation techniques specific to the tools and family of Neural Ranking models in order to acquire significant performance uplifts compared to original baselines.</p>
+</blockquote>
+<h2 id="4-building-ranking-model">4) Building ranking model</h2>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build ranking model</span>
+</code></pre></div>
+
+<p><strong><code>Due to Computational &amp; Storage Limitations, all the Neural Ranking work in this and following section was done using only the Fold-1 of the Dataset</code></strong></p>
+<blockquote>
+<h4 id="41-protobufs-tfrecords-dataset-preprocessing"><li> 4.1) Protobufs, TFRecords &amp; DataSet Preprocessing</h4>
+<p>Protobuffers are extensible structures suitable for storing data in a serialized format, either locally or in a distributed manner. TF ranking has a couple of pre-defined protobufs such as ELWC which make it easier to integrate and formalize data ingestion into the ranking pipeline</p>
+<p>Protocol buffers and the tf.data API is a set of utilities that provide a mechanism to read and store data for efficient loading and preprocessing in a way that's fast and scalable.</p>
+<p>Given the managable dataset size and goal of building a listwise/groupwise neural LTR model &amp; to showcase advantages over traditional methods and give a proof-of-concept, I could have stuck using a given example and load the Libsvm style data in memory in the input_fn to build the Ranking estimator. But this is not the recomended way nor does it allow us to use the TF-ranking library's functionality to full capacities. </p>
+</blockquote>
+<p><code>Note: Among other advantages an additional one  has been the ability to use compression on TFrecords and then directly use the compressed datasets in the models with minimal performance overhead.   
+( Uncompressed Fold1 = ~1.2 GB) vs ( Fold1 Compressed ELWC proto TFrecord = ~ 500MB)</code> (https://www.tensorflow.org/guide/data_performance)</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Class I wrote to organize code resposible for parsing MSLR data and </span>
+<span class="c1"># creating compressed TF-Records in ELWC protobuf format so that they used by </span>
+<span class="c1"># most rankers in TF-Ranking and be compatible with future rankers or new methods</span>
+
+<span class="k">class</span> <span class="nc">LibsvmToELWCProto</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Class to parse LibSVM ranking datasets in ELWC proto TFRecords&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dir</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">use_compression</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="nb">str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_path</span> <span class="o">=</span> <span class="nb">dir</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">use_compression</span><span class="p">,</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="n">use_compression</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span> <span class="o">=</span> <span class="s1">&#39;GZIP&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span> <span class="o">=</span> <span class="bp">None</span>
+
+
+    <span class="c1"># Helper functions (see also https://www.tensorflow.org/tutorials/load_data/tf_records)</span>
+    <span class="k">def</span> <span class="nf">_bytes_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a bytes_list from a string / byte.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">))):</span>
+            <span class="n">value_list</span> <span class="o">=</span> <span class="n">value_list</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">bytes_list</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">BytesList</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">value_list</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">_float_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a float_list from a float / double.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">float_list</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">FloatList</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">value_list</span><span class="p">]))</span>
+
+    <span class="k">def</span> <span class="nf">_int64_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns an int64_list from a bool / enum / int / uint.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">int64_list</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Int64List</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">value_list</span><span class="p">]))</span>
+
+
+    <span class="k">def</span> <span class="nf">read_and_print_topn_tfrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_filename</span><span class="p">,</span> <span class="n">num_of_examples_to_read</span><span class="p">):</span>
+        <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_filename</span><span class="p">]</span>
+        <span class="n">tf_record_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">TFRecordDataset</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span>
+                                                    <span class="n">compression_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">raw_record</span> <span class="ow">in</span> <span class="n">tf_record_dataset</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">num_of_examples_to_read</span><span class="p">):</span>
+            <span class="n">example_list_with_context</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+            <span class="n">example_list_with_context</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">raw_record</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">example_list_with_context</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">libsvmfile_to_TFrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_libsvm</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        for reading and converting directly from files too large to hold </span>
+<span class="sd">        in memory</span>
+<span class="sd">        IMPORTANT</span>
+<span class="sd">        Assumes that rows in dataset are sorted/grouped by qid</span>
+
+<span class="sd">        Parses each row line by line to construct and tf.train.Example</span>
+<span class="sd">        with ELWC proto format. </span>
+
+<span class="sd">        I have a general purpose tfRecord parser for any LibSVM as well</span>
+<span class="sd">        but it is slower and can consume more memrory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">file_name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_libsvm</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Using GZIP compression for writing ELWC TFRecord Dataset&#39;</span><span class="p">)</span>
+            <span class="n">opts</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordOptions</span><span class="p">(</span><span class="n">compression_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span><span class="p">)</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{file_name}_gzip_compressed&quot;</span>
+
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{self.input_path}/{file_name}&quot;</span>
+
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordWriter</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{save_path}.tfrecords&quot;</span><span class="p">,</span> 
+                                                    <span class="n">options</span><span class="o">=</span><span class="n">opts</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+
+            <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+            <span class="n">map_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">))</span>
+            <span class="n">prev_qid</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{input_libsvm}&quot;</span> <span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">):</span>
+
+                <span class="n">r</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">parse_mslr_dataset_line</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> 
+                                                       <span class="n">map_fn_over_features</span><span class="o">=</span><span class="n">map_fn</span><span class="p">)</span>
+
+                <span class="n">feature_rel_list</span> <span class="o">=</span> <span class="n">features</span> <span class="o">+</span> <span class="p">[(</span><span class="s2">&quot;rel&quot;</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">))]</span>
+
+                <span class="n">example_proto_dict</span> <span class="o">=</span> <span class="p">{</span>
+                              <span class="n">f</span><span class="s2">&quot;{f_n}&quot;</span><span class="p">:(</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">_int64_feature</span><span class="p">(</span><span class="n">f_v</span><span class="p">)</span> <span class="k">if</span> <span class="n">f_n</span> <span class="o">==</span> <span class="s2">&quot;rel&quot;</span> 
+                                  <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_float_feature</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">f_v</span><span class="p">))</span>
+                                  <span class="p">)</span> 
+                                  <span class="k">for</span> <span class="p">(</span><span class="n">f_n</span><span class="p">,</span> <span class="n">f_v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">feature_rel_list</span>
+                          <span class="p">}</span>
+
+                <span class="n">example_proto</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Example</span><span class="p">(</span>
+                            <span class="n">features</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Features</span><span class="p">(</span><span class="n">feature</span><span class="o">=</span><span class="n">example_proto_dict</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="n">prev_qid</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">prev_qid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+                    <span class="n">prev_qid</span> <span class="o">=</span> <span class="n">qid</span>
+                    <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
+
+            <span class="c1"># final write for the last query grp</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">array_to_TFrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
+
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Using GZIP compression for writing ELWC TFRecord Dataset&#39;</span><span class="p">)</span>
+            <span class="n">opts</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordOptions</span><span class="p">(</span><span class="n">compression_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span><span class="p">)</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{file_name}.gzipped_tfrecord&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{file_name}.tfrecord&quot;</span>
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{self.input_path}/{file_name}&quot;</span>
+
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordWriter</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{save_path}&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">opts</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
+
+            <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+            <span class="n">prev_qid</span> <span class="o">=</span> <span class="bp">None</span>
+
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+
+                <span class="n">r</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">input_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">input_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">input_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">:]</span>
+
+                <span class="n">example_proto_dict</span> <span class="o">=</span> <span class="p">{</span>
+                              <span class="n">f</span><span class="s2">&quot;{f_n+1}&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_float_feature</span><span class="p">((</span><span class="n">f_v</span><span class="p">))</span>
+                                  <span class="k">for</span> <span class="p">(</span><span class="n">f_n</span><span class="p">,</span> <span class="n">f_v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+                          <span class="p">}</span>
+                <span class="n">example_proto_dict</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_int64_feature</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+
+                <span class="n">example_proto</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Example</span><span class="p">(</span>
+                            <span class="n">features</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Features</span><span class="p">(</span><span class="n">feature</span><span class="o">=</span><span class="n">example_proto_dict</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="n">prev_qid</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">prev_qid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+                    <span class="n">prev_qid</span> <span class="o">=</span> <span class="n">qid</span>
+                    <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
+
+            <span class="c1"># final write for the last query grp</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">trainset_with_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">validset_with_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">testset_with_labels</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="n">ELWC_converter</span> <span class="o">=</span> <span class="n">LibsvmToELWCProto</span><span class="p">(</span><span class="nb">dir</span> <span class="o">=</span><span class="s2">&quot;./mslr-web-10k-tfrecords&quot;</span><span class="p">,</span>
+                              <span class="n">use_compression</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ELWC_converter</span><span class="o">.</span><span class="n">array_to_TFrecord</span><span class="p">(</span><span class="n">trainset_with_labels</span><span class="p">,</span><span class="s2">&quot;train-fold1&quot;</span><span class="p">)</span>
+<span class="n">ELWC_converter</span><span class="o">.</span><span class="n">array_to_TFrecord</span><span class="p">(</span><span class="n">validset_with_labels</span><span class="p">,</span><span class="s2">&quot;vali-fold1&quot;</span><span class="p">)</span>
+<span class="n">ELWC_converter</span><span class="o">.</span><span class="n">array_to_TFrecord</span><span class="p">(</span><span class="n">trainset_with_labels</span><span class="p">,</span><span class="s1">&#39;test-fold1&#39;</span><span class="p">)</span>
+</code></pre></div>
+
+<blockquote>
+<p>The conversion from LibSVM to TFrecord can be time consuming.
+I have written 2 functions for writing tf records for large libsvm files as well as in memory numpy arrays. (<code>libsvm_to_TFRecord &amp; array_to_TFRecord</code> )</p>
+<p>For the the purposes of running this notebook I have not used my <code>libsvm_to_TFRecord</code> fn which is the memory efficient one as it takes more time. But it should be noted that I experienced colab crashes for the in-memory array version probably since converting each query group into an ELWC object can drastically increase memory usage &amp; cause Out of memory (OOM) issues</p>
+<p>Weighing the pros and initial time-related cons, I decided to use ELWC TFrecords as I felt it made the code &amp; the data more conducive to experimentation &amp; more flexible to be integrated and used with various existing pipelines </p>
+</blockquote>
+<p><code>Note: Processing will take ~20mins for each fold i.e 3 files</code></p>
+<p><strong>Feature Augmentation with The Log1p Trick</strong></p>
+<p>Continuing from the observations I made in the preprocessing section, not a lot of focus has been given towards Data Augmentation and Feature Transformation in LTR, which was surprising to me given how useful they have been for neural methods in other fields.</p>
+<p>Neural networks, are known to be sensitive to input feature transformations/data scale. Tree-based models - which have been leading in most standard public numerical LTR datasets - on the other hand, are effective at partitioning feature space and experience less sensitivity to scaling.</p>
+<p>Until recently, from what I could gather, no effective feature transformation work has been done addressing this issue. Though quite recently papers published by <a href="https://research.google/pubs/pub50030/">Qin et al.</a> and <a href="https://research.google/pubs/pub49171/">H Zhuang et al.</a>, discovered that certain transformations might help. Particularly, a simple “log1p” symmetric transformation, which they applied to WEB30K and Istella datasets worked well and seemed to improve performance noticeably. Therefore I have employed the same feature transformation as a pre-processing measure for this dataset</p>
+<blockquote>
+<h4 id="42-neural-ltr-model"><li>  4.2) Neural LTR model</h4>
+<p>After Experimenting with different user journeys offered in the TF-ranking library, I decided to use their new Keras API after using the Estimator API as I believed it would help me prototype, iterate and experiment changes in my model faster in a notebook environment.</p>
+<p>Plus after the model is developed it can easily be exported as an Estimator to be compatible with existing production functionality.</p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="c1"># Store the paths to files containing training and test instances.</span>
+<span class="n">_TRAIN_DATA_PATH</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/train-fold1.gzip_tfrecord&quot;</span>
+<span class="n">_VALID_DATA_PATH</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/vali-fold1.gzip_tfrecord&quot;</span>
+<span class="n">_TEST_DATA_PATH</span> <span class="o">=</span>  <span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/test-fold1.gzip_tfrecord&quot;</span>
+
+
+<span class="c1"># The maximum number of documents per query in the dataset.</span>
+<span class="c1"># Document lists are padded or truncated to this size.</span>
+<span class="n">_LIST_SIZE</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="c1"># The document relevance label.</span>
+<span class="n">_LABEL_FEATURE_NAME</span> <span class="o">=</span> <span class="s2">&quot;rel&quot;</span>
+<span class="n">_NUM_FEATURES</span> <span class="o">=</span> <span class="mi">136</span>
+
+<span class="c1"># Padding labels are set negative so that the corresponding examples can be</span>
+<span class="c1"># ignored in loss and metrics.</span>
+<span class="n">_PADDING_LABEL</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+
+<span class="c1"># Learning rate for optimizer.</span>
+<span class="n">_LEARNING_RATE</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+<span class="c1"># Parameters to the scoring function.</span>
+<span class="n">_BATCH_SIZE</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">_DROPOUT_RATE</span> <span class="o">=</span> <span class="mf">0.5</span>
+
+<span class="c1"># Location of model directory and number of training steps.</span>
+<span class="n">_MODEL_DIR</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;./model_logs/model_{datetime.datetime.now().strftime(&#39;%m-</span><span class="si">%d</span><span class="s2">-%Y_%H-%M-%S&#39;)}&quot;</span>
+
+<span class="c1"># setting as shell env for tensorboard stuff</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;models_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_MODEL_DIR</span>
+</code></pre></div>
+
+<blockquote>
+<p><em><code>Defining feature_spec fn as per cols in the ELWC tfrecords that I previously generated from LibSVM</code></em></p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_feature_columns</span><span class="p">():</span>
+
+  <span class="c1"># We dont have context featuresin MSLR datasets</span>
+  <span class="n">context_feature_columns</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="n">feature_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">_NUM_FEATURES</span><span class="p">)]</span>
+  <span class="n">example_feature_columns</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">name</span><span class="p">:</span>
+      <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">numeric_column</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">default_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">feature_names</span><span class="p">}</span>
+
+  <span class="k">return</span> <span class="n">context_feature_columns</span><span class="p">,</span> <span class="n">example_feature_columns</span>
+</code></pre></div>
+
+<blockquote>
+<p><em><code>Creating a TFRecordDataset and using Feature Transformations</code></em></p>
+</blockquote>
+<p>The function below parses in the compressed TFRecord during training and transforms 
+the input values using the symmetric <code>log1p</code> transformation I mentioned before. </p>
+<div class="arithmatex">\[ log1p = log_e(1+|x|) \odot sign(x) \]</div>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">input_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+                                  <span class="n">batch_sz</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+                                  <span class="n">shuffle</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                                  <span class="n">num_epochs</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                                  <span class="n">data_format</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ELWC&quot;</span><span class="p">,</span>
+                                  <span class="n">compression_type</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
+
+  <span class="n">context_feature_columns</span><span class="p">,</span> <span class="n">example_feature_columns</span> <span class="o">=</span> <span class="n">create_feature_columns</span><span class="p">()</span>
+
+
+  <span class="n">context_feature_spec</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">make_parse_example_spec</span><span class="p">(</span>
+      <span class="n">context_feature_columns</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+  <span class="n">label_column</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">numeric_column</span><span class="p">(</span>
+      <span class="n">_LABEL_FEATURE_NAME</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="n">_PADDING_LABEL</span><span class="p">)</span>
+  <span class="n">example_feature_spec</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">make_parse_example_spec</span><span class="p">(</span>
+      <span class="nb">list</span><span class="p">(</span><span class="n">example_feature_columns</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="p">[</span><span class="n">label_column</span><span class="p">])</span>
+
+  <span class="n">_reader_arg_list</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">if</span> <span class="n">compression_type</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">compression_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;GZIP&quot;</span><span class="p">,</span><span class="s2">&quot;ZLIB&quot;</span><span class="p">]</span>
+    <span class="n">_reader_arg_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">compression_type</span><span class="p">]</span>
+
+
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">build_ranking_dataset</span><span class="p">(</span>
+      <span class="n">file_pattern</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span>
+      <span class="n">data_format</span><span class="o">=</span><span class="n">tfr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ELWC</span><span class="p">,</span>
+      <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span>
+      <span class="n">list_size</span><span class="o">=</span><span class="n">_LIST_SIZE</span><span class="p">,</span>
+      <span class="n">context_feature_spec</span><span class="o">=</span><span class="n">context_feature_spec</span><span class="p">,</span>
+      <span class="n">example_feature_spec</span><span class="o">=</span><span class="n">example_feature_spec</span><span class="p">,</span>
+      <span class="n">reader</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">TFRecordDataset</span><span class="p">,</span>
+      <span class="n">reader_args</span><span class="o">=</span> <span class="n">_reader_arg_list</span><span class="p">,</span>
+      <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span>
+      <span class="n">num_epochs</span><span class="o">=</span><span class="n">num_epochs</span><span class="p">,</span>
+      <span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_log1p_transform</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;computes elementwise log_e(|x|)*sign(x) &#39;&#39;&#39;</span>
+    <span class="n">transformed_feats</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">f</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+                <span class="p">),</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">transformed_feats</span>
+
+  <span class="k">def</span> <span class="nf">_split_label_and_transform_features</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">_LABEL_FEATURE_NAME</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">_log1p_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">features</span><span class="p">,</span> <span class="n">label</span>
+
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_split_label_and_transform_features</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">dataset</span>
+</code></pre></div>
+
+<p>My experience with results were quite surprising. The simple transformation can yield 3-4% performance improvement even on a FFNN ranker. The paper and other ones from the same group also suggest adding Random Gaussian Noise when the model capacity is sufficently augmented i.e using more complex architectures. 
+The goal of this notebook was creating a Proof-of-concept ranking model rather than achieving state-of-the-art results, thus I opted not to use it as the ranker is not deep/complex and the authors showed degradation with adding noise to models without sufficient training and size.</p>
+<blockquote>
+<p><em><code>Defining the scoring fn which currently will be a standard DNN</code></em></p>
+</blockquote>
+<div class="highlight"><pre><span></span><code><span class="n">context_feature_columns</span><span class="p">,</span> <span class="n">example_feature_columns</span> <span class="o">=</span> <span class="n">create_feature_columns</span><span class="p">()</span>
+<span class="c1"># Using a Canned Network</span>
+<span class="n">ranking_network</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">canned</span><span class="o">.</span><span class="n">DNNRankingNetwork</span><span class="p">(</span>
+      <span class="n">context_feature_columns</span><span class="o">=</span><span class="n">context_feature_columns</span><span class="p">,</span>
+      <span class="n">example_feature_columns</span><span class="o">=</span><span class="n">example_feature_columns</span><span class="p">,</span>
+      <span class="n">hidden_layer_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span>
+      <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
+      <span class="n">dropout</span><span class="o">=</span><span class="n">_DROPOUT_RATE</span><span class="p">,</span>
+      <span class="n">use_batch_norm</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+      <span class="n">batch_norm_moment</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">_loss_obj</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">tfr</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">RankingLossKey</span><span class="o">.</span><span class="n">GUMBEL_APPROX_NDCG_LOSS</span><span class="p">)</span>
+
+<span class="c1"># Contains all ranking metrics, including NDCG @ {1, 3, 5, 10}.</span>
+
+<span class="k">def</span> <span class="nf">_make_eval_metric_fns</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Returns a list of ranking metrics for the keras ranker&quot;&quot;&quot;</span>
+  <span class="n">metric_fns</span> <span class="o">=</span> <span class="p">[</span><span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> 
+                        <span class="k">for</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;ndcg&quot;</span><span class="p">,</span> <span class="n">topn</span><span class="o">=</span><span class="n">topn</span><span class="p">,</span> 
+                                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;metric/ndcg_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topn</span><span class="p">))</span> 
+                                            <span class="k">for</span> <span class="n">topn</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]]</span>
+                <span class="p">]</span>
+  <span class="k">return</span> <span class="n">metric_fns</span>
+
+<span class="n">default_metrics</span> <span class="o">=</span> <span class="n">_make_eval_metric_fns</span><span class="p">()</span>
+
+<span class="n">config</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">RunConfig</span><span class="p">(</span>
+      <span class="n">model_dir</span><span class="o">=</span><span class="n">_MODEL_DIR</span><span class="p">,</span>
+      <span class="n">keep_checkpoint_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+      <span class="n">save_checkpoints_secs</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Build ranker as a Functional Keras model.</span>
+<span class="n">ranker</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">create_keras_model</span><span class="p">(</span>
+      <span class="n">network</span><span class="o">=</span><span class="n">ranking_network</span><span class="p">,</span>
+      <span class="n">loss</span><span class="o">=</span><span class="n">_loss_obj</span><span class="p">,</span>
+      <span class="n">metrics</span><span class="o">=</span><span class="n">default_metrics</span><span class="p">,</span>
+      <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adagrad</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">_LEARNING_RATE</span><span class="p">),</span>
+      <span class="n">size_feature_name</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</code></pre></div>
+
+<p><em><code>NOTE: Run the TensorBoard cell before &amp; refresh it if you want to track progress during training run</code></em></p>
+<p><div class="highlight"><pre><span></span><code><span class="k">assert</span> <span class="n">tf</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">gpu_device_name</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;GPU not detected, training is much faster GPU/TPU instance of colab&quot;</span>
+
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">_TRAIN_DATA_PATH</span><span class="p">,</span>
+                                              <span class="n">_BATCH_SIZE</span><span class="p">,</span>
+                                              <span class="n">compression_type</span><span class="o">=</span><span class="s2">&quot;GZIP&quot;</span><span class="p">)</span>
+
+<span class="n">vali_dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">_VALID_DATA_PATH</span><span class="p">,</span>
+                                             <span class="n">_BATCH_SIZE</span><span class="p">,</span>
+                                             <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                             <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                                             <span class="n">compression_type</span><span class="o">=</span><span class="s2">&quot;GZIP&quot;</span><span class="p">)</span>
+
+<span class="n">tensorboard_callback</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">_MODEL_DIR</span><span class="p">)</span>
+
+
+<span class="n">ranker</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
+           <span class="n">validation_data</span><span class="o">=</span><span class="n">vali_dataset</span><span class="p">,</span>
+           <span class="n">steps_per_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+           <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+           <span class="n">validation_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+           <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">tensorboard_callback</span><span class="p">])</span>
+</code></pre></div>
+ . . . </p>
+<div class="highlight"><pre><span></span><code>Epoch 95/100
+100/100 [==============================] - 44s 447ms/step - loss: -0.6896 - metric/ndcg_1: 0.4489 - metric/ndcg_3: 0.4326 - metric/ndcg_5: 0.4358 - metric/ndcg_10: 0.4517 - val_loss: -0.7122 - val_metric/ndcg_1: 0.4327 - val_metric/ndcg_3: 0.4387 - val_metric/ndcg_5: 0.4604 - val_metric/ndcg_10: 0.4865
+Epoch 96/100
+100/100 [==============================] - 44s 438ms/step - loss: -0.6906 - metric/ndcg_1: 0.4499 - metric/ndcg_3: 0.4324 - metric/ndcg_5: 0.4358 - metric/ndcg_10: 0.4534 - val_loss: -0.7148 - val_metric/ndcg_1: 0.4334 - val_metric/ndcg_3: 0.4510 - val_metric/ndcg_5: 0.4713 - val_metric/ndcg_10: 0.4982
+Epoch 96/100
+100/100 [==============================] - 44s 443ms/step - loss: -0.6915 - metric/ndcg_1: 0.4501 - metric/ndcg_3: 0.4358 - metric/ndcg_5: 0.4388 - metric/ndcg_10: 0.4544 - val_loss: -0.7148 - val_metric/ndcg_1: 0.4159 - val_metric/ndcg_3: 0.4513 - val_metric/ndcg_5: 0.4737 - val_metric/ndcg_10: 0.4982
+Epoch 98/100
+100/100 [==============================] - 45s 447ms/step - loss: -0.6869 - metric/ndcg_1: 0.4498 - metric/ndcg_3: 0.4306 - metric/ndcg_5: 0.4327 - metric/ndcg_10: 0.4495 - val_loss: -0.7132 - val_metric/ndcg_1: 0.4539 - val_metric/ndcg_3: 0.4385 - val_metric/ndcg_5: 0.4716 - val_metric/ndcg_10: 0.4950
+Epoch 99/100
+100/100 [==============================] - 44s 439ms/step - loss: -0.6914 - metric/ndcg_1: 0.4509 - metric/ndcg_3: 0.4312 - metric/ndcg_5: 0.4350 - metric/ndcg_10: 0.4521 - val_loss: -0.7129 - val_metric/ndcg_1: 0.4548 - val_metric/ndcg_3: 0.4512 - val_metric/ndcg_5: 0.4683 - val_metric/ndcg_10: 0.4932
+Epoch 100/100
+ 100/100 [============================&gt;] - 44s 439ms/step - loss: -0.6913 - metric/ndcg_1: 0.4511 - metric/ndcg_3: 0.4331 - metric/ndcg_5: 0.4373 - metric/ndcg_10: 0.4542
+</code></pre></div>
+
+<h2 id="5-evaluate-model-performance">5) Evaluate model performance</h2>
+<h4 id="51-tensorboard-for-train-eval-tracking"><li> 5.1) TensorBoard for Train &amp; Eval tracking</h4>
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">tensorboard</span>
+<span class="o">%</span><span class="n">tensorboard</span> <span class="o">--</span><span class="n">logdir</span><span class="o">=./</span><span class="n">model_logs</span> <span class="o">--</span><span class="n">port</span> <span class="mi">25952</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>The tensorboard extension is already loaded. To reload it, use:
+  %reload_ext tensorboard
+
+
+
+&lt;IPython.core.display.Javascript object&gt;
+</code></pre></div>
+
+<p><img alt="tensorboard.png" src="assets/tensorboard.png" /></p>
+<blockquote>
+<p>The plots indicate a steady decline in training and validation loss and a consequent increase in metrics per epoch with only NDCG@1 showing some saturation, which suggests to me that the network can be trained for longer steps.</p>
+</blockquote>
+<h4 id="52-test-partition-perf"><li>  5.2) Test Partition Perf</h4>
+<div class="highlight"><pre><span></span><code> <span class="n">test_dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">_TEST_DATA_PATH</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span>
+                                             <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                                             <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                             <span class="n">compression_type</span><span class="o">=</span><span class="s2">&quot;GZIP&quot;</span><span class="p">)</span>
+
+ <span class="n">loss</span><span class="p">,</span> <span class="o">*</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">ranker</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">)</span>
+ <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">metrics</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">f</span><span class="s1">&#39;NDCG@{k}&#39;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">]],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;test_data&#39;</span><span class="p">])</span>
+</code></pre></div>
+
+<p><img alt="test_set_results.png" src="assets/testeval.png" /></p>
+<p>Considering the straightforward DNN implementation of the ranker  and the short training time/steps, an <code>NDCG@1 of 0.44</code> is quite good from what I have seen in research starting from a couple of years &amp; tracks with the changes/improvements. Though the <code>NDCG@10</code> is a bit lower.</p>
+<p>In the next section I evaluate and discuss the tuning that I think helped me get this performance.</p>
+<h3 id="53-findings-model-tuning"><li> 5.3) Findings &amp; Model Tuning</h3>
+<blockquote>
+<p>After constructing the basic pipeline of the model, I dedicated some time to understand the underpinings of neural based ranking models. During my research for this notebook, I came across several frameworks, techniques and best practices that allowed me to attain significant improvements to baseline performance on DNN</p>
+<p>In this section I note some hyperparameter tuning and optimizations that I've alluded to before, which allowed me to get quite decent uplifts even in the scope of creating a baseline showcase ranking model.</p>
+<p>Once the initial skeleton of the ranking pipeline was set up, I ran consecutive
+experiments to tune the standard hyperparameters of the network such as <code>hidden neuron dims, depth, batch size, learning_rate, iterations, dropout</code> etc. in a grid search fashion to find an optimal balance between expected performance and fastest stable training times. </p>
+</blockquote>
+<ul>
+<li>
+<p>Tried variours layer sizes from [3,4,5,6] &amp; hidden dims ranging from 32 all the way upto 2048 to increase network capacity and leverage higher order interactions 
+<code>(though some papers I later saw suggested DNNs might not be as great at that as previously thought)</code></p>
+</li>
+<li>
+<p>Varied batch size for training and validation to see effect on training speed &amp; stability. After a few runs a higher batch size expectedly resulted in slower training <code>(450ms/step for 128)</code> vs <code>(129ms/step for 32)</code> but also resulted in more stable &amp; better training results. (Could also be affected by underlying gpu hardware optimization aspects)</p>
+</li>
+<li>
+<p>Tried various learning rates and dropout values. Though ultimately settled on the usual choice of <code>0.05 with AdaGrad for lr and 0.5 for Dropout</code> respectively</p>
+</li>
+</ul>
+<blockquote>
+<p>My main motivation for doing was this to get a quick ranking model up and running that I could further probe and tune for more specific ranking oriented aspects. The current setup with TFranking allowed me to check performance and stability of various ranking losses, List Size for listwise training, various activation functions (like swish which has shown promise in CV research) and specific feature transformations. I also tried to do small ad-hoc ablation studies to ascertain differences to see which combination could get me good results within reasonable compute and time. The following changes/decisions gave good results with relatively low to zero implementation efforts</p>
+</blockquote>
+<ul>
+<li>
+<p>Since Listwise methods were my main focus I did not try any pointwise or pairwise losses. Among the most used, I tried <code>ApproxNDCG</code>, <code>Softmax</code> and certain variations. Literature suggests SoftmaxCrossEntropy loss (softmax) as a simple and stable choice so thats where I started but found <code>GumbelApproxNDCG</code> loss - a variation of stochastic treatment that adds gumbel noise - to perform better for me.</p>
+</li>
+<li>
+<p>List size was another parameter, which I set to 200 based on various settings I saw in different papers by the TF-ranking team.</p>
+</li>
+<li>
+<p>BatchNorm momentum was also reduced from 0.9 to 0.4 </p>
+</li>
+<li>
+<p>But most importantly, taking cues from papers published by <a href="https://research.google/pubs/pub49171/">[H Zhuang et. al.]</a> &amp; <a href="https://research.google/pubs/pub50030/%5D">[Qin et al.]</a> which suggested feature transformations such as Log1p or Gauss Noise injection was quite helpful. The simple log1p transformation that I implemented yielded noticeable uplifts. Gauss norm was not employed as the authors showed degradation with feed-forward DNNs. </p>
+</li>
+</ul>
+<blockquote>
+<p>The final pipeline consists of an input parser, ranking datatset creater and Neural Network - comprised of three dense layers with BatchNorm and Relu after each layer - which is fitted into a ranking head with the mentioned loss and NDCG@k=1,3,5,10 as metrics.</p>
+</blockquote>
+<p><br></p>
+<hr />
+<h2 id="6-discussion">6) Discussion:</h2>
+<ol>
+<li>Why choose NDCD metric to evaluate the model?</li>
+<li>How well did the models perform?</li>
+<li>Further Improvements and Ideas</li>
+</ol>
+<h4 id="61-choice-of-metric"><li> 6.1) Choice of Metric</h4>
+<blockquote>
+<ol>
+<li>
+<p>nDCG - Normalized Discounted Cumulative Gain is the de-facto choice of metric when dealing with graded measures, which also consider the ranking among relevant items, which is the case in MSLR-WEB10K dataset.</p>
+</li>
+<li>
+<p>In addition a lot of time and research has gone into developing approximations, loss functions and frameworks which directly try to optimize and learn ranking functions or models for achieving better NDCG. This means that there is a good ecosystem of tools that are tightly coupled with the metric which makes make it an optimal choice</p>
+</li>
+</ol>
+</blockquote>
+<hr />
+<blockquote>
+<p>Discounted Cumulative gain is calculated as:</p>
+</blockquote>
+<p>$$ DCG@k = \sum_{i=1}^{k} \frac{2^{l_i} - 1}{log_2(i+1)} $$</p>
+<p>where <span class="arithmatex">\(l_i\)</span> is the grading of relevance at rank <span class="arithmatex">\(i\)</span></p>
+<blockquote>
+<p>Going through the formula, intuitively the numerator is function that is directly proportional to increasing relevance which is called gain. The denominator is a decreasing function of position, which is the <em>discount</em> component. Highly relevant documents are more useful than moderately relevant documents, which are in turn more useful than irrelevant documents while being in the right position. So a higher relevance nets more gain but is penalised if placed on lower positions. The metric promotes higher relevant items to be ranked higher which is a property that is desirable.</p>
+</blockquote>
+<p>Normalized DCG is then just:</p>
+<div class="arithmatex">\[NDCG@k = \frac{DCG@k}{IDCG@k}\]</div>
+<p>where IDCG is the ideal DCG obtained if a perfect ranking was observed.</p>
+<h4 id="62-model-performance-analysiscomparison"><li> 6.2) Model Performance Analysis/comparison</h4>
+<p>For quite some time, Neural Ranking Methods while getting focus have not been competitive with Gradient Boosted Tree models such as LambdaMART on numerical datasets.</p>
+<p>In this section, to get a better understanding of the pros and cons of using a neural method over DT, I trained a LambdaMart model using the LightGBM library, which until recently was regarded as - or arguably still is - state-of-the-art for datasets containing dense numerical features such as MSLR.</p>
+<p><li>  - LambdaMART LTR Model </p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_lambdamart</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">fold</span><span class="p">):</span>
+  <span class="n">train</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_path}/Fold{fold}/train.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+  <span class="n">valid</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_path}/Fold{fold}/vali.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+  <span class="n">training_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">validation_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+  <span class="c1"># Setting group info</span>
+  <span class="n">training_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="n">validation_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+  <span class="n">training_data</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="n">validation_data</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+
+
+  <span class="c1"># Setting prarams </span>
+  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;num_leaves&quot;</span><span class="p">:</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="s2">&quot;min_data_in_leaf&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="s2">&quot;min_sum_hessian_in_leaf&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;num_threads&quot;</span><span class="p">:</span> <span class="mi">16</span>
+  <span class="p">}</span>
+
+  <span class="c1"># Setting Objectives &amp; Learning Rate</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Objective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rank_xendcg&quot;</span> <span class="c1"># Equivalent perf as Lambdarank &amp; Faster</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+
+  <span class="c1"># Setting metrics &amp; eval pts</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ndcg&#39;</span><span class="p">]</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;ndcg_eval_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
+
+  <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="n">bt_ltr</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                       <span class="n">train_set</span><span class="o">=</span><span class="n">training_data</span><span class="p">,</span>
+                       <span class="n">valid_sets</span><span class="o">=</span><span class="p">[</span><span class="n">validation_data</span><span class="p">],</span><span class="n">valid_names</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span>
+                       <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                       <span class="n">evals_result</span><span class="o">=</span><span class="n">results</span><span class="p">,</span>
+                       <span class="n">verbose_eval</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+
+  <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">ndcg_score</span>
+  <span class="n">test</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_path}/Fold{fold}/test.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+  <span class="n">test_group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+  <span class="n">total</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">test_group</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">bt_ltr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+      <span class="n">rel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+      <span class="n">total</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ndcg_score</span><span class="p">(</span><span class="n">rel</span><span class="p">,</span><span class="n">scores</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+      <span class="k">pass</span>    
+  <span class="n">results</span><span class="p">[</span><span class="s2">&quot;test_ndcg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+  <span class="n">results</span><span class="p">[</span><span class="n">f</span><span class="s2">&quot;fold{fold}_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bt_ltr</span>
+  <span class="k">return</span> <span class="n">results</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">all_res</span><span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  ---------------------------</span>
+<span class="s2">  fold{i}&quot;&quot;&quot;</span><span class="p">)</span>
+  <span class="n">all_res</span><span class="p">[</span><span class="n">f</span><span class="s2">&quot;fold{i}&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_lambdamart</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/MSLR-WEB10K&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>  ---------------------------
+  fold1
+[10]    valid&#39;s ndcg@1: 0.460571    valid&#39;s ndcg@3: 0.452905    valid&#39;s ndcg@5: 0.456894    valid&#39;s ndcg@10: 0.476716
+[20]    valid&#39;s ndcg@1: 0.473533    valid&#39;s ndcg@3: 0.460936    valid&#39;s ndcg@5: 0.466069    valid&#39;s ndcg@10: 0.484822
+[30]    valid&#39;s ndcg@1: 0.475114    valid&#39;s ndcg@3: 0.466228    valid&#39;s ndcg@5: 0.472492    valid&#39;s ndcg@10: 0.490586
+[40]    valid&#39;s ndcg@1: 0.487319    valid&#39;s ndcg@3: 0.47362 valid&#39;s ndcg@5: 0.47813 valid&#39;s ndcg@10: 0.496846
+[50]    valid&#39;s ndcg@1: 0.494519    valid&#39;s ndcg@3: 0.476746    valid&#39;s ndcg@5: 0.482407    valid&#39;s ndcg@10: 0.501203
+[60]    valid&#39;s ndcg@1: 0.494605    valid&#39;s ndcg@3: 0.478599    valid&#39;s ndcg@5: 0.485217    valid&#39;s ndcg@10: 0.502415
+[70]    valid&#39;s ndcg@1: 0.497724    valid&#39;s ndcg@3: 0.482326    valid&#39;s ndcg@5: 0.488462    valid&#39;s ndcg@10: 0.505793
+[80]    valid&#39;s ndcg@1: 0.49701 valid&#39;s ndcg@3: 0.483865    valid&#39;s ndcg@5: 0.488244    valid&#39;s ndcg@10: 0.506631
+[90]    valid&#39;s ndcg@1: 0.500819    valid&#39;s ndcg@3: 0.486319    valid&#39;s ndcg@5: 0.491567    valid&#39;s ndcg@10: 0.508823
+[100]   valid&#39;s ndcg@1: 0.500795    valid&#39;s ndcg@3: 0.487764    valid&#39;s ndcg@5: 0.493362    valid&#39;s ndcg@10: 0.509696
+
+  ---------------------------
+  fold2
+[10]    valid&#39;s ndcg@1: 0.439029    valid&#39;s ndcg@3: 0.435994    valid&#39;s ndcg@5: 0.442899    valid&#39;s ndcg@10: 0.463751
+[20]    valid&#39;s ndcg@1: 0.461929    valid&#39;s ndcg@3: 0.450332    valid&#39;s ndcg@5: 0.455395    valid&#39;s ndcg@10: 0.475256
+[30]    valid&#39;s ndcg@1: 0.457733    valid&#39;s ndcg@3: 0.454178    valid&#39;s ndcg@5: 0.461606    valid&#39;s ndcg@10: 0.482412
+[40]    valid&#39;s ndcg@1: 0.465976    valid&#39;s ndcg@3: 0.458331    valid&#39;s ndcg@5: 0.466217    valid&#39;s ndcg@10: 0.487144
+[50]    valid&#39;s ndcg@1: 0.476119    valid&#39;s ndcg@3: 0.464495    valid&#39;s ndcg@5: 0.47199 valid&#39;s ndcg@10: 0.493111
+[60]    valid&#39;s ndcg@1: 0.479457    valid&#39;s ndcg@3: 0.468421    valid&#39;s ndcg@5: 0.474527    valid&#39;s ndcg@10: 0.496759
+[70]    valid&#39;s ndcg@1: 0.482843    valid&#39;s ndcg@3: 0.470047    valid&#39;s ndcg@5: 0.476531    valid&#39;s ndcg@10: 0.499443
+[80]    valid&#39;s ndcg@1: 0.482552    valid&#39;s ndcg@3: 0.472077    valid&#39;s ndcg@5: 0.478064    valid&#39;s ndcg@10: 0.500665
+[90]    valid&#39;s ndcg@1: 0.480971    valid&#39;s ndcg@3: 0.473215    valid&#39;s ndcg@5: 0.478395    valid&#39;s ndcg@10: 0.501051
+[100]   valid&#39;s ndcg@1: 0.482852    valid&#39;s ndcg@3: 0.474521    valid&#39;s ndcg@5: 0.481642    valid&#39;s ndcg@10: 0.502988
+
+  ---------------------------
+  fold3
+[10]    valid&#39;s ndcg@1: 0.449814    valid&#39;s ndcg@3: 0.445464    valid&#39;s ndcg@5: 0.449102    valid&#39;s ndcg@10: 0.467304
+[20]    valid&#39;s ndcg@1: 0.464652    valid&#39;s ndcg@3: 0.458397    valid&#39;s ndcg@5: 0.459662    valid&#39;s ndcg@10: 0.475314
+[30]    valid&#39;s ndcg@1: 0.468752    valid&#39;s ndcg@3: 0.464186    valid&#39;s ndcg@5: 0.465374    valid&#39;s ndcg@10: 0.48312
+[40]    valid&#39;s ndcg@1: 0.48    valid&#39;s ndcg@3: 0.468496    valid&#39;s ndcg@5: 0.470938    valid&#39;s ndcg@10: 0.487289
+[50]    valid&#39;s ndcg@1: 0.479824    valid&#39;s ndcg@3: 0.47086 valid&#39;s ndcg@5: 0.47397 valid&#39;s ndcg@10: 0.489766
+[60]    valid&#39;s ndcg@1: 0.489871    valid&#39;s ndcg@3: 0.474535    valid&#39;s ndcg@5: 0.475584    valid&#39;s ndcg@10: 0.493091
+[70]    valid&#39;s ndcg@1: 0.496057    valid&#39;s ndcg@3: 0.477123    valid&#39;s ndcg@5: 0.478852    valid&#39;s ndcg@10: 0.496602
+[80]    valid&#39;s ndcg@1: 0.496471    valid&#39;s ndcg@3: 0.477977    valid&#39;s ndcg@5: 0.480044    valid&#39;s ndcg@10: 0.498483
+[90]    valid&#39;s ndcg@1: 0.497367    valid&#39;s ndcg@3: 0.479643    valid&#39;s ndcg@5: 0.482179    valid&#39;s ndcg@10: 0.499681
+[100]   valid&#39;s ndcg@1: 0.495214    valid&#39;s ndcg@3: 0.481445    valid&#39;s ndcg@5: 0.483087    valid&#39;s ndcg@10: 0.500724
+
+  ---------------------------
+  fold4
+[10]    valid&#39;s ndcg@1: 0.441176    valid&#39;s ndcg@3: 0.430545    valid&#39;s ndcg@5: 0.437877    valid&#39;s ndcg@10: 0.458964
+[20]    valid&#39;s ndcg@1: 0.4477  valid&#39;s ndcg@3: 0.438926    valid&#39;s ndcg@5: 0.447287    valid&#39;s ndcg@10: 0.468017
+[30]    valid&#39;s ndcg@1: 0.457181    valid&#39;s ndcg@3: 0.447476    valid&#39;s ndcg@5: 0.455578    valid&#39;s ndcg@10: 0.474776
+[40]    valid&#39;s ndcg@1: 0.461681    valid&#39;s ndcg@3: 0.452393    valid&#39;s ndcg@5: 0.460615    valid&#39;s ndcg@10: 0.480931
+[50]    valid&#39;s ndcg@1: 0.462333    valid&#39;s ndcg@3: 0.454511    valid&#39;s ndcg@5: 0.46456 valid&#39;s ndcg@10: 0.484528
+[60]    valid&#39;s ndcg@1: 0.464924    valid&#39;s ndcg@3: 0.455151    valid&#39;s ndcg@5: 0.465289    valid&#39;s ndcg@10: 0.48598
+[70]    valid&#39;s ndcg@1: 0.469529    valid&#39;s ndcg@3: 0.456763    valid&#39;s ndcg@5: 0.4668  valid&#39;s ndcg@10: 0.487702
+[80]    valid&#39;s ndcg@1: 0.468795    valid&#39;s ndcg@3: 0.45828 valid&#39;s ndcg@5: 0.46863 valid&#39;s ndcg@10: 0.488993
+[90]    valid&#39;s ndcg@1: 0.467671    valid&#39;s ndcg@3: 0.458832    valid&#39;s ndcg@5: 0.469534    valid&#39;s ndcg@10: 0.490705
+[100]   valid&#39;s ndcg@1: 0.470871    valid&#39;s ndcg@3: 0.462535    valid&#39;s ndcg@5: 0.471455    valid&#39;s ndcg@10: 0.491723
+
+  ---------------------------
+  fold5
+[10]    valid&#39;s ndcg@1: 0.444414    valid&#39;s ndcg@3: 0.437104    valid&#39;s ndcg@5: 0.444538    valid&#39;s ndcg@10: 0.464958
+[20]    valid&#39;s ndcg@1: 0.459771    valid&#39;s ndcg@3: 0.444896    valid&#39;s ndcg@5: 0.454293    valid&#39;s ndcg@10: 0.475377
+[30]    valid&#39;s ndcg@1: 0.467143    valid&#39;s ndcg@3: 0.451111    valid&#39;s ndcg@5: 0.461542    valid&#39;s ndcg@10: 0.483029
+[40]    valid&#39;s ndcg@1: 0.468257    valid&#39;s ndcg@3: 0.455491    valid&#39;s ndcg@5: 0.464709    valid&#39;s ndcg@10: 0.48678
+[50]    valid&#39;s ndcg@1: 0.47419 valid&#39;s ndcg@3: 0.462122    valid&#39;s ndcg@5: 0.46808 valid&#39;s ndcg@10: 0.49145
+[60]    valid&#39;s ndcg@1: 0.479248    valid&#39;s ndcg@3: 0.463948    valid&#39;s ndcg@5: 0.472182    valid&#39;s ndcg@10: 0.494274
+[70]    valid&#39;s ndcg@1: 0.483124    valid&#39;s ndcg@3: 0.467825    valid&#39;s ndcg@5: 0.475012    valid&#39;s ndcg@10: 0.497521
+[80]    valid&#39;s ndcg@1: 0.481543    valid&#39;s ndcg@3: 0.469155    valid&#39;s ndcg@5: 0.477871    valid&#39;s ndcg@10: 0.499032
+[90]    valid&#39;s ndcg@1: 0.484186    valid&#39;s ndcg@3: 0.471374    valid&#39;s ndcg@5: 0.480366    valid&#39;s ndcg@10: 0.502092
+[100]   valid&#39;s ndcg@1: 0.483943    valid&#39;s ndcg@3: 0.472068    valid&#39;s ndcg@5: 0.479767    valid&#39;s ndcg@10: 0.502892
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Test Avg. NDCG@1 for LabmbdaMART&quot;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(([</span><span class="n">all_res</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;test_ndcg&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">all_res</span><span class="p">]))</span> 
+<span class="c1"># this number might be different due to using the sklearn&#39;s NDCG calculation rather that LightGBMs</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>Test Avg. NDCG@1 for LabmbdaMART
+
+
+
+
+
+0.5564959933006134
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># {print(&quot; LambdaMART Training Plot&quot;)</span>
+<span class="c1"># ndcg_plt = pd.DataFrame(results[&quot;valid&quot;]).plot.line(figsize=(15, 8))</span>
+<span class="c1"># feat_imp_plot = lgbm.plot_importance(bts_lte,max_num_features=10,figsize=(20,10))</span>
+</code></pre></div>
+
+<blockquote>
+<p>As it can be seen LambdaMART still maintains an upper hand over a standard DNN. There have been many proposed methods leveraging more advanced methods like Attention to overcome this obstacle and recent advancements finally show competitive results.</p>
+<p>But Neural networks have other advantages and modalities that make them an attractive option when dealing with large scale or non-numerical types of data.
+And if current methods such as DASALC and attn-DIN can match LambdaMart's  performance in datasets like MSLR-WEB10K while keeping other benefits then it makes them the obvious path ahead for LTR.</p>
+</blockquote>
+<p><em>For model specific improvements and performance  please refer to 5.3</em></p>
+<h4 id="63-further-improvements-and-ideas"><li> 6.3) Further Improvements and Ideas</h4>
+<blockquote>
+<p>The paper published by Qin et al this year (2021), “Are Neural Rankers still outperformed by Gradient Boosted Decision trees” explains a novel, yet simplistic method of improving neural network performance. 
+The framework they introduce, named DASALC (Data Augmented Self-Attentive Latent Cross ranking network) which uses feature transformation techniques discussed above and Leverages multi-head self-attention (MHSA) mechanism and Latent Cross to encode ranking information, which can then enhance the network architecture. I would have liked to try to implement that as it seems to achieve comparable or better results over LightGBM LambdaMart, or retrofit my current model with the (Document Interaction Attention Network) <code>attn-DIN</code> keras module which was released while I was completing this notebook.</p>
+<p>I would have also liked to leverage additional useful feature transformation and mixing techniques outlined in the paper by  <br />
+<a href="https://research.google/pubs/pub49171/">[H Zhuang et. al.]</a></p>
+<p>And finally, LTR systems are quite have been central to search and recommendation systems for a while now, so I wanted to spend some time to asssess the performance and technical aspects of neural LTR systems deployed in low-latency production scenarios, I did reading and come across some quite interesting techniques such as Model Distillation and Model Quantization to compress and slim down models in faster operation requirements for both LambdaMART and the DNN but I could not find time to implement them in my notebook.</p>
+</blockquote>
+<h2 id="7-leveraging-aditional-features-and-thinking-about-role-of-context-in-ltr">7) Leveraging aditional features and thinking about role of context in LTR</h2>
+<h4 id="in-the-following-scenarios-well-discuss-how-you-would-use-additional-features">In the following scenarios we'll discuss how you would use additional features:</h4>
+<ol>
+<li>If you had an additional feature for each row of the dataset that was unique identifier for the user performing the query e.g. <code>user_id</code>, how could you use it to improve the performance of the model?</li>
+<li>If you had the additional features of: <code>query_text</code> or the actual textual query itself, as well as document text features like <code>title_text</code>, <code>body_text</code>, <code>anchor_text</code>, <code>url</code> for the document, how would you include them in your model (or any model) to improve its performance?</li>
+</ol>
+<h4 id="71-improving-model-with-unique-user-data"><li> 7.1) Improving model with unique user data</h4>
+<p>A way that I think this can be used is if we generate global rankings for a set of documents and then use user-specific features to then re-rank to introduce a notion of personal preference. <a href="https://arxiv.org/pdf/1804.05936.pdf">DLCM paper</a> frames a method in its introduction that is usually used where in practical settings a local model is learnt for each query-uid pair on the fly and then is used to refine the ranking results.</p>
+<p>Another method I've seen is a ranking model adaptation framework for personalized search where  global independent ranking model, which is trained offline, and a limited number of adaptation queries from individual users, which can be stored for a user, are used to scale and transform the parameters of the model to adapt to specific users.</p>
+<p>Both methods theoretically make sense but their intergration to my current model is not totally clear to me. The way I can think of using this User information/feature would be to treat it as contextual in nature where you have a bunch of information that is sparse for a query containing multiple dense document features,  and then use self-attention based document interaction network that extends any scoring function with contextual features capturing cross-document interactions. The model I have implemented in TF ranking does support the use of contextual features via the ELWC proto format and DIN training but this is just a preliminary idea which I can not completely validate.</p>
+<p>Also an interesting approach that I've come across could be one explained by the authors of the Neural GAM ranking paper, where the main premise is that the scoring function is comprised of mini univariate networks/submodel each using a single feature as input and then uses the contextual features which could be device type, location or anything else to construct a weighting vector for combining the outputs from  sub-networks. While such rankers have been noted to be weaker than 'black-box' networks due to their limited approach to feature interaction, the resulting models are intuitive and interpretable which can be used for building transparent models or as a preliminary step to gain insights about data sets.</p>
+<p>figure from the paper showing an illustration I think can be relevant</p>
+<p><img alt="gam.png" src="assets/gam.png" /></p>
+<hr />
+<h4 id="72-using-additional-textual-features"><li> 7.2) Using Additional textual features</h4>
+<blockquote>
+<p>TFRanking and by extension the model and input format that I have defined in this notebook is seamlessly capable of leveraging sparse feature values such as query level features and document texts by first encoding them using embeddings which can be directly defined as feature columns in TF ranking. This allows the model such as the one defined above to ingest contextual and document sparse text and turn it into dense features before feeding into the network. Textual data is prevalent in several settings for ranking, and plays a significant role in relevance judgment by a user. It is one of the compelling reasons I chose to use neural based LTR model over boosted tree LambdaMART as neural networks can leverage aspects like word embeddings and employ advancements such as the attention mechanism and transformers.</p>
+</blockquote>
+<p>Additionally, TF ranking has also released the <code>TFR-BERT</code> extension which allows training of Learning-to-Ranking (LTR) models through fine-tuning the BERT representation of query-document pairs. In this extension any ranking models with a variety of pointwise, pairwise and listwise losses can be fine-tuned by encoding the query and document textual features through BERT [https://arxiv.org/pdf/2004.08476.pdf]</p>
+<h2 id="notebook-link">Notebook Link</h2>
+<p>If you wish to run some of the cells or look at outputs,</p>
+<p>A live version is also available in google colab <a href="https://colab.research.google.com/drive/1brgoyU-zKkRUK0BY27EbTV1MNEDHgU6i?usp=sharing"><img alt="Open in Collab" src="https://colab.research.google.com/assets/colab-badge.svg" /></a></p>
+<h1 id="references">References</h1>
+<p>There were many performance,debugging and other related references but I mainly only listed the sources that helped me theoretically understand and frame my work for Learning to Rank.</p>
+<ol>
+<li>TF-Ranking: Scalable TensorFlow Library for Learning-to-Rank [https://arxiv.org/pdf/1812.00073.pdf]</li>
+<li>Microsoft Learning to Rank Datasets [https://www.microsoft.com/en-us/research/project/mslr/]</li>
+<li>A Short Introduction to Learning to Rank [http://times.cs.uiuc.edu/course/598f14/l2r.pdf]</li>
+<li>From RankNet to LambdaRank to LambdaMART: An Overview.    <br />
+[https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/MSR-TR-2010-82.pdf]</li>
+<li>Are Neural Rankers still Outperformed by Gradient Boosted Decision Trees? [https://research.google/pubs/pub50030/]</li>
+<li>Interpretable Learning-to-Rank with Generalized Additive
+Models [https://arxiv.org/pdf/2005.02553.pdf]</li>
+<li>Permutation Equivariant Document Interaction Network
+for Neural Learning-to-Rank [https://research.google/pubs/pub49364/]</li>
+<li>Matching Cross Network for Learning to Rank in
+Personal Search [https://research.google/pubs/pub48899/]</li>
+<li>Listwise Learning to Rank by Exploring Unique Ratings [https://arxiv.org/pdf/2001.01828v3.pdf]</li>
+<li>Improving Cloud Storage Search with User Activity [https://research.google/pubs/pub50003/]</li>
+<li>Learning Groupwise Multivariate Scoring Functions Using Deep
+Neural Networks [https://arxiv.org/pdf/1811.04415.pdf]</li>
+<li>The LambdaLoss Framework for Ranking Metric Optimization [https://research.google/pubs/pub47258/]</li>
+<li>Boosting Learning to Rank with User Dynamics and Continuation Methods [https://www.researchgate.net/publication/336367371_Boosting_Learning_to_Rank_with_User_Dynamics_and_Continuation_Methods]</li>
+<li>Placket-Luce Model For Learning to Rank Task [https://arxiv.org/pdf/1909.06722.pdf]</li>
+<li>Feature Transformation for Neural Ranking Models [https://research.google/pubs/pub49171/]</li>
+<li>Better performance with the tf.data API
+https://www.tensorflow.org/guide/data_performance </li>
+<li>DCN V2: Improved Deep &amp; Cross Network and Practical Lessons for Web-scale Learning to Rank Systems [https://arxiv.org/pdf/2008.13535.pdf]</li>
+<li>Personalized Re-ranking for Recommendation [https://arxiv.org/pdf/1904.06813.pdf]</li>
+<li>Learning a Deep Listwise Context Model for Ranking
+Refinement [https://arxiv.org/pdf/1804.05936.pdf]</li>
+<li>Learning-to-Rank with BERT in TF-Ranking [https://arxiv.org/pdf/2004.08476.pdf]</li>
+</ol>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
         </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+      
+        <a href="index1/" class="md-footer__link md-footer__link--next" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Welcome to MkDocs
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
     </div>
-</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
-                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
-            </div>
-            <div class="modal-body">
-              <table class="table">
-                <thead>
-                  <tr>
-                    <th style="width: 20%;">Keys</th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="help shortcut"><kbd>?</kbd></td>
-                    <td>Open this help</td>
-                  </tr>
-                  <tr>
-                    <td class="next shortcut"><kbd>n</kbd></td>
-                    <td>Next page</td>
-                  </tr>
-                  <tr>
-                    <td class="prev shortcut"><kbd>p</kbd></td>
-                    <td>Previous page</td>
-                  </tr>
-                  <tr>
-                    <td class="search shortcut"><kbd>s</kbd></td>
-                    <td>Search</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div class="modal-footer">
-            </div>
-        </div>
+  </div>
+</footer>
+      
     </div>
-</div>
-
-    </body>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": ".", "features": ["navigation.top", "tabs", "instant"], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}, "search": "assets/javascripts/workers/search.fb4a9340.min.js", "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.a1c7c35e.min.js"></script>
+      
+        <script src="javascripts/config.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js"></script>
+      
+    
+  </body>
 </html>
-
-<!--
-MkDocs version : 1.1.2
-Build Date UTC : 2021-03-14 21:52:09.108612+00:00
--->
