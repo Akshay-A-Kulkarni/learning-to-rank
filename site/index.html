@@ -9,7 +9,7 @@
       
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="assets/neural.png">
       <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-7.0.6">
     
     
@@ -388,11 +388,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-leveraging-aditional-features-and-thinking-about-role-of-context-in-ltr" class="md-nav__link">
-    7) Leveraging aditional features and thinking about role of context in LTR
+  <a href="#7-leveraging-extra-features-thinking-about-role-of-query-context-in-ltr" class="md-nav__link">
+    7) Leveraging extra features &amp; thinking about role of query context in LTR
   </a>
   
-    <nav class="md-nav" aria-label="7) Leveraging aditional features and thinking about role of context in LTR">
+    <nav class="md-nav" aria-label="7) Leveraging extra features &amp; thinking about role of query context in LTR">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -617,11 +617,11 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#7-leveraging-aditional-features-and-thinking-about-role-of-context-in-ltr" class="md-nav__link">
-    7) Leveraging aditional features and thinking about role of context in LTR
+  <a href="#7-leveraging-extra-features-thinking-about-role-of-query-context-in-ltr" class="md-nav__link">
+    7) Leveraging extra features &amp; thinking about role of query context in LTR
   </a>
   
-    <nav class="md-nav" aria-label="7) Leveraging aditional features and thinking about role of context in LTR">
+    <nav class="md-nav" aria-label="7) Leveraging extra features &amp; thinking about role of query context in LTR">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
@@ -669,187 +669,181 @@
                 
                 <h1 id="learning-to-rank">Learning To Rank</h1>
 <h2 id="exploring-ranking-models-for-the-microsoft-web-10k-dataset">Exploring Ranking Models for the Microsoft Web-10K Dataset</h2>
-<p><br>
-The following code was written in the process for a Machine Learning Engineer position I was interviewing for at the time. I received quite a good feedback given this was my first crack at working on learning to rank problems. So I decided to refine and expand it into a notebook for showcasing my experience with Classical and Neural Ranking methods and related frameworks.</p>
+<p><br></p>
+<p>I wanted to document my first crack at working on learning to rank problems. So I decided to refine my experiments and thoughts  into a notebook for showcasing my experience with Classical and Neural Ranking methods and related frameworks.</p>
 <p>This notebook will evaluate a search academic dataset built using common learn-to-rank features, build a ranking model using the dataset, and discuss how additional features could be used and how they would impact the performance of the model.</p>
-<p>Steps:</p>
-<ol>
-<li>Imports </li>
-<li>Download the dataset to the notebook</li>
-<li>Preprocess and evaluate the dataset</li>
-<li>Build <strong>ranking</strong> models</li>
-<li>Evaluate your ranking models</li>
-<li>Discuss the performance and why/when to choose a model.</li>
-<li>Discussion questions</li>
-</ol>
+<p>Steps:
+1. Imports 
+2. Download the dataset to the notebook
+3. Preprocess and evaluate the dataset
+4. Build <strong>ranking</strong> models
+5. Evaluate your ranking models
+6. Discuss the performance and why/when to choose a model.
+7. Discussion questions</p>
 <h2 id="1-imports">1) Imports</h2>
-<pre><code class="python"># Import dependencies here
-import io
-import os
-import sys
-import subprocess
-import requests
-import hashlib
-from zipfile import ZipFile
+<div class="highlight"><pre><span></span><code><span class="c1"># Import dependencies here</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">subprocess</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">zipfile</span> <span class="kn">import</span> <span class="n">ZipFile</span>
 
-import time
-import datetime
-import numpy as np
-import pandas as pd
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
 
-import lightgbm as lgbm
+<span class="kn">import</span> <span class="nn">lightgbm</span> <span class="kn">as</span> <span class="nn">lgbm</span>
 
 
-from requests.exceptions import RequestException, Timeout
-from sklearn.datasets import load_svmlight_file
-import numpy as np
-import matplotlib.pyplot as plt
+<span class="kn">from</span> <span class="nn">requests.exceptions</span> <span class="kn">import</span> <span class="n">RequestException</span><span class="p">,</span> <span class="n">Timeout</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_svmlight_file</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+</code></pre></div>
 
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># TF related deps (might require notebook runtime restart) </span>
 
-<pre><code class="python"># TF related deps (might require notebook runtime restart) 
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Installing/updating Dependancies TF &amp; TF Ranking</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">tensorflow_ranking</span> <span class="kn">as</span> <span class="nn">tfr</span>
+    <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>   
+    <span class="k">print</span><span class="p">(</span>
+        <span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Loaded TensorFlow, version:{tf.__version__}</span>
+<span class="s2">    Loaded TF Ranking, version:{tfr.__version__}</span>
+<span class="s2">          &quot;&quot;&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">tensorflow</span>
+    <span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">tensorflow_ranking</span> 
+    <span class="kn">import</span> <span class="nn">tensorflow_ranking</span> <span class="kn">as</span> <span class="nn">tfr</span>
+    <span class="kn">import</span> <span class="nn">tensorflow</span> <span class="kn">as</span> <span class="nn">tf</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Loaded TensorFlow, version:{tf.__version__}</span>
+<span class="s2">    Loaded TF Ranking, version:{tfr.__version__}</span>
+<span class="s2">          &quot;&quot;&quot;</span><span class="p">)</span>   
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
 
-print(&quot;Installing/updating Dependancies TF &amp; TF Ranking\n&quot;)
-try:
-    import tensorflow_ranking as tfr
-    import tensorflow as tf   
-    print(
-        f&quot;&quot;&quot;
-    Loaded TensorFlow, version:{tf.__version__}
-    Loaded TF Ranking, version:{tfr.__version__}
-          &quot;&quot;&quot;)
-except ImportError:
-    !pip install -q tensorflow
-    !pip install -q tensorflow_ranking 
-    import tensorflow_ranking as tfr
-    import tensorflow as tf
-    print(f&quot;&quot;&quot;
-    Loaded TensorFlow, version:{tf.__version__}
-    Loaded TF Ranking, version:{tfr.__version__}
-          &quot;&quot;&quot;)   
-except Exception as e:
-    print(e)
+<span class="kn">from</span> <span class="nn">tensorflow_serving.apis</span> <span class="kn">import</span> <span class="n">input_pb2</span>
 
-from tensorflow_serving.apis import input_pb2
-
-# This is needed for tensorboard compatibility.
-!pip uninstall -q -y grpcio
-!pip install -q grpcio==1.32.0
-
-</code></pre>
+<span class="c1"># This is needed for tensorboard compatibility.</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">uninstall</span> <span class="o">-</span><span class="n">q</span> <span class="o">-</span><span class="n">y</span> <span class="n">grpcio</span>
+<span class="err">!</span><span class="n">pip</span> <span class="n">install</span> <span class="o">-</span><span class="n">q</span> <span class="n">grpcio</span><span class="o">==</span><span class="mf">1.32</span><span class="o">.</span><span class="mi">0</span>
+</code></pre></div>
 
 <h2 id="2-downloading-dataset">2) Downloading Dataset</h2>
 <h4 id="21-downloading-unzipping"><li>  2.1) Downloading &amp; Unzipping</h4>
 <p><em>if running in colab, run once per session. (re-running will avoid re-download, unless specified)</em></p>
-<pre><code class="python"># The dataset is located at 
-#       https://storage.googleapis.com/personalization-takehome/MSLR-WEB10K.zip
+<div class="highlight"><pre><span></span><code><span class="c1"># The dataset is located at </span>
+<span class="c1">#       https://storage.googleapis.com/personalization-takehome/MSLR-WEB10K.zip</span>
 
-# You can read about the features included in the dataset here: 
-#       https://www.microsoft.com/en-us/research/project/mslr/
+<span class="c1"># You can read about the features included in the dataset here: </span>
+<span class="c1">#       https://www.microsoft.com/en-us/research/project/mslr/</span>
 
-def fetch_mslr_dataset(url, save_path, extract=False, redownload=False):
-    '''
-    Function to download dataset.
-    Reduces time/processing by verifying if the file in url is available in the 
-    current runtime (colab/local) and if not, downloads file to disk
+<span class="k">def</span> <span class="nf">fetch_mslr_dataset</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">save_path</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">redownload</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Function to download dataset.</span>
+<span class="sd">    Reduces time/processing by verifying if the file in url is available in the </span>
+<span class="sd">    current runtime (colab/local) and if not, downloads file to disk</span>
 
-    @args:
-        url: str
-        save_path: str
-        extract: bool
-        redownload: bool
+<span class="sd">    @args:</span>
+<span class="sd">        url: str</span>
+<span class="sd">        save_path: str</span>
+<span class="sd">        extract: bool</span>
+<span class="sd">        redownload: bool</span>
 
-    @returns:
-        path: str
-        ( path to the location of downloaded file )
-    '''
+<span class="sd">    @returns:</span>
+<span class="sd">        path: str</span>
+<span class="sd">        ( path to the location of downloaded file )</span>
+<span class="sd">    &#39;&#39;&#39;</span>
 
-    save_path = os.path.abspath(save_path) # full path
+    <span class="n">save_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span> <span class="c1"># full path</span>
 
-    file_name = os.path.basename(url) # i.e. MSLR-WEB10K.zip
-
-
-    # checking if folder is valid
-    assert os.path.isdir(save_path) == True, '''Given path does not exist. 
-    Make sure path is correct (abs path will be used)'''
-
-    ret_path = f&quot;{save_path}/{file_name}&quot; # setting destination
-
-    # Caching / Reducing redundant downloads
-    # checking if file has been already downloaded in the given folder before.
-    if file_name in os.listdir(save_path) and redownload is not True:
-
-        # Extracting MD5 checksum of the existing file
-        with open(f&quot;{save_path}/{file_name}&quot;,'rb') as f:
-            f_md5 = hashlib.md5(f.read())
-
-        # Fetching only the checksum of the remote file on the url 
-        remote_file_md5 = requests.head(dataset_url).headers['Etag'][1:-1]
-
-        # Making sure the MD5 checksum matches the one given in url.
-        if f_md5.hexdigest() == remote_file_md5:
-            print(
-                f&quot;{save_path}' already contains the correct download file &quot;,
-                f&quot;- ({file_name}). [Verified]&quot;)
-        else:
-            print(
-                &quot;&quot;&quot;
-                The zip file already exists at the location but could not be 
-                verified as the correct file via MD5 check. 
-                Please check if you have the correct file
-                or pass `redownload=True` to the function
-                &quot;&quot;&quot;)
-
-    else:
-        subprocess.run(['rm','-rf', f'{ret_path}'], check=True)
-        # Try fetching file from url
-        try:
-            req = requests.get(url, stream=True)
-        except TimeoutError:
-            print(&quot;Something went wrong and the Connection has timed out. Please retry&quot;)
-        except RequestException:
-            SystemExit(e)
-
-        # save to specified location.
-        with open(f&quot;{ret_path}&quot;, mode='wb') as z:
-            z.write(req.content)
-
-        print(f&quot;Zip Download complete! - the file is stored at {ret_path}&quot;)
-
-    if extract:
-        print(&quot;Extracting . . .&quot;)
-        try:
-            # Using Unzip from the cmd-line
-            proc = subprocess.run(
-                [&quot;unzip&quot;, f&quot;{ret_path}&quot;, &quot;-d&quot;, f&quot;{ret_path[:-4]}&quot;], check=True)
-
-            # Python based decompression
-            # slower compared to using the linux unzip 
-
-            # with ZipFile(f&quot;{ret_path}&quot;,'r') as zfile:
-            #     zfile.extractall(path=f&quot;{ret_path[:-4]}&quot;)
-
-        except Exception as e:
-            print(e)
-        print(f&quot;&quot;&quot;Finished !
-
-        Extracted contents are in {ret_path[:-4]}
-        &quot;&quot;&quot;)
-        return ret_path[:-4]
-    else:
-        return ret_path
+    <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">url</span><span class="p">)</span> <span class="c1"># i.e. MSLR-WEB10K.zip</span>
 
 
-</code></pre>
+    <span class="c1"># checking if folder is valid</span>
+    <span class="k">assert</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span> <span class="o">==</span> <span class="bp">True</span><span class="p">,</span> <span class="s1">&#39;&#39;&#39;Given path does not exist. </span>
+<span class="s1">    Make sure path is correct (abs path will be used)&#39;&#39;&#39;</span>
 
-<pre><code class="python"># Downloading / verifying dataset using the function above
+    <span class="n">ret_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{save_path}/{file_name}&quot;</span> <span class="c1"># setting destination</span>
 
-dataset_url = &quot;https://storage.googleapis.com/personalization-takehome/MSLR-WEB10K.zip&quot;
+    <span class="c1"># Caching / Reducing redundant downloads</span>
+    <span class="c1"># checking if file has been already downloaded in the given folder before.</span>
+    <span class="k">if</span> <span class="n">file_name</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span> <span class="ow">and</span> <span class="n">redownload</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">True</span><span class="p">:</span>
 
-# downloading and extracting to this colab notebook's base dir
-dataset_folder_path = fetch_mslr_dataset(dataset_url, '.', extract=True)
-# dataset_folder_path=&quot;/content/drive/MyDrive/MSLR-WEB10K&quot;
-</code></pre>
+        <span class="c1"># Extracting MD5 checksum of the existing file</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{save_path}/{file_name}&quot;</span><span class="p">,</span><span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f_md5</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">(</span><span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">())</span>
+
+        <span class="c1"># Fetching only the checksum of the remote file on the url </span>
+        <span class="n">remote_file_md5</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="n">dataset_url</span><span class="p">)</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Etag&#39;</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="c1"># Making sure the MD5 checksum matches the one given in url.</span>
+        <span class="k">if</span> <span class="n">f_md5</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span> <span class="o">==</span> <span class="n">remote_file_md5</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span>
+                <span class="n">f</span><span class="s2">&quot;{save_path}&#39; already contains the correct download file &quot;</span><span class="p">,</span>
+                <span class="n">f</span><span class="s2">&quot;- ({file_name}). [Verified]&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span>
+                <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                The zip file already exists at the location but could not be </span>
+<span class="sd">                verified as the correct file via MD5 check. </span>
+<span class="sd">                Please check if you have the correct file</span>
+<span class="sd">                or pass `redownload=True` to the function</span>
+<span class="sd">                &quot;&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">([</span><span class="s1">&#39;rm&#39;</span><span class="p">,</span><span class="s1">&#39;-rf&#39;</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;{ret_path}&#39;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="c1"># Try fetching file from url</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">req</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">TimeoutError</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Something went wrong and the Connection has timed out. Please retry&quot;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">RequestException</span><span class="p">:</span>
+            <span class="ne">SystemExit</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+
+        <span class="c1"># save to specified location.</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{ret_path}&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">z</span><span class="p">:</span>
+            <span class="n">z</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">content</span><span class="p">)</span>
+
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Zip Download complete! - the file is stored at {ret_path}&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">extract</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s2">&quot;Extracting . . .&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Using Unzip from the cmd-line</span>
+            <span class="n">proc</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+                <span class="p">[</span><span class="s2">&quot;unzip&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;{ret_path}&quot;</span><span class="p">,</span> <span class="s2">&quot;-d&quot;</span><span class="p">,</span> <span class="n">f</span><span class="s2">&quot;{ret_path[:-4]}&quot;</span><span class="p">],</span> <span class="n">check</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+            <span class="c1"># Python based decompression</span>
+            <span class="c1"># slower compared to using the linux unzip </span>
+
+            <span class="c1"># with ZipFile(f&quot;{ret_path}&quot;,&#39;r&#39;) as zfile:</span>
+            <span class="c1">#     zfile.extractall(path=f&quot;{ret_path[:-4]}&quot;)</span>
+
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;Finished !</span>
+
+<span class="s2">        Extracted contents are in {ret_path[:-4]}</span>
+<span class="s2">        &quot;&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret_path</span><span class="p">[:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">ret_path</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="c1"># Downloading / verifying dataset using the function above</span>
+
+<span class="n">dataset_url</span> <span class="o">=</span> <span class="s2">&quot;https://storage.googleapis.com/personalization-takehome/MSLR-WEB10K.zip&quot;</span>
+
+<span class="c1"># downloading and extracting to this colab notebook&#39;s base dir</span>
+<span class="n">dataset_folder_path</span> <span class="o">=</span> <span class="n">fetch_mslr_dataset</span><span class="p">(</span><span class="n">dataset_url</span><span class="p">,</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">extract</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="c1"># dataset_folder_path=&quot;/content/drive/MyDrive/MSLR-WEB10K&quot;</span>
+</code></pre></div>
 
 <div class="highlight"><pre><span></span><code>        Extracting . . .
 
@@ -862,87 +856,87 @@ dataset_folder_path = fetch_mslr_dataset(dataset_url, '.', extract=True)
 <p><em>then replace <code>dataset_folder_path</code> var with the str path to the uncompressed MSLR folder</em></p>
 <h2 id="3-preprocess-evaluate-the-dataset">3) Preprocess &amp; evaluate the dataset</h2>
 <h4 id="31-parsing-from-raw-files"><li>  3.1)  Parsing from raw files</h4>
-<pre><code class="python"># Preprocess and evaluate the dataset
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># Preprocess and evaluate the dataset</span>
+</code></pre></div>
 
-<pre><code class="python">def parse_mslr_dataset_line(line, map_fn_over_feature=None):
-    &quot;&quot;&quot; 
-    Compact Function to parse a single line from MSLR dataset txt file. 
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">parse_mslr_dataset_line</span><span class="p">(</span><span class="n">line</span><span class="p">,</span> <span class="n">map_fn_over_feature</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    Compact Function to parse a single line from MSLR dataset txt file. </span>
 
-    @args:
-        line: str
-        map_fn_over_features: fucntion to map over the extracted features
+<span class="sd">    @args:</span>
+<span class="sd">        line: str</span>
+<span class="sd">        map_fn_over_features: fucntion to map over the extracted features</span>
 
-    @returns:
-        Tuple[rel, qid, List[features]]
-    &quot;&quot;&quot;
-    # Clean and split into array
-    tokens = line.strip(&quot;\n&quot;).strip(&quot; &quot;).split(&quot; &quot;)
+<span class="sd">    @returns:</span>
+<span class="sd">        Tuple[rel, qid, List[features]]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Clean and split into array</span>
+    <span class="n">tokens</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
 
-    # Lambda to parse out the val for qid
-    extr_fn = lambda x: x.split(&quot;:&quot;)[-1]
+    <span class="c1"># Lambda to parse out the val for qid</span>
+    <span class="n">extr_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
-    if map_fn_over_features is None:
-        feat_fn = lambda x: str(x)
-    else:
-        feat_fn = map_fn_over_features
-    # one-liner to extract and assign relevance, qid and features
-    rel, qid, *features = \
-    [int(extr_fn(c)) if idx &lt; 2 else feat_fn(c) for idx, c in enumerate(tokens)]
+    <span class="k">if</span> <span class="n">map_fn_over_features</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">feat_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">feat_fn</span> <span class="o">=</span> <span class="n">map_fn_over_features</span>
+    <span class="c1"># one-liner to extract and assign relevance, qid and features</span>
+    <span class="n">rel</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="o">*</span><span class="n">features</span> <span class="o">=</span> \
+    <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">extr_fn</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="k">else</span> <span class="n">feat_fn</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">tokens</span><span class="p">)]</span>
 
-    return rel, qid, features
+    <span class="k">return</span> <span class="n">rel</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span>
 
-import numpy as np
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
 
 
 
-def convert2libsvm(input_file, output_path, map_fn=None):
-    &quot;&quot;&quot;
-    Function to convert MSLR txt files in to LibSVM format for LightGBM
+<span class="k">def</span> <span class="nf">convert2libsvm</span><span class="p">(</span><span class="n">input_file</span><span class="p">,</span> <span class="n">output_path</span><span class="p">,</span> <span class="n">map_fn</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Function to convert MSLR txt files in to LibSVM format for LightGBM</span>
 
-    @args:
-        input_file: str
-        save_path: str
+<span class="sd">    @args:</span>
+<span class="sd">        input_file: str</span>
+<span class="sd">        save_path: str</span>
 
-    @returns:
-        path: str
-        ( path to the location of downloaded file )
-    &quot;&quot;&quot;
-    if not os.path.isdir(output_path):
-        os.mkdir(output_path)
+<span class="sd">    @returns:</span>
+<span class="sd">        path: str</span>
+<span class="sd">        ( path to the location of downloaded file )</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">output_path</span><span class="p">):</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">output_path</span><span class="p">)</span>
 
-    #opening file readers
-    filename = os.path.basename(input_file)
-    out_features = open(f&quot;{output_path}/{filename[:-4]}.libsvm&quot;,&quot;w&quot;)
-    out_query = open(f&quot;{output_path}/{filename[:-4]}.query&quot;,&quot;w&quot;)
+    <span class="c1">#opening file readers</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_file</span><span class="p">)</span>
+    <span class="n">out_features</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{output_path}/{filename[:-4]}.libsvm&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+    <span class="n">out_query</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{output_path}/{filename[:-4]}.query&quot;</span><span class="p">,</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
 
-    curr_qid = -1
-    doc_cnt = 0
+    <span class="n">curr_qid</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">doc_cnt</span> <span class="o">=</span> <span class="mi">0</span>
 
-    # Defining fns to transform parsed lines
-    split_fn = lambda x: x.split(':')
-    if map_fn:
-      func = lambda x: np.log1p(np.abs(float(x))*np.sign(float(x)))
-    else:
-      func = lambda x: float(x)
+    <span class="c1"># Defining fns to transform parsed lines</span>
+    <span class="n">split_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">map_fn</span><span class="p">:</span>
+      <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)))</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">func</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-    # iterating line-by-line 
-    for line in open(f&quot;{input_file}&quot; ,&quot;r&quot;):
-        r, qid, features = parse_mslr_dataset_line(line=line, 
-                                                   map_fn_over_features=split_fn)
-        features = [f&quot;{id}:{func(float(val))}&quot; for id,val in features]
-        if curr_qid != qid:
-            if doc_cnt &gt; 0:
-                out_query.write(''.join([str(doc_cnt),&quot;\n&quot;]))
-            curr_qid, doc_cnt = qid, 0
-        doc_cnt += 1
-        f = [str(r)] + features + [&quot;\n&quot;]
-        out_features.write(' '.join(f))
+    <span class="c1"># iterating line-by-line </span>
+    <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{input_file}&quot;</span> <span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">):</span>
+        <span class="n">r</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">parse_mslr_dataset_line</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> 
+                                                   <span class="n">map_fn_over_features</span><span class="o">=</span><span class="n">split_fn</span><span class="p">)</span>
+        <span class="n">features</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s2">&quot;{id}:{func(float(val))}&quot;</span> <span class="k">for</span> <span class="nb">id</span><span class="p">,</span><span class="n">val</span> <span class="ow">in</span> <span class="n">features</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">curr_qid</span> <span class="o">!=</span> <span class="n">qid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">doc_cnt</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">out_query</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">doc_cnt</span><span class="p">),</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]))</span>
+            <span class="n">curr_qid</span><span class="p">,</span> <span class="n">doc_cnt</span> <span class="o">=</span> <span class="n">qid</span><span class="p">,</span> <span class="mi">0</span>
+        <span class="n">doc_cnt</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">r</span><span class="p">)]</span> <span class="o">+</span> <span class="n">features</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]</span>
+        <span class="n">out_features</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">f</span><span class="p">))</span>
 
-    out_query.write(' '.join([str(doc_cnt),&quot;\n&quot;]))
-    out_features.close()
-    out_query.close()
-</code></pre>
+    <span class="n">out_query</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="nb">str</span><span class="p">(</span><span class="n">doc_cnt</span><span class="p">),</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">]))</span>
+    <span class="n">out_features</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="n">out_query</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+</code></pre></div>
 
 <blockquote>
 <p>I wrote above functions while I was exploring the original dataset and wanted to ensure that I had complete control and transparency over how each row would be parsed and manipulated. For trial this made more sense than using factory/pre-built functions that would have abstraced away the processing and possibly slowed down my thinking/analysis.</p>
@@ -951,47 +945,46 @@ def convert2libsvm(input_file, output_path, map_fn=None):
 understanding the underlying structure of the dataset or tracking the data-flow &amp; were especially helpful for me when I had to tackle issues downstream like translating &amp; saving them into other forms compatible with other libs such as Protobufs for with TFrecords to use with TF-Ranking. </p>
 </blockquote>
 <h4 id="32-dataset-statistics-properties"><li>  3.2) Dataset Statistics &amp; Properties</h4>
-<pre><code class="python"># loading MSLR fold txt files
-train = load_svmlight_file(f&quot;{dataset_folder_path}/Fold1/train.txt&quot;, query_id=True)
-valid = load_svmlight_file(f&quot;{dataset_folder_path}/Fold1/vali.txt&quot;, query_id=True)
-test = load_svmlight_file(f&quot;{dataset_folder_path}/Fold1/test.txt&quot;, query_id=True)
-
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># loading MSLR fold txt files</span>
+<span class="n">train</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/Fold1/train.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">valid</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/Fold1/vali.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">test</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/Fold1/test.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div>
 
 <blockquote>
 <p>Combining Query and Labels across all 3 partitions and Exploring Query &amp; Label related statistics for the whole dataset </p>
 </blockquote>
 <p>(10K queries &amp; 1.2 Mil Docs)</p>
-<pre><code class="python">all_labels = np.concatenate(
-    (train[1],valid[1],test[1]),axis=0)
-all_qids = np.concatenate(
-    (train[2],valid[2],test[2]),axis=0)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">all_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">all_qids</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span>
+    <span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">valid</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">]),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
 
 <p>Many LTR research papers cite that most relevance labelings in ranking datasets are typically skewed/long-tailed; this also seems to be reflected in the barplot below as well as the metrics calculated afterwards.</p>
-<pre><code class="python"># plotting the count of lables as a barplot 
-labels_ids, l_counts = np.unique(all_labels, return_counts=True)
-import plotly.graph_objects as go
+<div class="highlight"><pre><span></span><code><span class="c1"># plotting the count of lables as a barplot </span>
+<span class="n">labels_ids</span><span class="p">,</span> <span class="n">l_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">plotly.graph_objects</span> <span class="kn">as</span> <span class="nn">go</span>
 
-fig = go.Figure([go.Bar(x=[f&quot;Relevance Label {int(i)}&quot; for i in labels_ids],
-                        y=l_counts,
-                        width=[0.95 for i in range(5)])],
-                )
+<span class="n">fig</span> <span class="o">=</span> <span class="n">go</span><span class="o">.</span><span class="n">Figure</span><span class="p">([</span><span class="n">go</span><span class="o">.</span><span class="n">Bar</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="p">[</span><span class="n">f</span><span class="s2">&quot;Relevance Label {int(i)}&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">labels_ids</span><span class="p">],</span>
+                        <span class="n">y</span><span class="o">=</span><span class="n">l_counts</span><span class="p">,</span>
+                        <span class="n">width</span><span class="o">=</span><span class="p">[</span><span class="mf">0.95</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)])],</span>
+                <span class="p">)</span>
 
-fig.update_traces(marker_color='rgb(158,202,225)', marker_line_color='rgb(8,48,107)',
-                  marker_line_width=1.25, opacity=0.6)
-fig.update_layout(title_text='Barplot of Relevance Counts showing the long tail',
-                  width=1000,
-    height=800,)
-fig.show()
-</code></pre>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_traces</span><span class="p">(</span><span class="n">marker_color</span><span class="o">=</span><span class="s1">&#39;rgb(158,202,225)&#39;</span><span class="p">,</span> <span class="n">marker_line_color</span><span class="o">=</span><span class="s1">&#39;rgb(8,48,107)&#39;</span><span class="p">,</span>
+                  <span class="n">marker_line_width</span><span class="o">=</span><span class="mf">1.25</span><span class="p">,</span> <span class="n">opacity</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">update_layout</span><span class="p">(</span><span class="n">title_text</span><span class="o">=</span><span class="s1">&#39;Barplot of Relevance Counts showing the long tail&#39;</span><span class="p">,</span>
+                  <span class="n">width</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+    <span class="n">height</span><span class="o">=</span><span class="mi">800</span><span class="p">,)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
 
 <p><img alt="histplot.png" src="assets/histplot.png" /></p>
 <p>The above barplot confirms that most query-document pairs have the lowest relevance rating of 0 and the no. of docs taper off as relevance increases.</p>
 <p>We can also compute the number of queries with no relevant docs i.e. on 0 labeled docs</p>
-<pre><code class="python">qids_with_only_zero_relevance = [q for q in np.unique(all_qids) if np.sum(all_labels[all_qids == q]) == 0]
-print(f&quot;No of Queries with only 0 relevant docs = {len(qids_with_only_zero_relevance)}&quot;)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">qids_with_only_zero_relevance</span> <span class="o">=</span> <span class="p">[</span><span class="n">q</span> <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">all_qids</span><span class="p">)</span> <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">all_labels</span><span class="p">[</span><span class="n">all_qids</span> <span class="o">==</span> <span class="n">q</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
+<span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;No of Queries with only 0 relevant docs = {len(qids_with_only_zero_relevance)}&quot;</span><span class="p">)</span>
+</code></pre></div>
 
 <div class="highlight"><pre><span></span><code>No of Queries with only 0 relevant docs = 315
 </code></pre></div>
@@ -1002,26 +995,26 @@ print(f&quot;No of Queries with only 0 relevant docs = {len(qids_with_only_zero_
 <p>LR % - Ratio of documents with 0-relevancy to total number of documents in the dataset</p>
 </blockquote>
 <div class="arithmatex">\[ LR = \frac{N^{0}_{docs}}{N^{(0-4)}_{docs}} \]</div>
-<pre><code class="python">LR = np.sum(all_labels == 0) / all_labels.shape[0]
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">LR</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">all_labels</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">/</span> <span class="n">all_labels</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
 
 <hr />
 <blockquote>
 <p>Max documents per Query - MDQ</p>
 </blockquote>
 <p><em>( may be useful for setting list_size for Listwise LTR methods where examples are truncated or padded according to the given value)</em></p>
-<pre><code class="python">np.max(np.bincount(all_qids))
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">all_qids</span><span class="p">))</span>
+</code></pre></div>
 
 <hr />
 <blockquote>
 <p>ALRPQ (%) - average ratio of the number of documents having the lowest rating per query over the no. of documents per query</p>
 </blockquote>
-<pre><code class="python">query_ids, q_counts = np.unique(all_qids, return_counts=True)
-LRPQ = [np.sum(all_labels[all_qids==i]==0)/j for i,j in zip(query_ids,q_counts)]
-ALRPQ = np.average(LRPQ)
-ALRPQ
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">query_ids</span><span class="p">,</span> <span class="n">q_counts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">all_qids</span><span class="p">,</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">LRPQ</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">all_labels</span><span class="p">[</span><span class="n">all_qids</span><span class="o">==</span><span class="n">i</span><span class="p">]</span><span class="o">==</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="n">j</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">query_ids</span><span class="p">,</span><span class="n">q_counts</span><span class="p">)]</span>
+<span class="n">ALRPQ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">LRPQ</span><span class="p">)</span>
+<span class="n">ALRPQ</span>
+</code></pre></div>
 
 <blockquote>
 <p>0.5599329113587544</p>
@@ -1080,18 +1073,18 @@ a search engine result page differs depending on the query type as well as the n
 <p>The paper classifies queries as navigational or informational based on the following criterion:</p>
 </blockquote>
 <p><code>a query is considered as navigational if it contains only one result with relevance label ≥ 3.</code></p>
-<pre><code class="python"># computing navigations queries 
-def get_nav_and_inf_stats(labels, queries):
-  unique_q = np.unique(queries)
-  navigational = sum([ 1 if sum(labels[queries == q] &gt; 2) == 1 else 0 
-                    for q in unique_q])
+<div class="highlight"><pre><span></span><code><span class="c1"># computing navigations queries </span>
+<span class="k">def</span> <span class="nf">get_nav_and_inf_stats</span><span class="p">(</span><span class="n">labels</span><span class="p">,</span> <span class="n">queries</span><span class="p">):</span>
+  <span class="n">unique_q</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">queries</span><span class="p">)</span>
+  <span class="n">navigational</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">([</span> <span class="mi">1</span> <span class="k">if</span> <span class="nb">sum</span><span class="p">(</span><span class="n">labels</span><span class="p">[</span><span class="n">queries</span> <span class="o">==</span> <span class="n">q</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="mi">0</span> 
+                    <span class="k">for</span> <span class="n">q</span> <span class="ow">in</span> <span class="n">unique_q</span><span class="p">])</span>
 
-  informational =  unique_q.shape[0] - navigational
+  <span class="n">informational</span> <span class="o">=</span>  <span class="n">unique_q</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">navigational</span>
 
-  return navigational, informational
+  <span class="k">return</span> <span class="n">navigational</span><span class="p">,</span> <span class="n">informational</span>
 
-get_nav_and_inf_stats(all_labels,all_qids)
-</code></pre>
+<span class="n">get_nav_and_inf_stats</span><span class="p">(</span><span class="n">all_labels</span><span class="p">,</span><span class="n">all_qids</span><span class="p">)</span>
+</code></pre></div>
 
 <p>(1456, 8544)</p>
 <table>
@@ -1123,8 +1116,8 @@ Most of them focus on controlling queries or the amount of documents per query o
 <p>Therefore although I chose not to apply any preprocessing/feature engineering techinques on the dataset in a generatlistic way, in the following section I explore and employ pre-processing, storage and recently discovered feature transformation techniques specific to the tools and family of Neural Ranking models in order to acquire significant performance uplifts compared to original baselines.</p>
 </blockquote>
 <h2 id="4-building-ranking-model">4) Building ranking model</h2>
-<pre><code class="python"># Build ranking model
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build ranking model</span>
+</code></pre></div>
 
 <p><strong><code>Due to Computational &amp; Storage Limitations, all the Neural Ranking work in this and following section was done using only the Fold-1 of the Dataset</code></strong></p>
 <blockquote>
@@ -1135,166 +1128,166 @@ Most of them focus on controlling queries or the amount of documents per query o
 </blockquote>
 <p><code>Note: Among other advantages an additional one  has been the ability to use compression on TFrecords and then directly use the compressed datasets in the models with minimal performance overhead.   
 ( Uncompressed Fold1 = ~1.2 GB) vs ( Fold1 Compressed ELWC proto TFrecord = ~ 500MB)</code> (https://www.tensorflow.org/guide/data_performance)</p>
-<pre><code class="python"># Class I wrote to organize code resposible for parsing MSLR data and 
-# creating compressed TF-Records in ELWC protobuf format so that they used by 
-# most rankers in TF-Ranking and be compatible with future rankers or new methods
+<div class="highlight"><pre><span></span><code><span class="c1"># Class I wrote to organize code resposible for parsing MSLR data and </span>
+<span class="c1"># creating compressed TF-Records in ELWC protobuf format so that they used by </span>
+<span class="c1"># most rankers in TF-Ranking and be compatible with future rankers or new methods</span>
 
-class LibsvmToELWCProto():
-    &quot;&quot;&quot; Class to parse LibSVM ranking datasets in ELWC proto TFRecords&quot;&quot;&quot;
+<span class="k">class</span> <span class="nc">LibsvmToELWCProto</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Class to parse LibSVM ranking datasets in ELWC proto TFRecords&quot;&quot;&quot;</span>
 
-    def __init__(self, dir:str=&quot;.&quot;, use_compression:bool=False):
-        assert isinstance(dir,str)
-        if not os.path.isdir(dir):
-            os.mkdir(dir)
-        self.input_path = dir
-        assert isinstance(use_compression,bool)
-        self.compress = use_compression
-        if self.compress:
-            self.compress_type = 'GZIP'
-        else:
-            self.compress_type = None
-
-
-    # Helper functions (see also https://www.tensorflow.org/tutorials/load_data/tf_records)
-    def _bytes_feature(self,value_list):
-        &quot;&quot;&quot;Returns a bytes_list from a string / byte.&quot;&quot;&quot;
-        if isinstance(value_list, type(tf.constant(0))):
-            value_list = value_list.numpy()
-        return tf.train.Feature(bytes_list=tf.train.BytesList(value=[value_list]))
-
-    def _float_feature(self,value_list):
-        &quot;&quot;&quot;Returns a float_list from a float / double.&quot;&quot;&quot;
-        return tf.train.Feature(float_list=tf.train.FloatList(value=[value_list]))
-
-    def _int64_feature(self,value_list):
-        &quot;&quot;&quot;Returns an int64_list from a bool / enum / int / uint.&quot;&quot;&quot;
-        return tf.train.Feature(int64_list=tf.train.Int64List(value=[value_list]))
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">dir</span><span class="p">:</span><span class="nb">str</span><span class="o">=</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="n">use_compression</span><span class="p">:</span><span class="nb">bool</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="nb">dir</span><span class="p">,</span><span class="nb">str</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">):</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="nb">dir</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_path</span> <span class="o">=</span> <span class="nb">dir</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">use_compression</span><span class="p">,</span><span class="nb">bool</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compress</span> <span class="o">=</span> <span class="n">use_compression</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span> <span class="o">=</span> <span class="s1">&#39;GZIP&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span> <span class="o">=</span> <span class="bp">None</span>
 
 
-    def read_and_print_topn_tfrecord(self, target_filename, num_of_examples_to_read):
-        filenames = [target_filename]
-        tf_record_dataset = tf.data.TFRecordDataset(filenames,
-                                                    compression_type=self.compress_type)
+    <span class="c1"># Helper functions (see also https://www.tensorflow.org/tutorials/load_data/tf_records)</span>
+    <span class="k">def</span> <span class="nf">_bytes_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a bytes_list from a string / byte.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value_list</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">constant</span><span class="p">(</span><span class="mi">0</span><span class="p">))):</span>
+            <span class="n">value_list</span> <span class="o">=</span> <span class="n">value_list</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">bytes_list</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">BytesList</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">value_list</span><span class="p">]))</span>
 
-        for raw_record in tf_record_dataset.take(num_of_examples_to_read):
-            example_list_with_context = input_pb2.ExampleListWithContext()
-            example_list_with_context.ParseFromString(raw_record.numpy())
-            print(example_list_with_context)
+    <span class="k">def</span> <span class="nf">_float_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns a float_list from a float / double.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">float_list</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">FloatList</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">value_list</span><span class="p">]))</span>
 
-    def libsvmfile_to_TFrecord(self, input_libsvm, file_name=None):
+    <span class="k">def</span> <span class="nf">_int64_feature</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">value_list</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Returns an int64_list from a bool / enum / int / uint.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Feature</span><span class="p">(</span><span class="n">int64_list</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Int64List</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="p">[</span><span class="n">value_list</span><span class="p">]))</span>
 
-        &quot;&quot;&quot; 
-        for reading and converting directly from files too large to hold 
-        in memory
-        IMPORTANT
-        Assumes that rows in dataset are sorted/grouped by qid
 
-        Parses each row line by line to construct and tf.train.Example
-        with ELWC proto format. 
+    <span class="k">def</span> <span class="nf">read_and_print_topn_tfrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">target_filename</span><span class="p">,</span> <span class="n">num_of_examples_to_read</span><span class="p">):</span>
+        <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">target_filename</span><span class="p">]</span>
+        <span class="n">tf_record_dataset</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">TFRecordDataset</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span>
+                                                    <span class="n">compression_type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span><span class="p">)</span>
 
-        I have a general purpose tfRecord parser for any LibSVM as well
-        but it is slower and can consume more memrory.
-        &quot;&quot;&quot;
-        if file_name is None:
-            file_name = os.path.basename(input_libsvm).split(&quot;.&quot;)[0]
+        <span class="k">for</span> <span class="n">raw_record</span> <span class="ow">in</span> <span class="n">tf_record_dataset</span><span class="o">.</span><span class="n">take</span><span class="p">(</span><span class="n">num_of_examples_to_read</span><span class="p">):</span>
+            <span class="n">example_list_with_context</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+            <span class="n">example_list_with_context</span><span class="o">.</span><span class="n">ParseFromString</span><span class="p">(</span><span class="n">raw_record</span><span class="o">.</span><span class="n">numpy</span><span class="p">())</span>
+            <span class="k">print</span><span class="p">(</span><span class="n">example_list_with_context</span><span class="p">)</span>
 
-        if self.compress:
-            print('Using GZIP compression for writing ELWC TFRecord Dataset')
-            opts = tf.io.TFRecordOptions(compression_type = self.compress_type)
-            file_name = f&quot;{file_name}_gzip_compressed&quot;
+    <span class="k">def</span> <span class="nf">libsvmfile_to_TFrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_libsvm</span><span class="p">,</span> <span class="n">file_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
 
-        save_path = f&quot;{self.input_path}/{file_name}&quot;
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        for reading and converting directly from files too large to hold </span>
+<span class="sd">        in memory</span>
+<span class="sd">        IMPORTANT</span>
+<span class="sd">        Assumes that rows in dataset are sorted/grouped by qid</span>
 
-        with tf.io.TFRecordWriter(f&quot;{save_path}.tfrecords&quot;, 
-                                                    options=opts) as writer:
+<span class="sd">        Parses each row line by line to construct and tf.train.Example</span>
+<span class="sd">        with ELWC proto format. </span>
 
-            ELWC = input_pb2.ExampleListWithContext()
-            map_fn = lambda x: tuple(x.split(&quot;:&quot;))
-            prev_qid = None
-            for line in open(f&quot;{input_libsvm}&quot; ,&quot;r&quot;):
+<span class="sd">        I have a general purpose tfRecord parser for any LibSVM as well</span>
+<span class="sd">        but it is slower and can consume more memrory.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">file_name</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">input_libsvm</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-                r, qid, features = parse_mslr_dataset_line(line=line, 
-                                                       map_fn_over_features=map_fn)
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Using GZIP compression for writing ELWC TFRecord Dataset&#39;</span><span class="p">)</span>
+            <span class="n">opts</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordOptions</span><span class="p">(</span><span class="n">compression_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span><span class="p">)</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{file_name}_gzip_compressed&quot;</span>
 
-                feature_rel_list = features + [(&quot;rel&quot;,int(r))]
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{self.input_path}/{file_name}&quot;</span>
 
-                example_proto_dict = {
-                              f&quot;{f_n}&quot;:(
-                                  self._int64_feature(f_v) if f_n == &quot;rel&quot; 
-                                  else self._float_feature(float(f_v))
-                                  ) 
-                                  for (f_n, f_v) in feature_rel_list
-                          }
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordWriter</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{save_path}.tfrecords&quot;</span><span class="p">,</span> 
+                                                    <span class="n">options</span><span class="o">=</span><span class="n">opts</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
 
-                example_proto = tf.train.Example(
-                            features=tf.train.Features(feature=example_proto_dict))
-                if int(qid) != prev_qid:
-                    if prev_qid is not None:
-                        writer.write(ELWC.SerializeToString())
-                    prev_qid = qid
-                    ELWC = input_pb2.ExampleListWithContext()
-                    ELWC.examples.append(example_proto)
-                else:
-                    ELWC.examples.append(example_proto)
+            <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+            <span class="n">map_fn</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">))</span>
+            <span class="n">prev_qid</span> <span class="o">=</span> <span class="bp">None</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">open</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{input_libsvm}&quot;</span> <span class="p">,</span><span class="s2">&quot;r&quot;</span><span class="p">):</span>
 
-            # final write for the last query grp
-            writer.write(ELWC.SerializeToString())
+                <span class="n">r</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">parse_mslr_dataset_line</span><span class="p">(</span><span class="n">line</span><span class="o">=</span><span class="n">line</span><span class="p">,</span> 
+                                                       <span class="n">map_fn_over_features</span><span class="o">=</span><span class="n">map_fn</span><span class="p">)</span>
 
-    def array_to_TFrecord(self, input_array, file_name):
+                <span class="n">feature_rel_list</span> <span class="o">=</span> <span class="n">features</span> <span class="o">+</span> <span class="p">[(</span><span class="s2">&quot;rel&quot;</span><span class="p">,</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">))]</span>
 
-        &quot;&quot;&quot; 
-        &quot;&quot;&quot;        
-        file_name = os.path.basename(file_name)
+                <span class="n">example_proto_dict</span> <span class="o">=</span> <span class="p">{</span>
+                              <span class="n">f</span><span class="s2">&quot;{f_n}&quot;</span><span class="p">:(</span>
+                                  <span class="bp">self</span><span class="o">.</span><span class="n">_int64_feature</span><span class="p">(</span><span class="n">f_v</span><span class="p">)</span> <span class="k">if</span> <span class="n">f_n</span> <span class="o">==</span> <span class="s2">&quot;rel&quot;</span> 
+                                  <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_float_feature</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">f_v</span><span class="p">))</span>
+                                  <span class="p">)</span> 
+                                  <span class="k">for</span> <span class="p">(</span><span class="n">f_n</span><span class="p">,</span> <span class="n">f_v</span><span class="p">)</span> <span class="ow">in</span> <span class="n">feature_rel_list</span>
+                          <span class="p">}</span>
 
-        if self.compress:
-            print('Using GZIP compression for writing ELWC TFRecord Dataset')
-            opts = tf.io.TFRecordOptions(compression_type = self.compress_type)
-            file_name = f&quot;{file_name}.gzipped_tfrecord&quot;
-        else:
-            file_name = f&quot;{file_name}.tfrecord&quot;
-        save_path = f&quot;{self.input_path}/{file_name}&quot;
+                <span class="n">example_proto</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Example</span><span class="p">(</span>
+                            <span class="n">features</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Features</span><span class="p">(</span><span class="n">feature</span><span class="o">=</span><span class="n">example_proto_dict</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="n">prev_qid</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">prev_qid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+                    <span class="n">prev_qid</span> <span class="o">=</span> <span class="n">qid</span>
+                    <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
 
-        with tf.io.TFRecordWriter(f&quot;{save_path}&quot;, options=opts) as writer:
+            <span class="c1"># final write for the last query grp</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
 
-            ELWC = input_pb2.ExampleListWithContext()
-            prev_qid = None
+    <span class="k">def</span> <span class="nf">array_to_TFrecord</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_array</span><span class="p">,</span> <span class="n">file_name</span><span class="p">):</span>
 
-            for i in range(input_array.shape[0]):
+        <span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">        &quot;&quot;&quot;</span>        
+        <span class="n">file_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">file_name</span><span class="p">)</span>
 
-                r, qid, features = input_array[i,0],input_array[i,1],input_array[i,2:]
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress</span><span class="p">:</span>
+            <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Using GZIP compression for writing ELWC TFRecord Dataset&#39;</span><span class="p">)</span>
+            <span class="n">opts</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordOptions</span><span class="p">(</span><span class="n">compression_type</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compress_type</span><span class="p">)</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{file_name}.gzipped_tfrecord&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">file_name</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{file_name}.tfrecord&quot;</span>
+        <span class="n">save_path</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{self.input_path}/{file_name}&quot;</span>
 
-                example_proto_dict = {
-                              f&quot;{f_n+1}&quot;:self._float_feature((f_v))
-                                  for (f_n, f_v) in enumerate(features)
-                          }
-                example_proto_dict['rel'] = self._int64_feature(int(r))
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">TFRecordWriter</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{save_path}&quot;</span><span class="p">,</span> <span class="n">options</span><span class="o">=</span><span class="n">opts</span><span class="p">)</span> <span class="k">as</span> <span class="n">writer</span><span class="p">:</span>
 
-                example_proto = tf.train.Example(
-                            features=tf.train.Features(feature=example_proto_dict))
-                if int(qid) != prev_qid:
-                    if prev_qid is not None:
-                        writer.write(ELWC.SerializeToString())
-                    prev_qid = qid
-                    ELWC = input_pb2.ExampleListWithContext()
-                    ELWC.examples.append(example_proto)
-                else:
-                    ELWC.examples.append(example_proto)
+            <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+            <span class="n">prev_qid</span> <span class="o">=</span> <span class="bp">None</span>
 
-            # final write for the last query grp
-            writer.write(ELWC.SerializeToString())
-</code></pre>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">input_array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
 
-<pre><code class="python">trainset_with_labels = np.concatenate((np.expand_dims(train[1],axis=1),np.expand_dims(train[2],axis=1),train[0].toarray()),axis=1)
-validset_with_labels = np.concatenate((np.expand_dims(valid[1],axis=1),np.expand_dims(valid[2],axis=1),valid[0].toarray()),axis=1)
-testset_with_labels  = np.concatenate((np.expand_dims(test[1],axis=1) ,np.expand_dims(test[2],axis=1),test[0].toarray()),axis=1)
+                <span class="n">r</span><span class="p">,</span> <span class="n">qid</span><span class="p">,</span> <span class="n">features</span> <span class="o">=</span> <span class="n">input_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span><span class="n">input_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">input_array</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">:]</span>
 
-#-----------------------------------------------------------------------------
-ELWC_converter = LibsvmToELWCProto(dir =&quot;./mslr-web-10k-tfrecords&quot;,
-                              use_compression=True)
-ELWC_converter.array_to_TFrecord(trainset_with_labels,&quot;train-fold1&quot;)
-ELWC_converter.array_to_TFrecord(validset_with_labels,&quot;vali-fold1&quot;)
-ELWC_converter.array_to_TFrecord(trainset_with_labels,'test-fold1')
-</code></pre>
+                <span class="n">example_proto_dict</span> <span class="o">=</span> <span class="p">{</span>
+                              <span class="n">f</span><span class="s2">&quot;{f_n+1}&quot;</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">_float_feature</span><span class="p">((</span><span class="n">f_v</span><span class="p">))</span>
+                                  <span class="k">for</span> <span class="p">(</span><span class="n">f_n</span><span class="p">,</span> <span class="n">f_v</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
+                          <span class="p">}</span>
+                <span class="n">example_proto_dict</span><span class="p">[</span><span class="s1">&#39;rel&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_int64_feature</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">r</span><span class="p">))</span>
+
+                <span class="n">example_proto</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Example</span><span class="p">(</span>
+                            <span class="n">features</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">Features</span><span class="p">(</span><span class="n">feature</span><span class="o">=</span><span class="n">example_proto_dict</span><span class="p">))</span>
+                <span class="k">if</span> <span class="nb">int</span><span class="p">(</span><span class="n">qid</span><span class="p">)</span> <span class="o">!=</span> <span class="n">prev_qid</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">prev_qid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+                        <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+                    <span class="n">prev_qid</span> <span class="o">=</span> <span class="n">qid</span>
+                    <span class="n">ELWC</span> <span class="o">=</span> <span class="n">input_pb2</span><span class="o">.</span><span class="n">ExampleListWithContext</span><span class="p">()</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">ELWC</span><span class="o">.</span><span class="n">examples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">example_proto</span><span class="p">)</span>
+
+            <span class="c1"># final write for the last query grp</span>
+            <span class="n">writer</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">ELWC</span><span class="o">.</span><span class="n">SerializeToString</span><span class="p">())</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">trainset_with_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">validset_with_labels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">testset_with_labels</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="c1">#-----------------------------------------------------------------------------</span>
+<span class="n">ELWC_converter</span> <span class="o">=</span> <span class="n">LibsvmToELWCProto</span><span class="p">(</span><span class="nb">dir</span> <span class="o">=</span><span class="s2">&quot;./mslr-web-10k-tfrecords&quot;</span><span class="p">,</span>
+                              <span class="n">use_compression</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ELWC_converter</span><span class="o">.</span><span class="n">array_to_TFrecord</span><span class="p">(</span><span class="n">trainset_with_labels</span><span class="p">,</span><span class="s2">&quot;train-fold1&quot;</span><span class="p">)</span>
+<span class="n">ELWC_converter</span><span class="o">.</span><span class="n">array_to_TFrecord</span><span class="p">(</span><span class="n">validset_with_labels</span><span class="p">,</span><span class="s2">&quot;vali-fold1&quot;</span><span class="p">)</span>
+<span class="n">ELWC_converter</span><span class="o">.</span><span class="n">array_to_TFrecord</span><span class="p">(</span><span class="n">trainset_with_labels</span><span class="p">,</span><span class="s1">&#39;test-fold1&#39;</span><span class="p">)</span>
+</code></pre></div>
 
 <blockquote>
 <p>The conversion from LibSVM to TFrecord can be time consuming.
@@ -1312,54 +1305,54 @@ I have written 2 functions for writing tf records for large libsvm files as well
 <p>After Experimenting with different user journeys offered in the TF-ranking library, I decided to use their new Keras API after using the Estimator API as I believed it would help me prototype, iterate and experiment changes in my model faster in a notebook environment.</p>
 <p>Plus after the model is developed it can easily be exported as an Estimator to be compatible with existing production functionality.</p>
 </blockquote>
-<pre><code class="python"># Store the paths to files containing training and test instances.
-_TRAIN_DATA_PATH = f&quot;{dataset_folder_path}/train-fold1.gzip_tfrecord&quot;
-_VALID_DATA_PATH = f&quot;{dataset_folder_path}/vali-fold1.gzip_tfrecord&quot;
-_TEST_DATA_PATH =  f&quot;{dataset_folder_path}/test-fold1.gzip_tfrecord&quot;
+<div class="highlight"><pre><span></span><code><span class="c1"># Store the paths to files containing training and test instances.</span>
+<span class="n">_TRAIN_DATA_PATH</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/train-fold1.gzip_tfrecord&quot;</span>
+<span class="n">_VALID_DATA_PATH</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/vali-fold1.gzip_tfrecord&quot;</span>
+<span class="n">_TEST_DATA_PATH</span> <span class="o">=</span>  <span class="n">f</span><span class="s2">&quot;{dataset_folder_path}/test-fold1.gzip_tfrecord&quot;</span>
 
 
-# The maximum number of documents per query in the dataset.
-# Document lists are padded or truncated to this size.
-_LIST_SIZE = 200
+<span class="c1"># The maximum number of documents per query in the dataset.</span>
+<span class="c1"># Document lists are padded or truncated to this size.</span>
+<span class="n">_LIST_SIZE</span> <span class="o">=</span> <span class="mi">200</span>
 
-# The document relevance label.
-_LABEL_FEATURE_NAME = &quot;rel&quot;
-_NUM_FEATURES = 136
+<span class="c1"># The document relevance label.</span>
+<span class="n">_LABEL_FEATURE_NAME</span> <span class="o">=</span> <span class="s2">&quot;rel&quot;</span>
+<span class="n">_NUM_FEATURES</span> <span class="o">=</span> <span class="mi">136</span>
 
-# Padding labels are set negative so that the corresponding examples can be
-# ignored in loss and metrics.
-_PADDING_LABEL = -1
+<span class="c1"># Padding labels are set negative so that the corresponding examples can be</span>
+<span class="c1"># ignored in loss and metrics.</span>
+<span class="n">_PADDING_LABEL</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
 
-# Learning rate for optimizer.
-_LEARNING_RATE = 0.05
+<span class="c1"># Learning rate for optimizer.</span>
+<span class="n">_LEARNING_RATE</span> <span class="o">=</span> <span class="mf">0.05</span>
 
-# Parameters to the scoring function.
-_BATCH_SIZE = 128
-_DROPOUT_RATE = 0.5
+<span class="c1"># Parameters to the scoring function.</span>
+<span class="n">_BATCH_SIZE</span> <span class="o">=</span> <span class="mi">128</span>
+<span class="n">_DROPOUT_RATE</span> <span class="o">=</span> <span class="mf">0.5</span>
 
-# Location of model directory and number of training steps.
-_MODEL_DIR = f&quot;./model_logs/model_{datetime.datetime.now().strftime('%m-%d-%Y_%H-%M-%S')}&quot;
+<span class="c1"># Location of model directory and number of training steps.</span>
+<span class="n">_MODEL_DIR</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;./model_logs/model_{datetime.datetime.now().strftime(&#39;%m-</span><span class="si">%d</span><span class="s2">-%Y_%H-%M-%S&#39;)}&quot;</span>
 
-# setting as shell env for tensorboard stuff
-os.environ[&quot;models_dir&quot;] = _MODEL_DIR
-</code></pre>
+<span class="c1"># setting as shell env for tensorboard stuff</span>
+<span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s2">&quot;models_dir&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_MODEL_DIR</span>
+</code></pre></div>
 
 <blockquote>
 <p><em><code>Defining feature_spec fn as per cols in the ELWC tfrecords that I previously generated from LibSVM</code></em></p>
 </blockquote>
-<pre><code class="python">def create_feature_columns():
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_feature_columns</span><span class="p">():</span>
 
-  # We dont have context featuresin MSLR datasets
-  context_feature_columns = {}
+  <span class="c1"># We dont have context featuresin MSLR datasets</span>
+  <span class="n">context_feature_columns</span> <span class="o">=</span> <span class="p">{}</span>
 
-  feature_names = [&quot;{}&quot;.format(i + 1) for i in range(_NUM_FEATURES)]
-  example_feature_columns = {
-      name:
-      tf.feature_column.numeric_column(name, shape=(1,), default_value=0.0)
-      for name in feature_names}
+  <span class="n">feature_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">_NUM_FEATURES</span><span class="p">)]</span>
+  <span class="n">example_feature_columns</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="n">name</span><span class="p">:</span>
+      <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">numeric_column</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,),</span> <span class="n">default_value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">feature_names</span><span class="p">}</span>
 
-  return context_feature_columns, example_feature_columns
-</code></pre>
+  <span class="k">return</span> <span class="n">context_feature_columns</span><span class="p">,</span> <span class="n">example_feature_columns</span>
+</code></pre></div>
 
 <blockquote>
 <p><em><code>Creating a TFRecordDataset and using Feature Transformations</code></em></p>
@@ -1367,142 +1360,138 @@ os.environ[&quot;models_dir&quot;] = _MODEL_DIR
 <p>The function below parses in the compressed TFRecord during training and transforms 
 the input values using the symmetric <code>log1p</code> transformation I mentioned before. </p>
 <div class="arithmatex">\[ log1p = log_e(1+|x|) \odot sign(x) \]</div>
-<pre><code class="python">def create_dataset_from_tfrecords(input_path:str,
-                                  batch_sz:int,
-                                  shuffle:bool = True,
-                                  num_epochs:int = None,
-                                  data_format:str = &quot;ELWC&quot;,
-                                  compression_type:str = ''):
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">input_path</span><span class="p">:</span><span class="nb">str</span><span class="p">,</span>
+                                  <span class="n">batch_sz</span><span class="p">:</span><span class="nb">int</span><span class="p">,</span>
+                                  <span class="n">shuffle</span><span class="p">:</span><span class="nb">bool</span> <span class="o">=</span> <span class="bp">True</span><span class="p">,</span>
+                                  <span class="n">num_epochs</span><span class="p">:</span><span class="nb">int</span> <span class="o">=</span> <span class="bp">None</span><span class="p">,</span>
+                                  <span class="n">data_format</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ELWC&quot;</span><span class="p">,</span>
+                                  <span class="n">compression_type</span><span class="p">:</span><span class="nb">str</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">):</span>
 
-  context_feature_columns, example_feature_columns = create_feature_columns()
-
-
-  context_feature_spec = tf.feature_column.make_parse_example_spec(
-      context_feature_columns.values())
-  label_column = tf.feature_column.numeric_column(
-      _LABEL_FEATURE_NAME, dtype=tf.int64, default_value=_PADDING_LABEL)
-  example_feature_spec = tf.feature_column.make_parse_example_spec(
-      list(example_feature_columns.values()) + [label_column])
-
-  _reader_arg_list = []
-  if compression_type:
-    assert compression_type in [&quot;&quot;, &quot;GZIP&quot;,&quot;ZLIB&quot;]
-    _reader_arg_list = [compression_type]
+  <span class="n">context_feature_columns</span><span class="p">,</span> <span class="n">example_feature_columns</span> <span class="o">=</span> <span class="n">create_feature_columns</span><span class="p">()</span>
 
 
-  dataset = tfr.data.build_ranking_dataset(
-      file_pattern=input_path,
-      data_format=tfr.data.ELWC,
-      batch_size=batch_sz,
-      list_size=_LIST_SIZE,
-      context_feature_spec=context_feature_spec,
-      example_feature_spec=example_feature_spec,
-      reader=tf.data.TFRecordDataset,
-      reader_args= _reader_arg_list,
-      shuffle=shuffle,
-      num_epochs=num_epochs,
-      )
+  <span class="n">context_feature_spec</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">make_parse_example_spec</span><span class="p">(</span>
+      <span class="n">context_feature_columns</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+  <span class="n">label_column</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">numeric_column</span><span class="p">(</span>
+      <span class="n">_LABEL_FEATURE_NAME</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">default_value</span><span class="o">=</span><span class="n">_PADDING_LABEL</span><span class="p">)</span>
+  <span class="n">example_feature_spec</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">feature_column</span><span class="o">.</span><span class="n">make_parse_example_spec</span><span class="p">(</span>
+      <span class="nb">list</span><span class="p">(</span><span class="n">example_feature_columns</span><span class="o">.</span><span class="n">values</span><span class="p">())</span> <span class="o">+</span> <span class="p">[</span><span class="n">label_column</span><span class="p">])</span>
 
-  def _log1p_transform(features):
-    '''computes elementwise log_e(|x|)*sign(x) '''
-    transformed_feats = {
-        f:tf.math.multiply(
-            tf.math.log1p(
-                tf.math.abs(features[f])
-                ),
-            tf.math.sign(features[f])
-            )
-        for f in features}
-    return transformed_feats
+  <span class="n">_reader_arg_list</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">if</span> <span class="n">compression_type</span><span class="p">:</span>
+    <span class="k">assert</span> <span class="n">compression_type</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;GZIP&quot;</span><span class="p">,</span><span class="s2">&quot;ZLIB&quot;</span><span class="p">]</span>
+    <span class="n">_reader_arg_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">compression_type</span><span class="p">]</span>
 
-  def _split_label_and_transform_features(features):
-    label = tf.squeeze(features.pop(_LABEL_FEATURE_NAME), axis=2)
-    label = tf.cast(label, tf.float32)
-    features = _log1p_transform(features)
 
-    return features, label
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">build_ranking_dataset</span><span class="p">(</span>
+      <span class="n">file_pattern</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span>
+      <span class="n">data_format</span><span class="o">=</span><span class="n">tfr</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">ELWC</span><span class="p">,</span>
+      <span class="n">batch_size</span><span class="o">=</span><span class="n">batch_sz</span><span class="p">,</span>
+      <span class="n">list_size</span><span class="o">=</span><span class="n">_LIST_SIZE</span><span class="p">,</span>
+      <span class="n">context_feature_spec</span><span class="o">=</span><span class="n">context_feature_spec</span><span class="p">,</span>
+      <span class="n">example_feature_spec</span><span class="o">=</span><span class="n">example_feature_spec</span><span class="p">,</span>
+      <span class="n">reader</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">TFRecordDataset</span><span class="p">,</span>
+      <span class="n">reader_args</span><span class="o">=</span> <span class="n">_reader_arg_list</span><span class="p">,</span>
+      <span class="n">shuffle</span><span class="o">=</span><span class="n">shuffle</span><span class="p">,</span>
+      <span class="n">num_epochs</span><span class="o">=</span><span class="n">num_epochs</span><span class="p">,</span>
+      <span class="p">)</span>
 
-  dataset = dataset.map(_split_label_and_transform_features)
+  <span class="k">def</span> <span class="nf">_log1p_transform</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;computes elementwise log_e(|x|)*sign(x) &#39;&#39;&#39;</span>
+    <span class="n">transformed_feats</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">f</span><span class="p">:</span><span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">multiply</span><span class="p">(</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">log1p</span><span class="p">(</span>
+                <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+                <span class="p">),</span>
+            <span class="n">tf</span><span class="o">.</span><span class="n">math</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">features</span><span class="p">[</span><span class="n">f</span><span class="p">])</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">features</span><span class="p">}</span>
+    <span class="k">return</span> <span class="n">transformed_feats</span>
 
-  return dataset
+  <span class="k">def</span> <span class="nf">_split_label_and_transform_features</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="n">features</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">_LABEL_FEATURE_NAME</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">label</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">label</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+    <span class="n">features</span> <span class="o">=</span> <span class="n">_log1p_transform</span><span class="p">(</span><span class="n">features</span><span class="p">)</span>
 
-</code></pre>
+    <span class="k">return</span> <span class="n">features</span><span class="p">,</span> <span class="n">label</span>
+
+  <span class="n">dataset</span> <span class="o">=</span> <span class="n">dataset</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">_split_label_and_transform_features</span><span class="p">)</span>
+
+  <span class="k">return</span> <span class="n">dataset</span>
+</code></pre></div>
 
 <p>My experience with results were quite surprising. The simple transformation can yield 3-4% performance improvement even on a FFNN ranker. The paper and other ones from the same group also suggest adding Random Gaussian Noise when the model capacity is sufficently augmented i.e using more complex architectures. 
 The goal of this notebook was creating a Proof-of-concept ranking model rather than achieving state-of-the-art results, thus I opted not to use it as the ranker is not deep/complex and the authors showed degradation with adding noise to models without sufficient training and size.</p>
 <blockquote>
 <p><em><code>Defining the scoring fn which currently will be a standard DNN</code></em></p>
 </blockquote>
-<pre><code class="python">context_feature_columns, example_feature_columns = create_feature_columns()
-# Using a Canned Network
-ranking_network = tfr.keras.canned.DNNRankingNetwork(
-      context_feature_columns=context_feature_columns,
-      example_feature_columns=example_feature_columns,
-      hidden_layer_dims=[1024, 512, 256],
-      activation=tf.nn.relu,
-      dropout=_DROPOUT_RATE,
-      use_batch_norm=True,
-      batch_norm_moment=0.4)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="n">context_feature_columns</span><span class="p">,</span> <span class="n">example_feature_columns</span> <span class="o">=</span> <span class="n">create_feature_columns</span><span class="p">()</span>
+<span class="c1"># Using a Canned Network</span>
+<span class="n">ranking_network</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">canned</span><span class="o">.</span><span class="n">DNNRankingNetwork</span><span class="p">(</span>
+      <span class="n">context_feature_columns</span><span class="o">=</span><span class="n">context_feature_columns</span><span class="p">,</span>
+      <span class="n">example_feature_columns</span><span class="o">=</span><span class="n">example_feature_columns</span><span class="p">,</span>
+      <span class="n">hidden_layer_dims</span><span class="o">=</span><span class="p">[</span><span class="mi">1024</span><span class="p">,</span> <span class="mi">512</span><span class="p">,</span> <span class="mi">256</span><span class="p">],</span>
+      <span class="n">activation</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">nn</span><span class="o">.</span><span class="n">relu</span><span class="p">,</span>
+      <span class="n">dropout</span><span class="o">=</span><span class="n">_DROPOUT_RATE</span><span class="p">,</span>
+      <span class="n">use_batch_norm</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+      <span class="n">batch_norm_moment</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</code></pre></div>
 
-<pre><code class="python">_loss_obj = tfr.keras.losses.get(
-    tfr.losses.RankingLossKey.GUMBEL_APPROX_NDCG_LOSS)
+<div class="highlight"><pre><span></span><code><span class="n">_loss_obj</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="n">tfr</span><span class="o">.</span><span class="n">losses</span><span class="o">.</span><span class="n">RankingLossKey</span><span class="o">.</span><span class="n">GUMBEL_APPROX_NDCG_LOSS</span><span class="p">)</span>
 
-# Contains all ranking metrics, including NDCG @ {1, 3, 5, 10}.
+<span class="c1"># Contains all ranking metrics, including NDCG @ {1, 3, 5, 10}.</span>
 
-def _make_eval_metric_fns():
-  &quot;&quot;&quot;Returns a list of ranking metrics for the keras ranker&quot;&quot;&quot;
-  metric_fns = [tfr.keras.metrics.get(**kwargs) 
-                        for kwargs in [dict(key=&quot;ndcg&quot;, topn=topn, 
-                                        name=&quot;metric/ndcg_{}&quot;.format(topn)) 
-                                            for topn in [1, 3, 5, 10]]
-                ]
-  return metric_fns
+<span class="k">def</span> <span class="nf">_make_eval_metric_fns</span><span class="p">():</span>
+  <span class="sd">&quot;&quot;&quot;Returns a list of ranking metrics for the keras ranker&quot;&quot;&quot;</span>
+  <span class="n">metric_fns</span> <span class="o">=</span> <span class="p">[</span><span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> 
+                        <span class="k">for</span> <span class="n">kwargs</span> <span class="ow">in</span> <span class="p">[</span><span class="nb">dict</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="s2">&quot;ndcg&quot;</span><span class="p">,</span> <span class="n">topn</span><span class="o">=</span><span class="n">topn</span><span class="p">,</span> 
+                                        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;metric/ndcg_{}&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">topn</span><span class="p">))</span> 
+                                            <span class="k">for</span> <span class="n">topn</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]]</span>
+                <span class="p">]</span>
+  <span class="k">return</span> <span class="n">metric_fns</span>
 
-default_metrics = _make_eval_metric_fns()
+<span class="n">default_metrics</span> <span class="o">=</span> <span class="n">_make_eval_metric_fns</span><span class="p">()</span>
 
-config = tf.estimator.RunConfig(
-      model_dir=_MODEL_DIR,
-      keep_checkpoint_max=10,
-      save_checkpoints_secs=200)
-</code></pre>
+<span class="n">config</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">estimator</span><span class="o">.</span><span class="n">RunConfig</span><span class="p">(</span>
+      <span class="n">model_dir</span><span class="o">=</span><span class="n">_MODEL_DIR</span><span class="p">,</span>
+      <span class="n">keep_checkpoint_max</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span>
+      <span class="n">save_checkpoints_secs</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
 
-<pre><code class="python"># Build ranker as a Functional Keras model.
-ranker = tfr.keras.model.create_keras_model(
-      network=ranking_network,
-      loss=_loss_obj,
-      metrics=default_metrics,
-      optimizer=tf.keras.optimizers.Adagrad(learning_rate=_LEARNING_RATE),
-      size_feature_name=None)
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="c1"># Build ranker as a Functional Keras model.</span>
+<span class="n">ranker</span> <span class="o">=</span> <span class="n">tfr</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">create_keras_model</span><span class="p">(</span>
+      <span class="n">network</span><span class="o">=</span><span class="n">ranking_network</span><span class="p">,</span>
+      <span class="n">loss</span><span class="o">=</span><span class="n">_loss_obj</span><span class="p">,</span>
+      <span class="n">metrics</span><span class="o">=</span><span class="n">default_metrics</span><span class="p">,</span>
+      <span class="n">optimizer</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">optimizers</span><span class="o">.</span><span class="n">Adagrad</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="n">_LEARNING_RATE</span><span class="p">),</span>
+      <span class="n">size_feature_name</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</code></pre></div>
 
 <p><em><code>NOTE: Run the TensorBoard cell before &amp; refresh it if you want to track progress during training run</code></em></p>
-<pre><code class="python">assert tf.test.gpu_device_name() != '', &quot;GPU not detected, training is much faster GPU/TPU instance of colab&quot;
+<p><div class="highlight"><pre><span></span><code><span class="k">assert</span> <span class="n">tf</span><span class="o">.</span><span class="n">test</span><span class="o">.</span><span class="n">gpu_device_name</span><span class="p">()</span> <span class="o">!=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s2">&quot;GPU not detected, training is much faster GPU/TPU instance of colab&quot;</span>
 
-train_dataset = create_dataset_from_tfrecords(_TRAIN_DATA_PATH,
-                                              _BATCH_SIZE,
-                                              compression_type=&quot;GZIP&quot;)
+<span class="n">train_dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">_TRAIN_DATA_PATH</span><span class="p">,</span>
+                                              <span class="n">_BATCH_SIZE</span><span class="p">,</span>
+                                              <span class="n">compression_type</span><span class="o">=</span><span class="s2">&quot;GZIP&quot;</span><span class="p">)</span>
 
-vali_dataset = create_dataset_from_tfrecords(_VALID_DATA_PATH,
-                                             _BATCH_SIZE,
-                                             shuffle=False,
-                                             num_epochs=1, 
-                                             compression_type=&quot;GZIP&quot;)
+<span class="n">vali_dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">_VALID_DATA_PATH</span><span class="p">,</span>
+                                             <span class="n">_BATCH_SIZE</span><span class="p">,</span>
+                                             <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                             <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                                             <span class="n">compression_type</span><span class="o">=</span><span class="s2">&quot;GZIP&quot;</span><span class="p">)</span>
 
-tensorboard_callback = tf.keras.callbacks.TensorBoard(_MODEL_DIR)
-
-
-ranker.fit(train_dataset,
-           validation_data=vali_dataset,
-           steps_per_epoch=100,
-           epochs=100,
-           validation_steps=1,
-           callbacks=[tensorboard_callback])
+<span class="n">tensorboard_callback</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">keras</span><span class="o">.</span><span class="n">callbacks</span><span class="o">.</span><span class="n">TensorBoard</span><span class="p">(</span><span class="n">_MODEL_DIR</span><span class="p">)</span>
 
 
-</code></pre>
-
-<p>. . . </p>
+<span class="n">ranker</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train_dataset</span><span class="p">,</span>
+           <span class="n">validation_data</span><span class="o">=</span><span class="n">vali_dataset</span><span class="p">,</span>
+           <span class="n">steps_per_epoch</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+           <span class="n">epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+           <span class="n">validation_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+           <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">tensorboard_callback</span><span class="p">])</span>
+</code></pre></div>
+ . . . </p>
 <div class="highlight"><pre><span></span><code>Epoch 95/100
 100/100 [==============================] - 44s 447ms/step - loss: -0.6896 - metric/ndcg_1: 0.4489 - metric/ndcg_3: 0.4326 - metric/ndcg_5: 0.4358 - metric/ndcg_10: 0.4517 - val_loss: -0.7122 - val_metric/ndcg_1: 0.4327 - val_metric/ndcg_3: 0.4387 - val_metric/ndcg_5: 0.4604 - val_metric/ndcg_10: 0.4865
 Epoch 96/100
@@ -1519,9 +1508,9 @@ Epoch 100/100
 
 <h2 id="5-evaluate-model-performance">5) Evaluate model performance</h2>
 <h4 id="51-tensorboard-for-train-eval-tracking"><li> 5.1) TensorBoard for Train &amp; Eval tracking</h4>
-<pre><code class="python">%load_ext tensorboard
-%tensorboard --logdir=./model_logs --port 25952
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">tensorboard</span>
+<span class="o">%</span><span class="n">tensorboard</span> <span class="o">--</span><span class="n">logdir</span><span class="o">=./</span><span class="n">model_logs</span> <span class="o">--</span><span class="n">port</span> <span class="mi">25952</span>
+</code></pre></div>
 
 <div class="highlight"><pre><span></span><code>The tensorboard extension is already loaded. To reload it, use:
   %reload_ext tensorboard
@@ -1536,14 +1525,14 @@ Epoch 100/100
 <p>The plots indicate a steady decline in training and validation loss and a consequent increase in metrics per epoch with only NDCG@1 showing some saturation, which suggests to me that the network can be trained for longer steps.</p>
 </blockquote>
 <h4 id="52-test-partition-perf"><li>  5.2) Test Partition Perf</h4>
-<pre><code class="python"> test_dataset = create_dataset_from_tfrecords(_TEST_DATA_PATH,32,
-                                             num_epochs=1, 
-                                             shuffle=False,
-                                             compression_type=&quot;GZIP&quot;)
+<div class="highlight"><pre><span></span><code> <span class="n">test_dataset</span> <span class="o">=</span> <span class="n">create_dataset_from_tfrecords</span><span class="p">(</span><span class="n">_TEST_DATA_PATH</span><span class="p">,</span><span class="mi">32</span><span class="p">,</span>
+                                             <span class="n">num_epochs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> 
+                                             <span class="n">shuffle</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+                                             <span class="n">compression_type</span><span class="o">=</span><span class="s2">&quot;GZIP&quot;</span><span class="p">)</span>
 
- loss, *metrics = ranker.evaluate(test_dataset)
- pd.DataFrame(data = [metrics], columns=[f'NDCG@{k}' for k in [1,3,5,10]], index=['test_data'])
-</code></pre>
+ <span class="n">loss</span><span class="p">,</span> <span class="o">*</span><span class="n">metrics</span> <span class="o">=</span> <span class="n">ranker</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_dataset</span><span class="p">)</span>
+ <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="p">[</span><span class="n">metrics</span><span class="p">],</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">f</span><span class="s1">&#39;NDCG@{k}&#39;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">10</span><span class="p">]],</span> <span class="n">index</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;test_data&#39;</span><span class="p">])</span>
+</code></pre></div>
 
 <p><img alt="test_set_results.png" src="assets/testeval.png" /></p>
 <p>Considering the straightforward DNN implementation of the ranker  and the short training time/steps, an <code>NDCG@1 of 0.44</code> is quite good from what I have seen in research starting from a couple of years &amp; tracks with the changes/improvements. Though the <code>NDCG@10</code> is a bit lower.</p>
@@ -1623,144 +1612,143 @@ experiments to tune the standard hyperparameters of the network such as <code>hi
 <ul>
 <li>LambdaMART LTR Model </li>
 </ul>
-<pre><code class="python">def run_lambdamart(dataset_path, fold):
-  train = load_svmlight_file(f&quot;{dataset_path}/Fold{fold}/train.txt&quot;, query_id=True)
-  valid = load_svmlight_file(f&quot;{dataset_path}/Fold{fold}/vali.txt&quot;, query_id=True)
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run_lambdamart</span><span class="p">(</span><span class="n">dataset_path</span><span class="p">,</span> <span class="n">fold</span><span class="p">):</span>
+  <span class="n">train</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_path}/Fold{fold}/train.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+  <span class="n">valid</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_path}/Fold{fold}/vali.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
-  training_data = lgbm.Dataset(train[0])
-  validation_data = lgbm.Dataset(valid[0])
+  <span class="n">training_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">validation_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-  # Setting group info
-  training_data = lgbm.Dataset(data=train[0],label=train[1])
-  validation_data = lgbm.Dataset(data=valid[0],label=valid[1])
+  <span class="c1"># Setting group info</span>
+  <span class="n">training_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="n">train</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="n">validation_data</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">valid</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">label</span><span class="o">=</span><span class="n">valid</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
 
-  training_data.set_group(np.unique(train[2], return_counts=True)[1])
-  validation_data.set_group(np.unique(valid[2], return_counts=True)[1])
-
-
-  # Setting prarams 
-  params = {
-      &quot;task&quot;: &quot;train&quot;,
-      &quot;num_leaves&quot;: 255,
-      &quot;min_data_in_leaf&quot;: 0,
-      &quot;min_sum_hessian_in_leaf&quot;:100,
-      &quot;num_threads&quot;: 16
-  }
-
-  # Setting Objectives &amp; Learning Rate
-  params['Objective'] = &quot;rank_xendcg&quot; # Equivalent perf as Lambdarank &amp; Faster
-  params['learning_rate'] = 0.05
+  <span class="n">training_data</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">train</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="n">validation_data</span><span class="o">.</span><span class="n">set_group</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">valid</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">return_counts</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
 
 
-  # Setting metrics &amp; eval pts
-  params['metrics'] = ['ndcg']
-  params['ndcg_eval_at'] = [1, 3, 5, 10]
+  <span class="c1"># Setting prarams </span>
+  <span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s2">&quot;task&quot;</span><span class="p">:</span> <span class="s2">&quot;train&quot;</span><span class="p">,</span>
+      <span class="s2">&quot;num_leaves&quot;</span><span class="p">:</span> <span class="mi">255</span><span class="p">,</span>
+      <span class="s2">&quot;min_data_in_leaf&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+      <span class="s2">&quot;min_sum_hessian_in_leaf&quot;</span><span class="p">:</span><span class="mi">100</span><span class="p">,</span>
+      <span class="s2">&quot;num_threads&quot;</span><span class="p">:</span> <span class="mi">16</span>
+  <span class="p">}</span>
 
-  results = {}
-
-  bt_ltr = lgbm.train(params=params,
-                       train_set=training_data,
-                       valid_sets=[validation_data],valid_names=&quot;valid&quot;,
-                       num_boost_round=100,
-                       evals_result=results,
-                       verbose_eval=10)
+  <span class="c1"># Setting Objectives &amp; Learning Rate</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;Objective&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;rank_xendcg&quot;</span> <span class="c1"># Equivalent perf as Lambdarank &amp; Faster</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;learning_rate&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.05</span>
 
 
-  from sklearn.metrics import ndcg_score
-  test = load_svmlight_file(f&quot;{dataset_path}/Fold{fold}/test.txt&quot;, query_id=True)
-  test_group = np.unique(test[2])
-  total = []
-  for i in test_group:
-    try:
-      scores = np.expand_dims(bt_ltr.predict(test[0][test[2] == i].toarray()),axis=0)
-      rel = np.expand_dims(test[1][test[2] == i], axis=0)
-      total.append(ndcg_score(rel,scores,k=1))
-    except Exception:
-      pass    
-  results[&quot;test_ndcg&quot;] = np.mean(total)
-  results[f&quot;fold{fold}_model&quot;] = bt_ltr
-  return results
-</code></pre>
+  <span class="c1"># Setting metrics &amp; eval pts</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ndcg&#39;</span><span class="p">]</span>
+  <span class="n">params</span><span class="p">[</span><span class="s1">&#39;ndcg_eval_at&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>
 
-<pre><code class="python">all_res={}
-for i in range(1,6):
-  print(f&quot;&quot;&quot;
-  ---------------------------
-  fold{i}&quot;&quot;&quot;)
-  all_res[f&quot;fold{i}&quot;] = run_lambdamart(&quot;/content/drive/MyDrive/MSLR-WEB10K&quot;,i)
+  <span class="n">results</span> <span class="o">=</span> <span class="p">{}</span>
 
-</code></pre>
+  <span class="n">bt_ltr</span> <span class="o">=</span> <span class="n">lgbm</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="n">params</span><span class="o">=</span><span class="n">params</span><span class="p">,</span>
+                       <span class="n">train_set</span><span class="o">=</span><span class="n">training_data</span><span class="p">,</span>
+                       <span class="n">valid_sets</span><span class="o">=</span><span class="p">[</span><span class="n">validation_data</span><span class="p">],</span><span class="n">valid_names</span><span class="o">=</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span>
+                       <span class="n">num_boost_round</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+                       <span class="n">evals_result</span><span class="o">=</span><span class="n">results</span><span class="p">,</span>
+                       <span class="n">verbose_eval</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
 
-<pre><code>  ---------------------------
+
+  <span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">ndcg_score</span>
+  <span class="n">test</span> <span class="o">=</span> <span class="n">load_svmlight_file</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;{dataset_path}/Fold{fold}/test.txt&quot;</span><span class="p">,</span> <span class="n">query_id</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+  <span class="n">test_group</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+  <span class="n">total</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">test_group</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">bt_ltr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">toarray</span><span class="p">()),</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+      <span class="n">rel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">expand_dims</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">test</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">==</span> <span class="n">i</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+      <span class="n">total</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ndcg_score</span><span class="p">(</span><span class="n">rel</span><span class="p">,</span><span class="n">scores</span><span class="p">,</span><span class="n">k</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+      <span class="k">pass</span>    
+  <span class="n">results</span><span class="p">[</span><span class="s2">&quot;test_ndcg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">total</span><span class="p">)</span>
+  <span class="n">results</span><span class="p">[</span><span class="n">f</span><span class="s2">&quot;fold{fold}_model&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">bt_ltr</span>
+  <span class="k">return</span> <span class="n">results</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">all_res</span><span class="o">=</span><span class="p">{}</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">):</span>
+  <span class="k">print</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">  ---------------------------</span>
+<span class="s2">  fold{i}&quot;&quot;&quot;</span><span class="p">)</span>
+  <span class="n">all_res</span><span class="p">[</span><span class="n">f</span><span class="s2">&quot;fold{i}&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">run_lambdamart</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/MSLR-WEB10K&quot;</span><span class="p">,</span><span class="n">i</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code>  ---------------------------
   fold1
-[10]    valid's ndcg@1: 0.460571    valid's ndcg@3: 0.452905    valid's ndcg@5: 0.456894    valid's ndcg@10: 0.476716
-[20]    valid's ndcg@1: 0.473533    valid's ndcg@3: 0.460936    valid's ndcg@5: 0.466069    valid's ndcg@10: 0.484822
-[30]    valid's ndcg@1: 0.475114    valid's ndcg@3: 0.466228    valid's ndcg@5: 0.472492    valid's ndcg@10: 0.490586
-[40]    valid's ndcg@1: 0.487319    valid's ndcg@3: 0.47362     valid's ndcg@5: 0.47813     valid's ndcg@10: 0.496846
-[50]    valid's ndcg@1: 0.494519    valid's ndcg@3: 0.476746    valid's ndcg@5: 0.482407    valid's ndcg@10: 0.501203
-[60]    valid's ndcg@1: 0.494605    valid's ndcg@3: 0.478599    valid's ndcg@5: 0.485217    valid's ndcg@10: 0.502415
-[70]    valid's ndcg@1: 0.497724    valid's ndcg@3: 0.482326    valid's ndcg@5: 0.488462    valid's ndcg@10: 0.505793
-[80]    valid's ndcg@1: 0.49701     valid's ndcg@3: 0.483865    valid's ndcg@5: 0.488244    valid's ndcg@10: 0.506631
-[90]    valid's ndcg@1: 0.500819    valid's ndcg@3: 0.486319    valid's ndcg@5: 0.491567    valid's ndcg@10: 0.508823
-[100]   valid's ndcg@1: 0.500795    valid's ndcg@3: 0.487764    valid's ndcg@5: 0.493362    valid's ndcg@10: 0.509696
+[10]    valid&#39;s ndcg@1: 0.460571    valid&#39;s ndcg@3: 0.452905    valid&#39;s ndcg@5: 0.456894    valid&#39;s ndcg@10: 0.476716
+[20]    valid&#39;s ndcg@1: 0.473533    valid&#39;s ndcg@3: 0.460936    valid&#39;s ndcg@5: 0.466069    valid&#39;s ndcg@10: 0.484822
+[30]    valid&#39;s ndcg@1: 0.475114    valid&#39;s ndcg@3: 0.466228    valid&#39;s ndcg@5: 0.472492    valid&#39;s ndcg@10: 0.490586
+[40]    valid&#39;s ndcg@1: 0.487319    valid&#39;s ndcg@3: 0.47362     valid&#39;s ndcg@5: 0.47813     valid&#39;s ndcg@10: 0.496846
+[50]    valid&#39;s ndcg@1: 0.494519    valid&#39;s ndcg@3: 0.476746    valid&#39;s ndcg@5: 0.482407    valid&#39;s ndcg@10: 0.501203
+[60]    valid&#39;s ndcg@1: 0.494605    valid&#39;s ndcg@3: 0.478599    valid&#39;s ndcg@5: 0.485217    valid&#39;s ndcg@10: 0.502415
+[70]    valid&#39;s ndcg@1: 0.497724    valid&#39;s ndcg@3: 0.482326    valid&#39;s ndcg@5: 0.488462    valid&#39;s ndcg@10: 0.505793
+[80]    valid&#39;s ndcg@1: 0.49701     valid&#39;s ndcg@3: 0.483865    valid&#39;s ndcg@5: 0.488244    valid&#39;s ndcg@10: 0.506631
+[90]    valid&#39;s ndcg@1: 0.500819    valid&#39;s ndcg@3: 0.486319    valid&#39;s ndcg@5: 0.491567    valid&#39;s ndcg@10: 0.508823
+[100]   valid&#39;s ndcg@1: 0.500795    valid&#39;s ndcg@3: 0.487764    valid&#39;s ndcg@5: 0.493362    valid&#39;s ndcg@10: 0.509696
 
   ---------------------------
   fold2
-[10]    valid's ndcg@1: 0.439029    valid's ndcg@3: 0.435994    valid's ndcg@5: 0.442899    valid's ndcg@10: 0.463751
-[20]    valid's ndcg@1: 0.461929    valid's ndcg@3: 0.450332    valid's ndcg@5: 0.455395    valid's ndcg@10: 0.475256
-[30]    valid's ndcg@1: 0.457733    valid's ndcg@3: 0.454178    valid's ndcg@5: 0.461606    valid's ndcg@10: 0.482412
-[40]    valid's ndcg@1: 0.465976    valid's ndcg@3: 0.458331    valid's ndcg@5: 0.466217    valid's ndcg@10: 0.487144
-[50]    valid's ndcg@1: 0.476119    valid's ndcg@3: 0.464495    valid's ndcg@5: 0.47199     valid's ndcg@10: 0.493111
-[60]    valid's ndcg@1: 0.479457    valid's ndcg@3: 0.468421    valid's ndcg@5: 0.474527    valid's ndcg@10: 0.496759
-[70]    valid's ndcg@1: 0.482843    valid's ndcg@3: 0.470047    valid's ndcg@5: 0.476531    valid's ndcg@10: 0.499443
-[80]    valid's ndcg@1: 0.482552    valid's ndcg@3: 0.472077    valid's ndcg@5: 0.478064    valid's ndcg@10: 0.500665
-[90]    valid's ndcg@1: 0.480971    valid's ndcg@3: 0.473215    valid's ndcg@5: 0.478395    valid's ndcg@10: 0.501051
-[100]   valid's ndcg@1: 0.482852    valid's ndcg@3: 0.474521    valid's ndcg@5: 0.481642    valid's ndcg@10: 0.502988
+[10]    valid&#39;s ndcg@1: 0.439029    valid&#39;s ndcg@3: 0.435994    valid&#39;s ndcg@5: 0.442899    valid&#39;s ndcg@10: 0.463751
+[20]    valid&#39;s ndcg@1: 0.461929    valid&#39;s ndcg@3: 0.450332    valid&#39;s ndcg@5: 0.455395    valid&#39;s ndcg@10: 0.475256
+[30]    valid&#39;s ndcg@1: 0.457733    valid&#39;s ndcg@3: 0.454178    valid&#39;s ndcg@5: 0.461606    valid&#39;s ndcg@10: 0.482412
+[40]    valid&#39;s ndcg@1: 0.465976    valid&#39;s ndcg@3: 0.458331    valid&#39;s ndcg@5: 0.466217    valid&#39;s ndcg@10: 0.487144
+[50]    valid&#39;s ndcg@1: 0.476119    valid&#39;s ndcg@3: 0.464495    valid&#39;s ndcg@5: 0.47199     valid&#39;s ndcg@10: 0.493111
+[60]    valid&#39;s ndcg@1: 0.479457    valid&#39;s ndcg@3: 0.468421    valid&#39;s ndcg@5: 0.474527    valid&#39;s ndcg@10: 0.496759
+[70]    valid&#39;s ndcg@1: 0.482843    valid&#39;s ndcg@3: 0.470047    valid&#39;s ndcg@5: 0.476531    valid&#39;s ndcg@10: 0.499443
+[80]    valid&#39;s ndcg@1: 0.482552    valid&#39;s ndcg@3: 0.472077    valid&#39;s ndcg@5: 0.478064    valid&#39;s ndcg@10: 0.500665
+[90]    valid&#39;s ndcg@1: 0.480971    valid&#39;s ndcg@3: 0.473215    valid&#39;s ndcg@5: 0.478395    valid&#39;s ndcg@10: 0.501051
+[100]   valid&#39;s ndcg@1: 0.482852    valid&#39;s ndcg@3: 0.474521    valid&#39;s ndcg@5: 0.481642    valid&#39;s ndcg@10: 0.502988
 
   ---------------------------
   fold3
-[10]    valid's ndcg@1: 0.449814    valid's ndcg@3: 0.445464    valid's ndcg@5: 0.449102    valid's ndcg@10: 0.467304
-[20]    valid's ndcg@1: 0.464652    valid's ndcg@3: 0.458397    valid's ndcg@5: 0.459662    valid's ndcg@10: 0.475314
-[30]    valid's ndcg@1: 0.468752    valid's ndcg@3: 0.464186    valid's ndcg@5: 0.465374    valid's ndcg@10: 0.48312
-[40]    valid's ndcg@1: 0.48        valid's ndcg@3: 0.468496    valid's ndcg@5: 0.470938    valid's ndcg@10: 0.487289
-[50]    valid's ndcg@1: 0.479824    valid's ndcg@3: 0.47086     valid's ndcg@5: 0.47397     valid's ndcg@10: 0.489766
-[60]    valid's ndcg@1: 0.489871    valid's ndcg@3: 0.474535    valid's ndcg@5: 0.475584    valid's ndcg@10: 0.493091
-[70]    valid's ndcg@1: 0.496057    valid's ndcg@3: 0.477123    valid's ndcg@5: 0.478852    valid's ndcg@10: 0.496602
-[80]    valid's ndcg@1: 0.496471    valid's ndcg@3: 0.477977    valid's ndcg@5: 0.480044    valid's ndcg@10: 0.498483
-[90]    valid's ndcg@1: 0.497367    valid's ndcg@3: 0.479643    valid's ndcg@5: 0.482179    valid's ndcg@10: 0.499681
-[100]   valid's ndcg@1: 0.495214    valid's ndcg@3: 0.481445    valid's ndcg@5: 0.483087    valid's ndcg@10: 0.500724
+[10]    valid&#39;s ndcg@1: 0.449814    valid&#39;s ndcg@3: 0.445464    valid&#39;s ndcg@5: 0.449102    valid&#39;s ndcg@10: 0.467304
+[20]    valid&#39;s ndcg@1: 0.464652    valid&#39;s ndcg@3: 0.458397    valid&#39;s ndcg@5: 0.459662    valid&#39;s ndcg@10: 0.475314
+[30]    valid&#39;s ndcg@1: 0.468752    valid&#39;s ndcg@3: 0.464186    valid&#39;s ndcg@5: 0.465374    valid&#39;s ndcg@10: 0.48312
+[40]    valid&#39;s ndcg@1: 0.48        valid&#39;s ndcg@3: 0.468496    valid&#39;s ndcg@5: 0.470938    valid&#39;s ndcg@10: 0.487289
+[50]    valid&#39;s ndcg@1: 0.479824    valid&#39;s ndcg@3: 0.47086     valid&#39;s ndcg@5: 0.47397     valid&#39;s ndcg@10: 0.489766
+[60]    valid&#39;s ndcg@1: 0.489871    valid&#39;s ndcg@3: 0.474535    valid&#39;s ndcg@5: 0.475584    valid&#39;s ndcg@10: 0.493091
+[70]    valid&#39;s ndcg@1: 0.496057    valid&#39;s ndcg@3: 0.477123    valid&#39;s ndcg@5: 0.478852    valid&#39;s ndcg@10: 0.496602
+[80]    valid&#39;s ndcg@1: 0.496471    valid&#39;s ndcg@3: 0.477977    valid&#39;s ndcg@5: 0.480044    valid&#39;s ndcg@10: 0.498483
+[90]    valid&#39;s ndcg@1: 0.497367    valid&#39;s ndcg@3: 0.479643    valid&#39;s ndcg@5: 0.482179    valid&#39;s ndcg@10: 0.499681
+[100]   valid&#39;s ndcg@1: 0.495214    valid&#39;s ndcg@3: 0.481445    valid&#39;s ndcg@5: 0.483087    valid&#39;s ndcg@10: 0.500724
 
   ---------------------------
   fold4
-[10]    valid's ndcg@1: 0.441176    valid's ndcg@3: 0.430545    valid's ndcg@5: 0.437877    valid's ndcg@10: 0.458964
-[20]    valid's ndcg@1: 0.4477      valid's ndcg@3: 0.438926    valid's ndcg@5: 0.447287    valid's ndcg@10: 0.468017
-[30]    valid's ndcg@1: 0.457181    valid's ndcg@3: 0.447476    valid's ndcg@5: 0.455578    valid's ndcg@10: 0.474776
-[40]    valid's ndcg@1: 0.461681    valid's ndcg@3: 0.452393    valid's ndcg@5: 0.460615    valid's ndcg@10: 0.480931
-[50]    valid's ndcg@1: 0.462333    valid's ndcg@3: 0.454511    valid's ndcg@5: 0.46456     valid's ndcg@10: 0.484528
-[60]    valid's ndcg@1: 0.464924    valid's ndcg@3: 0.455151    valid's ndcg@5: 0.465289    valid's ndcg@10: 0.48598
-[70]    valid's ndcg@1: 0.469529    valid's ndcg@3: 0.456763    valid's ndcg@5: 0.4668      valid's ndcg@10: 0.487702
-[80]    valid's ndcg@1: 0.468795    valid's ndcg@3: 0.45828     valid's ndcg@5: 0.46863     valid's ndcg@10: 0.488993
-[90]    valid's ndcg@1: 0.467671    valid's ndcg@3: 0.458832    valid's ndcg@5: 0.469534    valid's ndcg@10: 0.490705
-[100]   valid's ndcg@1: 0.470871    valid's ndcg@3: 0.462535    valid's ndcg@5: 0.471455    valid's ndcg@10: 0.491723
+[10]    valid&#39;s ndcg@1: 0.441176    valid&#39;s ndcg@3: 0.430545    valid&#39;s ndcg@5: 0.437877    valid&#39;s ndcg@10: 0.458964
+[20]    valid&#39;s ndcg@1: 0.4477      valid&#39;s ndcg@3: 0.438926    valid&#39;s ndcg@5: 0.447287    valid&#39;s ndcg@10: 0.468017
+[30]    valid&#39;s ndcg@1: 0.457181    valid&#39;s ndcg@3: 0.447476    valid&#39;s ndcg@5: 0.455578    valid&#39;s ndcg@10: 0.474776
+[40]    valid&#39;s ndcg@1: 0.461681    valid&#39;s ndcg@3: 0.452393    valid&#39;s ndcg@5: 0.460615    valid&#39;s ndcg@10: 0.480931
+[50]    valid&#39;s ndcg@1: 0.462333    valid&#39;s ndcg@3: 0.454511    valid&#39;s ndcg@5: 0.46456     valid&#39;s ndcg@10: 0.484528
+[60]    valid&#39;s ndcg@1: 0.464924    valid&#39;s ndcg@3: 0.455151    valid&#39;s ndcg@5: 0.465289    valid&#39;s ndcg@10: 0.48598
+[70]    valid&#39;s ndcg@1: 0.469529    valid&#39;s ndcg@3: 0.456763    valid&#39;s ndcg@5: 0.4668      valid&#39;s ndcg@10: 0.487702
+[80]    valid&#39;s ndcg@1: 0.468795    valid&#39;s ndcg@3: 0.45828     valid&#39;s ndcg@5: 0.46863     valid&#39;s ndcg@10: 0.488993
+[90]    valid&#39;s ndcg@1: 0.467671    valid&#39;s ndcg@3: 0.458832    valid&#39;s ndcg@5: 0.469534    valid&#39;s ndcg@10: 0.490705
+[100]   valid&#39;s ndcg@1: 0.470871    valid&#39;s ndcg@3: 0.462535    valid&#39;s ndcg@5: 0.471455    valid&#39;s ndcg@10: 0.491723
 
   ---------------------------
   fold5
-[10]    valid's ndcg@1: 0.444414    valid's ndcg@3: 0.437104    valid's ndcg@5: 0.444538    valid's ndcg@10: 0.464958
-[20]    valid's ndcg@1: 0.459771    valid's ndcg@3: 0.444896    valid's ndcg@5: 0.454293    valid's ndcg@10: 0.475377
-[30]    valid's ndcg@1: 0.467143    valid's ndcg@3: 0.451111    valid's ndcg@5: 0.461542    valid's ndcg@10: 0.483029
-[40]    valid's ndcg@1: 0.468257    valid's ndcg@3: 0.455491    valid's ndcg@5: 0.464709    valid's ndcg@10: 0.48678
-[50]    valid's ndcg@1: 0.47419     valid's ndcg@3: 0.462122    valid's ndcg@5: 0.46808     valid's ndcg@10: 0.49145
-[60]    valid's ndcg@1: 0.479248    valid's ndcg@3: 0.463948    valid's ndcg@5: 0.472182    valid's ndcg@10: 0.494274
-[70]    valid's ndcg@1: 0.483124    valid's ndcg@3: 0.467825    valid's ndcg@5: 0.475012    valid's ndcg@10: 0.497521
-[80]    valid's ndcg@1: 0.481543    valid's ndcg@3: 0.469155    valid's ndcg@5: 0.477871    valid's ndcg@10: 0.499032
-[90]    valid's ndcg@1: 0.484186    valid's ndcg@3: 0.471374    valid's ndcg@5: 0.480366    valid's ndcg@10: 0.502092
-[100]   valid's ndcg@1: 0.483943    valid's ndcg@3: 0.472068    valid's ndcg@5: 0.479767    valid's ndcg@10: 0.502892
-</code></pre>
+[10]    valid&#39;s ndcg@1: 0.444414    valid&#39;s ndcg@3: 0.437104    valid&#39;s ndcg@5: 0.444538    valid&#39;s ndcg@10: 0.464958
+[20]    valid&#39;s ndcg@1: 0.459771    valid&#39;s ndcg@3: 0.444896    valid&#39;s ndcg@5: 0.454293    valid&#39;s ndcg@10: 0.475377
+[30]    valid&#39;s ndcg@1: 0.467143    valid&#39;s ndcg@3: 0.451111    valid&#39;s ndcg@5: 0.461542    valid&#39;s ndcg@10: 0.483029
+[40]    valid&#39;s ndcg@1: 0.468257    valid&#39;s ndcg@3: 0.455491    valid&#39;s ndcg@5: 0.464709    valid&#39;s ndcg@10: 0.48678
+[50]    valid&#39;s ndcg@1: 0.47419     valid&#39;s ndcg@3: 0.462122    valid&#39;s ndcg@5: 0.46808     valid&#39;s ndcg@10: 0.49145
+[60]    valid&#39;s ndcg@1: 0.479248    valid&#39;s ndcg@3: 0.463948    valid&#39;s ndcg@5: 0.472182    valid&#39;s ndcg@10: 0.494274
+[70]    valid&#39;s ndcg@1: 0.483124    valid&#39;s ndcg@3: 0.467825    valid&#39;s ndcg@5: 0.475012    valid&#39;s ndcg@10: 0.497521
+[80]    valid&#39;s ndcg@1: 0.481543    valid&#39;s ndcg@3: 0.469155    valid&#39;s ndcg@5: 0.477871    valid&#39;s ndcg@10: 0.499032
+[90]    valid&#39;s ndcg@1: 0.484186    valid&#39;s ndcg@3: 0.471374    valid&#39;s ndcg@5: 0.480366    valid&#39;s ndcg@10: 0.502092
+[100]   valid&#39;s ndcg@1: 0.483943    valid&#39;s ndcg@3: 0.472068    valid&#39;s ndcg@5: 0.479767    valid&#39;s ndcg@10: 0.502892
+</code></pre></div>
 
-<pre><code class="python">print(&quot;Test Avg. NDCG@1 for LabmbdaMART&quot;)
-np.mean(([all_res[i][&quot;test_ndcg&quot;] for i in all_res])) 
-# this number might be different due to using the sklearn's NDCG calculation rather that LightGBMs
-</code></pre>
+<div class="highlight"><pre><span></span><code><span class="k">print</span><span class="p">(</span><span class="s2">&quot;Test Avg. NDCG@1 for LabmbdaMART&quot;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(([</span><span class="n">all_res</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;test_ndcg&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">all_res</span><span class="p">]))</span> 
+<span class="c1"># this number might be different due to using the sklearn&#39;s NDCG calculation rather that LightGBMs</span>
+</code></pre></div>
 
 <blockquote>
 <p>Test Avg. NDCG@1 for LabmbdaMART
@@ -1775,8 +1763,8 @@ np.mean(([all_res[i][&quot;test_ndcg&quot;] for i in all_res]))
 <p>I would have also liked to leverage additional useful feature transformation and mixing techniques outlined in the paper by  <br />
 <a href="https://research.google/pubs/pub49171/">[H Zhuang et. al.]</a></p>
 <p>And finally, LTR systems are quite have been central to search and recommendation systems for a while now, so I wanted to spend some time to asssess the performance and technical aspects of neural LTR systems deployed in low-latency production scenarios, I did reading and come across some quite interesting techniques such as Model Distillation and Model Quantization to compress and slim down models in faster operation requirements for both LambdaMART and the DNN but I could not find time to implement them in my notebook.</p>
-<h2 id="7-leveraging-aditional-features-and-thinking-about-role-of-context-in-ltr">7) Leveraging aditional features and thinking about role of context in LTR</h2>
-<p><strong>In the following scenarios we'll discuss how you would use additional features:</strong></p>
+<h2 id="7-leveraging-extra-features-thinking-about-role-of-query-context-in-ltr">7) Leveraging extra features &amp; thinking about role of query context in LTR</h2>
+<p><strong>In the following scenarios we'll discuss how you would use additional features</strong></p>
 <ol>
 <li>If you had an additional feature for each row of the dataset that was unique identifier for the user performing the query e.g. <code>user_id</code>, how could you use it to improve the performance of the model?</li>
 <li>If you had the additional features of: <code>query_text</code> or the actual textual query itself, as well as document text features like <code>title_text</code>, <code>body_text</code>, <code>anchor_text</code>, <code>url</code> for the document, how would you include them in your model (or any model) to improve its performance?</li>

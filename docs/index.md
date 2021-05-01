@@ -2,12 +2,12 @@
 ##  Exploring Ranking Models for the Microsoft Web-10K Dataset
 
 <br>
-The following code was written in the process for a Machine Learning Engineer position I was interviewing for at the time. I received quite a good feedback given this was my first crack at working on learning to rank problems. So I decided to refine and expand it into a notebook for showcasing my experience with Classical and Neural Ranking methods and related frameworks.
+
+I wanted to document my first crack at working on learning to rank problems. So I decided to refine my experiments and thoughts  into a notebook for showcasing my experience with Classical and Neural Ranking methods and related frameworks.
 
 This notebook will evaluate a search academic dataset built using common learn-to-rank features, build a ranking model using the dataset, and discuss how additional features could be used and how they would impact the performance of the model.
 
 Steps:
-
 1. Imports 
 2. Download the dataset to the notebook
 3. Preprocess and evaluate the dataset
@@ -15,6 +15,7 @@ Steps:
 5. Evaluate your ranking models
 6. Discuss the performance and why/when to choose a model.
 7. Discussion questions
+
 
 
 
